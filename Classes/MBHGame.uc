@@ -1,4 +1,4 @@
-class MBHGame extends UTGame
+class MBHGame extends UTGame;
 
 defaultProperties
 {
