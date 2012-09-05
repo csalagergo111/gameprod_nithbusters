@@ -52,11 +52,11 @@ simulated function bool CalcCamera( float fDeltaTime, out vector out_CamLoc, out
    }
    if (CurrentCameraScale < CameraScale)
    {
-      CurrentCameraScale = FMin(CameraScale, CurrentCameraScale + 5 * FMax(CameraScale - CurrentCameraScale, 0.3)*fDeltaTime);
+      CurrentCameraScale = FMin(50, CurrentCameraScale + 5 * FMax(CameraScale - CurrentCameraScale, 0.3)*fDeltaTime);
    }
    else if (CurrentCameraScale > CameraScale)
    {
-      CurrentCameraScale = FMax(CameraScale, CurrentCameraScale - 5 * FMax(CameraScale - CurrentCameraScale, 0.3)*fDeltaTime);
+      CurrentCameraScale = FMax(50, CurrentCameraScale - 5 * FMax(CameraScale - CurrentCameraScale, 0.3)*fDeltaTime);
    }
 
    if (CamDirX.Z > GetCollisionHeight())
