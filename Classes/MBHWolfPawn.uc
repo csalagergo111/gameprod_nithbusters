@@ -1,16 +1,22 @@
 class MBHWolfPawn extends UDKPawn
-	placeable;
+	placeable ClassGroup(MonsterBountyHunter);
 
 var() float BumpDamage;
 var() float FollowDistance;
 var() float AttackDistance;
+var() float alarmOthersDistance;
 var vector startPosition;
 var bool isAngry;
+var array<MBHWolfPawn> otherWolves;
 
 function PostBeginPlay()
 {
+	local MBHWolfPawn WP;
 	super.PostBeginPlay();
 	startPosition = Location;
+
+	foreach AllActors(class'MBHWolfPawn', WP)
+		otherWolves[otherWolves.length] = WP;
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -22,6 +28,18 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 	if(Health <= 0)
 		Destroy();
 	isAngry = true;
+	
+	warnOthers();
+}
+
+function warnOthers()
+{
+	local int i;
+	for(i = 0; i < otherWolves.length; i++)
+	{
+		if(VSize(otherWolves[i].Location - Location) < alarmOthersDistance)
+			otherWolves[i].isAngry = true;
+	}
 }
 
 DefaultProperties
@@ -49,5 +67,6 @@ DefaultProperties
 	BumpDamage=5.0
 	FollowDistance=512.0
 	AttackDistance=96.0
+	alarmOthersDistance=256.0;
 	isAngry=false
 }

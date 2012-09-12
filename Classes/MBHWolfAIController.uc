@@ -38,6 +38,7 @@ function Tick( float DeltaTime )
 		else
 		{
 			GoToState('FollowingPlayer');
+			thePawn.warnOthers();
 		}
 	}
 }
