@@ -1,6 +1,8 @@
 class UDNPawn extends UTPawn;
 
 var int Pos;
+var bool bInvulnerable;
+var float InvulnerableTime;
 
 //override to make player mesh visible by default
 simulated event BecomeViewTarget( PlayerController PC )
@@ -106,8 +108,23 @@ exec function MoveCamera()
 	}  
 }
 
+event Bump(Actor Other, PrimitiveComponent OtherComp, vector HitNormal)
+{
+	if(MBHWolfPawn(Other) != none && !bInvulnerable)
+	{
+		bInvulnerable = true;
+		SetTimer(InvulnerableTime, false, 'EndInvulnerable');
+		TakeDamage(MBHWolfPawn(Other).BumpDamage, none, Location, vect(0,0,0), class 'UTDmgType_LinkPlasma');
+	}
+}
+
+function EndInvulnerable()
+{
+	bInvulnerable = false;
+}
 
 defaultproperties
 {
 	Pos=50
+	InvulnerableTime=0.6
 }
