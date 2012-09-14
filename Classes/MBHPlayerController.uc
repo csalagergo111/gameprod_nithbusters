@@ -47,6 +47,15 @@ function UpdateRotation( float DeltaTime )
       Pawn.FaceRotation(NewRotation, deltatime);
 }   
 
+simulated exec function useHunterPunch()
+{
+	`log("punch key pressed");
+
+	if(UDNPawn(Pawn) != none)
+	{
+		UDNPawn(Pawn).HunterPunch();
+	}
+}
 defaultproperties
 {
 }

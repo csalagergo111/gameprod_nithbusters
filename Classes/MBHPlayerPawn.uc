@@ -123,6 +123,24 @@ function EndInvulnerable()
 	bInvulnerable = false;
 }
 
+function HunterPunch()	
+{
+	local MBHWolfPawn enemyPawn;
+
+
+	foreach	AllActors(class'MBHWolfPawn', enemyPawn)
+	{
+		`log("Enemylocation"@enemyPawn.Location);
+		`log("Playerlocation"@Location);
+		if(VSize(enemyPawn.Location - Location) <= 100)
+		{
+
+			`log("Inrange");
+			enemyPawn.TakeDamage(100,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
+		}
+	}
+
+}
 defaultproperties
 {
 	Pos=50
