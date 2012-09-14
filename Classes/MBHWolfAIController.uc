@@ -19,12 +19,13 @@ function Tick( float DeltaTime )
 
 	if(thePlayer == none)
 	{
+		thePawn.isAngry = false;
 		foreach LocalPlayerControllers(class'PlayerController', PC)
 		{
 			if(PC.Pawn != none)
 			{
-				thePlayer = PC.Pawn;
-				`log("My enemy is:" @ thePlayer);
+				if(PC.Pawn.Health > 0)
+					thePlayer = PC.Pawn;
 			}
 		}
 	}
@@ -38,7 +39,8 @@ function Tick( float DeltaTime )
 		else
 		{
 			GoToState('FollowingPlayer');
-			thePawn.warnOthers();
+			if(!thePawn.isAngry)
+				thePawn.warnOthers();
 		}
 	}
 }
