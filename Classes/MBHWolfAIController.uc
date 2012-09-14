@@ -24,7 +24,6 @@ function Tick( float DeltaTime )
 			if(PC.Pawn != none)
 			{
 				thePlayer = PC.Pawn;
-				`log("My enemy is:" @ thePlayer);
 			}
 		}
 	}
@@ -38,7 +37,8 @@ function Tick( float DeltaTime )
 		else
 		{
 			GoToState('FollowingPlayer');
-			thePawn.warnOthers();
+			if(!thePawn.isAngry)
+				thePawn.warnOthers();
 		}
 	}
 }

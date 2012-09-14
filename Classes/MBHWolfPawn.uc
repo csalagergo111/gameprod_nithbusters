@@ -27,7 +27,6 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(Health <= 0)
 		Destroy();
-	isAngry = true;
 	
 	warnOthers();
 }
@@ -35,10 +34,14 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 function warnOthers()
 {
 	local int i;
+
+	isAngry = true;
+
 	for(i = 0; i < otherWolves.length; i++)
 	{
-		if(VSize(otherWolves[i].Location - Location) < alarmOthersDistance)
-			otherWolves[i].isAngry = true;
+		if(otherWolves[i] != none)
+			if(VSize(otherWolves[i].Location - Location) < alarmOthersDistance && !otherWolves[i].isAngry)
+				otherWolves[i].warnOthers();
 	}
 }
 
