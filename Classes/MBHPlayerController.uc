@@ -51,9 +51,9 @@ simulated exec function useHunterPunch()
 {
 	`log("punch key pressed");
 
-	if(UDNPawn(Pawn) != none)
+	if(MBHPlayerPawn(Pawn) != none)
 	{
-		UDNPawn(Pawn).HunterPunch();
+		MBHPlayerPawn(Pawn).HunterPunch();
 	}
 }
 defaultproperties
