@@ -58,5 +58,6 @@ simulated exec function useHunterPunch()
 }
 defaultproperties
 {
+	//InputClass=class'MonsterBountyHunter.MBHInput'
 }
 

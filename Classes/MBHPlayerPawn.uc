@@ -32,7 +32,7 @@ simulated function bool CalcCamera( float fDeltaTime, out vector out_CamLoc, out
 	
 	CurrentCamOffset = CamOffset;
 
-	DesiredCameraZOffset = (Health > 0) ? 1.2 * GetCollisionHeight() + Mesh.Translation.Z : 0.f;
+	DesiredCameraZOffset = (Health > 0) ? 1.6 * GetCollisionHeight() + Mesh.Translation.Z : 0.f;
 	CameraZOffset = (fDeltaTime < 0.2) ? DesiredCameraZOffset * 5 * fDeltaTime + (1 - 5*fDeltaTime) * CameraZOffset : DesiredCameraZOffset;
    
 	if ( Health <= 0 )
