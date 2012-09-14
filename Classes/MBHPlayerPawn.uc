@@ -1,4 +1,4 @@
-class UDNPawn extends UTPawn;
+class MBHPlayerPawn extends UTPawn;
 
 var int Pos;
 var bool bInvulnerable;

@@ -1,4 +1,4 @@
-class UDNPlayerController extends UTPlayerController;
+class MBHPlayerController extends UTPlayerController;
 
 state PlayerWalking
 {
