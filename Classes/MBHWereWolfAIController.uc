@@ -50,6 +50,12 @@ function Tick( float DeltaTime )
 	}
 }
 
+function CalculateRotationLocation()
+{
+	desiredLocation.X = circlingDistance*Cos(circlingDegree*PI/180);
+	desiredLocation.Y = circlingDistance*Sin(circlingDegree*PI/180);
+}
+
 state LookingForPlayer
 {
 	function Tick( float DeltaTime )
@@ -81,11 +87,6 @@ state CirclingPlayer
 			circlingIncrement=-circlingIncrement;
 		CalculateRotationLocation();
 		SetTimer(Rand(5)+5,false, 'Attacktimer');
-	}
-	function CalculateRotationLocation()
-	{
-		desiredLocation.X = circlingDistance*Cos(circlingDegree*PI/180);
-		desiredLocation.Y = circlingDistance*Sin(circlingDegree*PI/180);
 	}
 	function Attacktimer()
 	{
