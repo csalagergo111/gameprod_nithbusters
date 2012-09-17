@@ -47,7 +47,17 @@ function UpdateRotation( float DeltaTime )
       Pawn.FaceRotation(NewRotation, deltatime);
 }   
 
+simulated exec function useHunterPunch()
+{
+	`log("punch key pressed");
+
+	if(MBHPlayerPawn(Pawn) != none)
+	{
+		MBHPlayerPawn(Pawn).HunterPunch();
+	}
+}
 defaultproperties
 {
+	//InputClass=class'MonsterBountyHunter.MBHInput'
 }
 
