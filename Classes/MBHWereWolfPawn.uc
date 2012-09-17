@@ -1,6 +1,7 @@
 class MBHWereWolfPawn extends UDKPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+var() float FollowDistance;
 var() float AttackDistance;
 var() float AttackDamage;
 
@@ -38,6 +39,7 @@ DefaultProperties
 	bJumpCapable=false
 	bCanJump=false
 
+	FollowDistance=2000.0
 	AttackDistance=96.0
 	AttackDamage=100.0
 }

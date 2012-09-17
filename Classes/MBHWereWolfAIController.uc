@@ -29,7 +29,10 @@ function Tick( float DeltaTime )
 	if(thePlayer != none)
 	{
 		if(thePlayer.Health <= 0)
+		{
 			thePlayer = none;
+			GoToState('');
+		}
 	}
 	else
 	{
@@ -40,10 +43,22 @@ function Tick( float DeltaTime )
 				if(PC.Pawn.Health > 0)
 				{
 					thePlayer = PC.Pawn;
-					GoToState('AttackPlayer');
+					GoToState('LookingForPlayer');
 				}
 			}
 		}
+	}
+}
+
+state LookingForPlayer
+{
+	function Tick( float DeltaTime )
+	{
+		Global.Tick(DeltaTime);
+
+		if(thePlayer != none)
+			if(VSize(thePawn.Location - thePlayer.Location) < thePawn.FollowDistance)
+				GoToState('AttackPlayer');
 	}
 }
 
@@ -52,6 +67,7 @@ state CirclingPlayer
 	function Tick( float DeltaTime )
 	{
 		Global.Tick(DeltaTime);
+
 		circlingDegree+=circlingIncrement*DeltaTime;
 		while(circlingDegree > 360)
 		{
@@ -78,8 +94,6 @@ state CirclingPlayer
 Begin:
 	if(thePlayer != none)
 		MoveTo( desiredLocation+thePlayer.Location );
-	else
-		GoToState('');
 	GoTo('Begin');
 }
 
@@ -88,6 +102,7 @@ state AttackPlayer
 	function Tick( float DeltaTime )
 	{
 		Global.Tick(DeltaTime);
+
 		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.AttackDistance)
 		{
 			thePlayer.TakeDamage(thePawn.AttackDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
@@ -100,8 +115,6 @@ Begin:
 		MoveToward(thePlayer);
 		GoToState('CirclingPlayer');
 	}
-	else
-		GoToState('');
 	GoTo('Begin');
 }
 
