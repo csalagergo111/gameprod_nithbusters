@@ -1,11 +1,4 @@
-class MBHWeapon_Pistol extends MBHWeapon;
-
-
-
-//exec function Reload()
-//{
-//	AddAmmo(MaxAmmoCount);
-//}
+class MBHWeapon_Crossbow extends MBHWeapon;
 
 DefaultProperties
 {
@@ -13,18 +6,16 @@ DefaultProperties
 	WeaponFireTypes(0)=EWFT_InstantHit
 	WeaponFireTypes(1)=EWFT_None
 
-	InventoryGroup=1
+	InventoryGroup=3
 
 	ShotCost(0)=1
 	InstantHitDamage(0)=30
 	//InstantHitDamageTypes(0)=none
 	
 	FireInterval(0)=+0.77
-	//MinReloadPct(0)=4.0
-	AmmoCount=6
-	LockerAmmoCount=6
-	MaxAmmoCount=6
-
+	AmmoCount=12
+	LockerAmmoCount=12
+	MaxAmmoCount=12
 
 	bZoomedFireMode(1)=1
 	ZoomedTargetFOV=40
