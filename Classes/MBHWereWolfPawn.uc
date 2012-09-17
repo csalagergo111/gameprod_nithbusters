@@ -1,12 +1,15 @@
 class MBHWereWolfPawn extends UDKPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+var() float AttackDistance;
+var() float AttackDamage;
+
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+	super.TakeDamage(5,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(Health <= 0)
 		Destroy();
 }
@@ -30,6 +33,11 @@ DefaultProperties
 	Components.Add(WofPawnSkeletalMesh)
 	ControllerClass=class'MonsterBountyHunter.MBHWereWolfAIController'
 
+	GroundSpeed=900;
+
 	bJumpCapable=false
 	bCanJump=false
+
+	AttackDistance=96.0
+	AttackDamage=100.0
 }

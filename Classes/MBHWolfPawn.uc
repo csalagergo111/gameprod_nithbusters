@@ -70,6 +70,6 @@ DefaultProperties
 	BumpDamage=5.0
 	FollowDistance=512.0
 	AttackDistance=96.0
-	alarmOthersDistance=256.0;
+	alarmOthersDistance=256.0
 	isAngry=false
 }
