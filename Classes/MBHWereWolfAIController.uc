@@ -1,52 +1,39 @@
-class MBHWereWolfAIController extends AIController;
+class MBHWereWolfAIController extends MBHAIController;
 
+// Reference to casted enemyPawn
 var MBHWereWolfPawn thePawn;
-var Pawn thePlayer;
+
+// Variables for making the werewolf circling the player:
+// Current degree from player position
 var float circlingDegree;
+// Distance from player when circling
 var float circlingDistance;
+// How many degrees to increase circlingDegree with
 var float circlingIncrement;
+// Location we want to move to calculated from circlingDegree
+// and circlingDistance (convert polar to cartesian coordinates)
 var vector desiredLocation;
 
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
-	Pawn.SetMovementPhysics();
+
 	if(MBHWereWolfPawn(Pawn) == none)
 		`log("Warning: Pawn is not MBHWereWolfAIController!");
 	else
 		thePawn = MBHWereWolfPawn(Pawn);
+	
+	GoToState('LookingForPlayer');
 
-	`log("Werewolf Yaw:" @ thePawn.RotationRate.Yaw);
-
-	desiredLocation.Y = 512.0;
 	thePawn.RotationRate.Yaw = 100000;
 }
 
 function Tick( float DeltaTime )
 {
-	local PlayerController PC;
-
-	if(thePlayer != none)
+	super.Tick(DeltaTime);
+	if(thePlayer == none)
 	{
-		if(thePlayer.Health <= 0)
-		{
-			thePlayer = none;
-			GoToState('');
-		}
-	}
-	else
-	{
-		foreach LocalPlayerControllers(class'PlayerController', PC)
-		{
-			if(PC.Pawn != none)
-			{
-				if(PC.Pawn.Health > 0)
-				{
-					thePlayer = PC.Pawn;
-					GoToState('LookingForPlayer');
-				}
-			}
-		}
+		GoToState('LookingForPlayer');
 	}
 }
 
@@ -60,19 +47,25 @@ state LookingForPlayer
 {
 	function Tick( float DeltaTime )
 	{
-		Global.Tick(DeltaTime);
+		super.Tick(DeltaTime);
 
 		if(thePlayer != none)
-			if(VSize(thePawn.Location - thePlayer.Location) < thePawn.FollowDistance)
+		{
+			if(VSize(thePawn.Location - thePlayer.Location) < thePawn.followDistance || thePawn.isAngry)
+			{
 				GoToState('AttackPlayer');
+			}
+		}
 	}
+Begin:
+	MoveTo(thePawn.startPosition);
 }
 
 state CirclingPlayer
 {
 	function Tick( float DeltaTime )
 	{
-		Global.Tick(DeltaTime);
+		super.Tick(DeltaTime);
 
 		circlingDegree+=circlingIncrement*DeltaTime;
 		while(circlingDegree > 360)
@@ -92,6 +85,10 @@ state CirclingPlayer
 	{
 		GoToState('AttackPlayer');
 	}
+	function EndState(name NextStateName)
+	{
+		ClearTimer('Attacktimer');
+	}
 Begin:
 	if(thePlayer != none)
 		MoveTo( desiredLocation+thePlayer.Location );
@@ -102,11 +99,11 @@ state AttackPlayer
 {
 	function Tick( float DeltaTime )
 	{
-		Global.Tick(DeltaTime);
+		super.Tick(DeltaTime);
 
-		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.AttackDistance)
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
 		{
-			thePlayer.TakeDamage(thePawn.AttackDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
+			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
 			GoToState('CirclingPlayer');
 		 }
 	}

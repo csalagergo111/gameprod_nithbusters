@@ -1,67 +1,64 @@
-class MBHWolfAIController extends AIController;
+class MBHWolfAIController extends MBHAIController;
 
-var Pawn thePlayer;
+// Reference to casted enemyPawn
 var MBHWolfPawn thePawn;
 
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
-	Pawn.SetMovementPhysics();
+
 	if(MBHWolfPawn(Pawn) == none)
 		`log("Warning: Pawn is not MBHWolfPawn!");
 	else
 		thePawn = MBHWolfPawn(Pawn);
+
+	GoToState('LookingForPlayer');
 }
 
 function Tick( float DeltaTime )
 {
-	local PlayerController PC;
-
+	super.Tick(DeltaTime);
 	if(thePlayer == none)
 	{
-		thePawn.isAngry = false;
-		foreach LocalPlayerControllers(class'PlayerController', PC)
-		{
-			if(PC.Pawn != none)
-			{
-				if(PC.Pawn.Health > 0)
-					thePlayer = PC.Pawn;
-			}
-		}
-	}
-	else if(VSize(thePawn.Location - thePlayer.Location) < thePawn.FollowDistance || thePawn.isAngry)
-	{
-		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.AttackDistance)
-		{
-			GoToState('');
-			thePlayer.Bump(thePawn, CollisionComponent, vect(0,0,0));
-		}
-		else
-		{
-			GoToState('FollowingPlayer');
-			if(!thePawn.isAngry)
-				thePawn.warnOthers();
-		}
+		GoToState('LookingForPlayer');
 	}
 }
 
-state FollowingPlayer
+state LookingForPlayer
 {
+	function Tick( float DeltaTime )
+	{
+		super.Tick(DeltaTime);
+
+		if(thePlayer != none)
+		{
+			if(VSize(thePawn.Location - thePlayer.Location) < thePawn.followDistance || thePawn.isAngry)
+			{
+				GoToState('AttackPlayer');
+				thePawn.warnOthers();
+			}
+		}
+	}
+Begin:
+	MoveTo(thePawn.startPosition);
+}
+
+state AttackPlayer
+{
+	function Tick( float DeltaTime )
+	{
+		super.Tick(DeltaTime);
+
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
+		{
+			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
+		}
+	}
 Begin:
 	if(thePlayer != none)
 	{
-		if(thePlayer.Health <= 0)
-		{
-			thePlayer = none;
-			MoveTo(thePawn.startPosition,,,true);
-			thePawn.isAngry = false;
-			GoToState('');
-		}
-		else
-			MoveToward(thePlayer, thePlayer,thePawn.AttackDistance-40,,false);
+		MoveToward(thePlayer);
 	}
-	else
-		GoToState('');
 	GoTo('Begin');
 }
 

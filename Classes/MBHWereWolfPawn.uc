@@ -1,18 +1,14 @@
-class MBHWereWolfPawn extends UDKPawn
+class MBHWereWolfPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
-
-var() float FollowDistance;
-var() float AttackDistance;
-var() float AttackDamage;
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	super.TakeDamage(5,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
-	if(Health <= 0)
-		Destroy();
+	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+
+	isAngry = true;
 }
 
 DefaultProperties
@@ -39,7 +35,8 @@ DefaultProperties
 	bJumpCapable=false
 	bCanJump=false
 
-	FollowDistance=2000.0
-	AttackDistance=96.0
-	AttackDamage=100.0
+	bumpDamage=100.0
+	followDistance=2000.0
+	meleeAttackDistance=96.0
+	isAngry=false
 }

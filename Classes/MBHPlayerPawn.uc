@@ -108,13 +108,16 @@ exec function MoveCamera()
 	}  
 }
 
-event Bump(Actor Other, PrimitiveComponent OtherComp, vector HitNormal)
+event TakeDamage(int DamageAmount, Controller EventInstigator, 
+	vector HitLocation, vector Momentum,
+class<DamageType> DamageType,
+	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	if(MBHWolfPawn(Other) != none && !bInvulnerable)
+	if(!bInvulnerable)
 	{
 		bInvulnerable = true;
 		SetTimer(InvulnerableTime, false, 'EndInvulnerable');
-		TakeDamage(MBHWolfPawn(Other).BumpDamage, none, Location, vect(0,0,0), class 'UTDmgType_LinkPlasma');
+		super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	}
 }
 
