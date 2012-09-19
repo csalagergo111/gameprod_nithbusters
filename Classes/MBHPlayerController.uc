@@ -1,5 +1,7 @@
 class MBHPlayerController extends UTPlayerController;
 
+var bool bCanPunch;
+
 state PlayerWalking
 {
 ignores SeePlayer, HearNoise, Bump;
@@ -47,17 +49,29 @@ function UpdateRotation( float DeltaTime )
       Pawn.FaceRotation(NewRotation, deltatime);
 }   
 
+function PunchIsReady()
+{
+	//used by settimer to determine wheter or not the melee attack can be used
+	bCanPunch = TRUE;
+}
+
+//activates the melee attack function HunterPunch
+//once it's run it starts a cooldowntimer which disables the use of
+// the melee attackuntill it's finsiehd counting down.
 simulated exec function useHunterPunch()
 {
-	`log("punch key pressed");
+	//`log("punch key pressed");
 
-	if(MBHPlayerPawn(Pawn) != none)
+	if(MBHPlayerPawn(Pawn) != none && bCanPunch == TRUE)
 	{
 		MBHPlayerPawn(Pawn).HunterPunch();
+		bCanPunch = FALSE;
+		SetTimer(5, false, 'PunchIsReady');
 	}
 }
 defaultproperties
 {
+	bCanPunch = TRUE;
 	//InputClass=class'MonsterBountyHunter.MBHInput'
 }
 
