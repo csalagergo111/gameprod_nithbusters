@@ -90,7 +90,6 @@ simulated function bool CalcCamera( float fDeltaTime, out vector out_CamLoc, out
 	//out_CamLoc = CameraLocation;
 
 
-
 	return true;
 }
 

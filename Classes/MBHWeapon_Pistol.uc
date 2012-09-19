@@ -1,14 +1,10 @@
 class MBHWeapon_Pistol extends MBHWeapon;
 
 
-
-//exec function Reload()
-//{
-//	AddAmmo(MaxAmmoCount);
-//}
-
 DefaultProperties
 {
+	ReloadTime=3.0
+
 	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
 	WeaponFireTypes(0)=EWFT_InstantHit
 	WeaponFireTypes(1)=EWFT_None
@@ -16,7 +12,7 @@ DefaultProperties
 	InventoryGroup=1
 
 	ShotCost(0)=1
-	InstantHitDamage(0)=30
+	InstantHitDamage(0)=15
 	//InstantHitDamageTypes(0)=none
 	
 	FireInterval(0)=+0.77

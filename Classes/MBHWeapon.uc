@@ -7,6 +7,8 @@ exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
 
+	
+	ForceEndFire();
 	SetTimer(ReloadTime, false, 'AddMaxAmmo');
 }
 
