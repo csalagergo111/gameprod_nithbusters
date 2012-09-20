@@ -3,6 +3,9 @@ class MBHPlayerPawn extends UTPawn;
 var int Pos;
 var bool bInvulnerable;
 var float InvulnerableTime;
+var () float fMeleeArc;
+var () int iMeleeDmg;
+var () int iMeleeRange;
 
 //override to make player mesh visible by default
 simulated event BecomeViewTarget( PlayerController PC )
@@ -141,11 +144,11 @@ function HunterPunch()
 		//`log("Enemylocation"@enemyPawn.Location);
 		//`log("Playerlocation"@Location);
 		//`log("Dotproduct"@fInFront);
-		if((VSize(enemyPawn.Location - Location) <= 100) && (fInFront >= 0.907))
+		if((VSize(enemyPawn.Location - Location) <= iMeleeRange) && (fInFront >= fMeleeArc))
 		{
 
 			`log("Inrange");
-			enemyPawn.TakeDamage(100,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
+			enemyPawn.TakeDamage(iMeleeDmg,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
 		}
 	}
 }
@@ -154,4 +157,7 @@ defaultproperties
 {
 	Pos=50
 	InvulnerableTime=0.6
+	fMeleeArc=0.907
+	iMeleeDmg=100
+	iMeleeRange=100
 }

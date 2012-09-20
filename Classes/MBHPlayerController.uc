@@ -1,6 +1,7 @@
 class MBHPlayerController extends UTPlayerController;
 
 var bool bCanPunch;
+var () int iMeleeCDTime;
 
 state PlayerWalking
 {
@@ -66,12 +67,13 @@ simulated exec function useHunterPunch()
 	{
 		MBHPlayerPawn(Pawn).HunterPunch();
 		bCanPunch = FALSE;
-		SetTimer(5, false, 'PunchIsReady');
+		SetTimer(iMeleeCDTime, false, 'PunchIsReady');
 	}
 }
 defaultproperties
 {
-	bCanPunch = TRUE;
+	bCanPunch=TRUE	
+	iMeleeCDTime=5
 	//InputClass=class'MonsterBountyHunter.MBHInput'
 }
 
