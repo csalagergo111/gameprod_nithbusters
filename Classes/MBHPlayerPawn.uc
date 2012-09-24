@@ -160,4 +160,5 @@ defaultproperties
 	fMeleeArc=0.907
 	iMeleeDmg=100
 	iMeleeRange=100
+	bCanDoubleJump=false
 }
