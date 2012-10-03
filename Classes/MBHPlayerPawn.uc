@@ -3,6 +3,9 @@ class MBHPlayerPawn extends UTPawn;
 var int Pos;
 var bool bInvulnerable;
 var float InvulnerableTime;
+var () float fMeleeArc;
+var () int iMeleeDmg;
+var () int iMeleeRange;
 
 //override to make player mesh visible by default
 simulated event BecomeViewTarget( PlayerController PC )
@@ -125,26 +128,38 @@ function EndInvulnerable()
 	bInvulnerable = false;
 }
 
+//melee attack function, launched by exec useHunterPunch
+//the melee attack deals damage to any actor in a small arc in front of the player
+//for every actor of the enemy type it calculates its location and orientation in comparison
+//to the player, if it's within range and vision it executes the TakeDamage function that deals damage to the enemy actor.
 function HunterPunch()	
 {
-	local MBHWolfPawn enemyPawn;
+	local MBHEnemyPawn enemyPawn;
+	local float fInFront;
 
-
-	foreach	AllActors(class'MBHWolfPawn', enemyPawn)
+	foreach	AllActors(class'MBHEnemyPawn', enemyPawn)
 	{
-		`log("Enemylocation"@enemyPawn.Location);
-		`log("Playerlocation"@Location);
-		if(VSize(enemyPawn.Location - Location) <= 100)
+		fInFront = Normal(enemyPawn.Location - Location ) dot vector(Rotation);
+
+		//`log("Enemylocation"@enemyPawn.Location);
+		//`log("Playerlocation"@Location);
+		//`log("Dotproduct"@fInFront);
+		if((VSize(enemyPawn.Location - Location) <= iMeleeRange) && (fInFront >= fMeleeArc))
 		{
 
 			`log("Inrange");
-			enemyPawn.TakeDamage(100,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
+			enemyPawn.TakeDamage(iMeleeDmg,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
 		}
 	}
-
 }
+
 defaultproperties
 {
 	Pos=50
 	InvulnerableTime=0.6
+	fMeleeArc=0.907
+	iMeleeDmg=100
+	iMeleeRange=100
+	maxMultiJump=0
+	multiJumpRemaining=0
 }
