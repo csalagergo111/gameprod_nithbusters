@@ -67,7 +67,7 @@ DefaultProperties
 
 	bumpDamage=5.0
 	followDistance=512.0
-	meleeAttackDistance=96.0
+	meleeAttackDistance=150.0
 	isAngry=false
 	alarmOthersDistance=256.0
 }

@@ -57,7 +57,7 @@ state AttackPlayer
 Begin:
 	if(thePlayer != none)
 	{
-		MoveToward(thePlayer);
+		MoveToward(thePlayer,,thePawn.meleeAttackDistance-55);
 	}
 	GoTo('Begin');
 }
