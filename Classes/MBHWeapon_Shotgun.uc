@@ -39,14 +39,14 @@ simulated function CustomFire()
 			AimDir = Normal(TestImpact.HitLocation - RealStartLoc);
 		}
 
-		for(i = 0; i < numOfProjectiles; i++)
+		for(i = 0; i < numOfProjectiles*(CurrentFireMode+1); i++)
 		{
 			projectileAngleOffset.Pitch = Rand(projectileMaxSpread.Pitch) -
 											(projectileMaxSpread.Pitch/2);
 
 			projectileAngleOffset.Yaw = (-projectileMaxSpread.Yaw/2) +
-										(i*projectileMaxSpread.Yaw/numOfProjectiles) +
-										Rand(projectileMaxSpread.Yaw/numOfProjectiles);
+										(i*projectileMaxSpread.Yaw/numOfProjectiles*(CurrentFireMode+1)) +
+										Rand(projectileMaxSpread.Yaw/numOfProjectiles*(CurrentFireMode+1));
 			
 			projectileAngleOffset.Roll = 0;
 			projectileAngleOffset += rotator(AimDir);
@@ -66,12 +66,12 @@ DefaultProperties
 {
 	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
 	WeaponFireTypes(0)=EWFT_Custom
-	WeaponFireTypes(1)=EWFT_None
+	WeaponFireTypes(1)=EWFT_Custom
 
 	InventoryGroup=2
 
-	ShotCost(0)=0
-	ShotCost(1)=0
+	ShotCost(0)=1
+	ShotCost(1)=2
 	
 	WeaponProjectiles(0)=UTProj_LinkPlasma
 	
