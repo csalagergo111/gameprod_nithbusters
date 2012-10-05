@@ -1,5 +1,6 @@
 class MBHWeapon_Crossbow extends MBHWeapon;
 
+
 DefaultProperties
 {
 	ReloadTime=3.0
