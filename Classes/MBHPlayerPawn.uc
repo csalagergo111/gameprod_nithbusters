@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class MBHPlayerPawn extends UTPawn;
 
 var int Pos;
