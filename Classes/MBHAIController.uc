@@ -9,8 +9,6 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
 
-	Pawn.SetMovementPhysics();
-
 	if(MBHEnemyPawn(Pawn) == none)
 		`log("Warning: Pawn is not MBHEnemyPawn!");
 	else
