@@ -75,8 +75,11 @@ DefaultProperties
 	
 	WeaponProjectiles(0)=UTProj_LinkPlasma
 
+<<<<<<< HEAD
 	ShotCost(0)=1
 	ShotCost(1)=2
+=======
+>>>>>>> wegf
 	InstantHitDamage(0)=50
 	InstantHitDamage(1)=100
 	//InstantHitDamageTypes(0)=none
