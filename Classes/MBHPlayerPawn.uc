@@ -163,4 +163,10 @@ defaultproperties
 	maxMultiJump=0
 	multiJumpRemaining=0
 	InventoryManagerClass=class'MonsterBountyHunter.MBHInventoryManager'
+
+	Begin Object Name=CollisionCylinder
+		CollisionRadius=+0030.000000
+		CollisionHeight=+040.000000
+	End Object
+	CylinderComponent = CollisionCylinder
 }
