@@ -23,7 +23,7 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	super.TakeDamage(5,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(Health <= 0)
 		Destroy();
 }
