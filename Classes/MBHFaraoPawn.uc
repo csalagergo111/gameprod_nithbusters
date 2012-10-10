@@ -1,6 +1,15 @@
 class MBHFaraoPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+event TakeDamage(int DamageAmount, Controller EventInstigator, 
+	vector HitLocation, vector Momentum,
+class<DamageType> DamageType,
+	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
+{
+	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+	`log("Health left: "@Health);
+}
+
 DefaultProperties
 {
 	Begin Object Name=CollisionCylinder
@@ -24,11 +33,13 @@ DefaultProperties
 
 	bJumpCapable=false
 	bCanJump=false
+	bCanStrafe=true
+	bCanFly=true
+
+	Health=500
 
 	bumpDamage=100.0
 	followDistance=2000.0
 	meleeAttackDistance=96.0
 	isAngry=true
-
-	CustomGravityScaling
 }
