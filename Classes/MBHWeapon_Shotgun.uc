@@ -4,7 +4,6 @@ var() int numOfProjectiles;
 
 var() Rotator projectileMaxSpread;
 
-//AddSpread()
 
 simulated function CustomFire()
 {
@@ -13,8 +12,6 @@ simulated function CustomFire()
 	local Projectile	SpawnedProjectile;
 	local Rotator		projectileAngleOffset;
 	local int i;
-
-	//projSpreadInUrealUnits = projectileSpreadAngle/360*65535;
 
 	// tell remote clients that we fired, to trigger effects
 	IncrementFlashCount();
@@ -74,12 +71,17 @@ DefaultProperties
 	ShotCost(0)=1
 	ShotCost(1)=2
 
+<<<<<<< HEAD
 	WeaponProjectiles(0)=class'UTProj_LinkPlasma'
 	WeaponProjectiles(1)=class'UTProj_LinkPlasma'
 
 	InstantHitDamage(0)=50
 	InstantHitDamage(1)=100
 	//InstantHitDamageTypes(0)=none
+=======
+	WeaponProjectiles(0)=UTProj_LinkPlasma
+	WeaponProjectiles(1)=UTProj_LinkPlasma
+>>>>>>> origin/master
 	
 	FireInterval(0)=+0.77
 	FireInterval(1)=+0.77

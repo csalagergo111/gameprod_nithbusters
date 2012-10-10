@@ -14,6 +14,8 @@ function PostBeginPlay()
 
 	super.PostBeginPlay();
 
+	SpawnDefaultController();
+
 	foreach AllActors(class'MBHWolfPawn', WP)
 		otherWolves[otherWolves.length] = WP;
 }

@@ -178,4 +178,10 @@ defaultproperties
 	InventoryManagerClass=class'MonsterBountyHunter.MBHInventoryManager'
 
 	JumpZ=400;
+
+	Begin Object Name=CollisionCylinder
+		CollisionRadius=+0030.000000
+		CollisionHeight=+040.000000
+	End Object
+	CylinderComponent = CollisionCylinder
 }

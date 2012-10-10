@@ -12,6 +12,8 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 	else
 		thePawn = MBHWolfPawn(Pawn);
 
+	thePawn.SetMovementPhysics();
+
 	GoToState('LookingForPlayer');
 }
 

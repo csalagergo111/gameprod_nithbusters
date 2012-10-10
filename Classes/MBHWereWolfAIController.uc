@@ -22,7 +22,9 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 		`log("Warning: Pawn is not MBHWereWolfAIController!");
 	else
 		thePawn = MBHWereWolfPawn(Pawn);
-	
+
+	thePawn.SetMovementPhysics();
+
 	GoToState('LookingForPlayer');
 
 	thePawn.RotationRate.Yaw = 100000;
@@ -97,6 +99,10 @@ Begin:
 
 state AttackPlayer
 {
+	function BeginState(Name PreviousStateName)
+	{
+		SetTimer(2,false,'endAttack');
+	}
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
@@ -104,14 +110,20 @@ state AttackPlayer
 		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
 		{
 			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
-			GoToState('CirclingPlayer');
-		 }
+			endAttack();
+		}
+	}
+
+	function endAttack()
+	{
+		ClearTimer('endAttack');
+		GoToState('CirclingPlayer');
 	}
 Begin:
 	if(thePlayer != none)
 	{
 		MoveToward(thePlayer);
-		GoToState('CirclingPlayer');
+		endAttack();
 	}
 	GoTo('Begin');
 }

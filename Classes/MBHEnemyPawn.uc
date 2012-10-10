@@ -10,7 +10,7 @@ var() float meleeAttackDistance;
 var vector startPosition;
 // If this is set to true, for example when the player
 // shoots the enemy, ignore followDistance and attack player
-var bool isAngry;
+var() bool isAngry;
 
 function PostBeginPlay()
 {
