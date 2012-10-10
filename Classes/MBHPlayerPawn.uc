@@ -153,6 +153,19 @@ function HunterPunch()
 	}
 }
 
+exec function StartSprint()
+{
+	//ConsoleCommand("Sprint");
+	Groundspeed = 900;
+	//bSprinting = true;
+	//StopFiring();
+}
+
+exec function StopSprint()
+{
+	Groundspeed = default.GroundSpeed;
+}
+
 defaultproperties
 {
 	Pos=50
@@ -163,4 +176,6 @@ defaultproperties
 	maxMultiJump=0
 	multiJumpRemaining=0
 	InventoryManagerClass=class'MonsterBountyHunter.MBHInventoryManager'
+
+	JumpZ=400;
 }

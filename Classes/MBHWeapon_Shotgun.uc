@@ -74,8 +74,8 @@ DefaultProperties
 	ShotCost(0)=1
 	ShotCost(1)=2
 
-	WeaponProjectiles(0)=UTProj_LinkPlasma
-	WeaponProjectiles(1)=UTProj_LinkPlasma
+	WeaponProjectiles(0)=class'UTProj_LinkPlasma'
+	WeaponProjectiles(1)=class'UTProj_LinkPlasma'
 
 	InstantHitDamage(0)=50
 	InstantHitDamage(1)=100
