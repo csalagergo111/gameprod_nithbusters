@@ -156,7 +156,7 @@ function HunterPunch()
 exec function StartSprint()
 {
 	//ConsoleCommand("Sprint");
-	Groundspeed = 900;
+	Groundspeed = 800;
 	//bSprinting = true;
 	//StopFiring();
 }
