@@ -70,6 +70,32 @@ simulated exec function useHunterPunch()
 		SetTimer(iMeleeCDTime, false, 'PunchIsReady');
 	}
 }
+
+
+exec function MBHSetFullscreen()
+{
+	//ConsoleCommand("SCALE TOGGLE Fullscreen");
+	//ConsoleCommand("SETRES 1280x720x32 f");
+
+	ConsoleCommand("SCALE SET ResX 1920");
+	ConsoleCommand("SCALE SET ResY 1080");
+	ConsoleCommand("SCALE TOGGLE Fullscreen");
+	//ConsoleCommand("SCALE TOGGLE UseVSync");
+}
+
+
+exec function MBHVSync()
+{
+	ConsoleCommand("SCALE TOGGLE UseVSync");
+}
+
+exec function MBHSetResolution(int x, int y)
+{
+	ConsoleCommand("SCALE SET ResX" @ x);
+	ConsoleCommand("SCALE SET ResY" @ y);
+}
+
+
 defaultproperties
 {
 	bCanPunch=TRUE	

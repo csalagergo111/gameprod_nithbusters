@@ -17,6 +17,11 @@ function AddMaxAmmo()
 }
 
 
+
+
+
+
+
 //simulated function float GetWeaponRating()
 //{
 //	if( InvManager != None )

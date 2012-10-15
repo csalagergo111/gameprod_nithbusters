@@ -1,18 +1,34 @@
 class MBHWeapon_Crossbow extends MBHWeapon;
 
+var int Arrows;
+
+exec function Reload()
+{
+	if (Arrows > 0)
+	{
+		super.Reload();
+		Arrows--;
+	}
+}
 
 DefaultProperties
 {
+	Arrows=10
+
 	ReloadTime=3.0
 
 	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
-	WeaponFireTypes(0)=EWFT_InstantHit
+	WeaponFireTypes(0)=EWFT_Projectile
 	WeaponFireTypes(1)=EWFT_None
+
+	WeaponProjectiles(0)=class'MBHProjectile_Arrow'
+	//WeaponProjectiles(0)=class'UTProj_LinkPlasma'
+
 
 	InventoryGroup=3
 
 	ShotCost(0)=1
-	InstantHitDamage(0)=50
+	//InstantHitDamage(0)=50
 	//InstantHitDamageTypes(0)=none
 	
 	FireInterval(0)=+0.77
