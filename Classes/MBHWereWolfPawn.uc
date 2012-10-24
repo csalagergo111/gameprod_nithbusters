@@ -1,6 +1,14 @@
 class MBHWereWolfPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+var int maxHealth;
+
+function PostBeginPlay()
+{
+	super(UDKPawn).PostBeginPlay();
+	maxHealth = Health;
+}
+
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,

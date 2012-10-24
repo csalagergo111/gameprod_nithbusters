@@ -7,7 +7,7 @@ var() float followDistance;
 // How close the player has to be for melee-damage to be done
 var() float meleeAttackDistance;
 // Position to return to when the player is dead
-var vector startPosition;
+var() vector startPosition;
 // If this is set to true, for example when the player
 // shoots the enemy, ignore followDistance and attack player
 var() bool isAngry;
