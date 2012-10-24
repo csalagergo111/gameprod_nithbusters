@@ -23,7 +23,6 @@ event PostRender()
 	if (HudMovie!=none)
 	{
 		HudMovie.TickHUD();
-		`log ("Tick");
 	}
 
 }
