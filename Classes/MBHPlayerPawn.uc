@@ -156,7 +156,7 @@ function HunterPunch()
 exec function StartSprint()
 {
 	//ConsoleCommand("Sprint");
-	Groundspeed = 700;
+	Groundspeed = 650;
 	//bSprinting = true;
 	//StopFiring();
 }
@@ -176,8 +176,6 @@ defaultproperties
 	maxMultiJump=0
 	multiJumpRemaining=0
 	InventoryManagerClass=class'MonsterBountyHunter.MBHInventoryManager'
-
-	JumpZ=400;
 
 	Begin Object Name=CollisionCylinder
 		CollisionRadius=+0030.000000
