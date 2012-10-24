@@ -57,12 +57,12 @@ function setResolution(int x, int y)
 	ResHeight = y;
 }
 
-DefaultProperties
-{
-	SavedBefore=true
-	//X=10
-	Fullscreen=false
-	VSync=false
-	ResWidth=1280
-	ResHeight=720
-}
+//DefaultProperties
+//{
+//	SavedBefore=true
+//	//X=10
+//	Fullscreen=false
+//	VSync=false
+//	ResWidth=1280
+//	ResHeight=720
+//}
