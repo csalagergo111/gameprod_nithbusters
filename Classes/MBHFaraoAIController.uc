@@ -103,6 +103,11 @@ Begin:
 
 state CircleCenter
 {
+	function BeginState(Name PreviousStateName)
+	{
+		CalculateRotationLocation();
+		SetTimer(Rand(5)+5,false, 'Attacktimer');
+	}
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
@@ -113,13 +118,6 @@ state CircleCenter
 			circlingDegree-=360;
 		}
 		CalculateRotationLocation();
-	}
-	function BeginState(Name PreviousStateName)
-	{
-		if(Rand(2) == 1)
-			circlingIncrement=-circlingIncrement;
-		CalculateRotationLocation();
-		SetTimer(Rand(5)+5,false, 'Attacktimer');
 	}
 	function Attacktimer()
 	{
@@ -136,33 +134,31 @@ Begin:
 
 state circleTeleport
 {
+	function BeginState(Name PreviousStateName)
+	{
+		CalculateRotationLocation();
+		SetTimer(Rand(5)+5,false, 'Attacktimer');
+	}
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
 
 		circlingDegree+=circlingIncrement*DeltaTime;
 
-		while(circlingDegree > 36000)
+		if(circlingDegree > 10000)
 		{
-			circlingDegree-=36000;
+			circlingDegree=0;
 		}
 
 		if(circlingDegree > lastTeleportDegree+180)
 		{
-			circlingDegree = Rand(361);
+			circlingDegree += Rand(91)+90;
 			lastTeleportDegree = circlingDegree;
 			CalculateRotationLocation();
 			thePawn.SetLocation(desiredLocation+centerNode.Location);
 		}
 
 		CalculateRotationLocation();
-	}
-	function BeginState(Name PreviousStateName)
-	{
-		if(Rand(2) == 1)
-			circlingIncrement=-circlingIncrement;
-		CalculateRotationLocation();
-		SetTimer(Rand(5)+5,false, 'Attacktimer');
 	}
 	function Attacktimer()
 	{
@@ -181,7 +177,7 @@ state AttackPlayer
 {
 	function BeginState(Name PreviousStateName)
 	{
-		thePawn.Airspeed = 0;
+		thePawn.AirSpeed = 0;
 		Focus = thePlayer;
 	}
 	function Tick( float DeltaTime )
@@ -221,6 +217,7 @@ state AttackPlayer
 
 	function stageTwoFire()
 	{
+		local MBHScorpionPawn spawnPawn;
 		if(attackCounter < 2)
 		{
 			theWeapon.CurrentFireMode=0;
@@ -230,7 +227,15 @@ state AttackPlayer
 		}
 		else if(attackCounter < 3)
 		{
-			Spawn(class'MBHWolfPawn',,,thePawn.Location);
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(-50,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(50,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(0,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
 
 			attackCounter++;
 		}
@@ -247,6 +252,7 @@ state AttackPlayer
 
 	function stageThreeFire()
 	{
+		local MBHScorpionPawn spawnPawn;
 		if(attackCounter < 2)
 		{
 			theWeapon.CurrentFireMode=0;
@@ -256,7 +262,15 @@ state AttackPlayer
 		}
 		else if(attackCounter < 3)
 		{
-			Spawn(class'MBHWolfPawn',,,thePawn.Location);
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(-50,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(50,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
+			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(0,0,-200));
+			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+			spawnPawn.warnOthers();
 
 			attackCounter++;
 		}
@@ -273,7 +287,7 @@ state AttackPlayer
 
 	function EndState(name NextStateName)
 	{
-		thePawn.Airspeed = 1000;
+		thePawn.AirSpeed = 1000;
 	}
 }
 
