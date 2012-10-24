@@ -58,6 +58,8 @@ state LookingForPlayer
 				GoToState('AttackPlayer');
 			}
 		}
+		else
+			thePawn.Health = thePawn.maxHealth;
 	}
 Begin:
 	MoveTo(thePawn.startPosition);
