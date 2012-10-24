@@ -12,12 +12,20 @@ simulated function PostBeginPlay()
 
 event PostRender()
 {
+	//local int i;	
 	super.PostRender();
 	
 	if (bShowHud && bEnableActorOverlays)
 	{
 		DrawHud();
 	}
+	
+	if (HudMovie!=none)
+	{
+		HudMovie.TickHUD();
+		`log ("Tick");
+	}
+
 }
 
 defaultproperties
