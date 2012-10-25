@@ -1,6 +1,6 @@
 class MBHGFxHUD extends GFxMoviePlayer;
 
-var Pawn thePlayer;
+//var Pawn thePlayer;
 
 
 
@@ -14,7 +14,7 @@ function Init (optional LocalPlayer LocPlay)
 function TickHUD() //MBHHUDWrappers Postrender makes this happen every tick
 {
 
-	local PlayerController PC;
+	/*local PlayerController PC;
 	local int ammoC;
 	local Weapon weaponT;
 	local String weaponName;
@@ -32,14 +32,14 @@ function TickHUD() //MBHHUDWrappers Postrender makes this happen every tick
 	//ammoC = MBHWeapon(PawnOwner.Weapon).AmmoCount;
 	ammoC =0;
 	SetVariableNumber("AmmoCount", 10);
-	SetVariableString("WeaponType","weaponT");
+	SetVariableString("WeaponType","weaponT");*/
 }
 
 defaultproperties
 {
 	//Swf asset
-	MovieInfo=SwfMovie'MBHHUD.MBHHUD'
-	bDisplayWithHudOff=false
-	bIgnoreMouseInput=true
-	bAutoPlay=true
+	//MovieInfo=SwfMovie'MBHHUD.MBHHUD'
+	//bDisplayWithHudOff=false
+	//bIgnoreMouseInput=true
+	//bAutoPlay=true
 }

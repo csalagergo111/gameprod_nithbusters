@@ -3,6 +3,12 @@ class MBHPlayerController extends UTPlayerController;
 var bool bCanPunch;
 var () int iMeleeCDTime;
 
+simulated function PostBeginPlay()
+{
+	super.PostBeginPlay();
+	bNoCrosshair = true;
+}
+
 state PlayerWalking
 {
 ignores SeePlayer, HearNoise, Bump;

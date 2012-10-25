@@ -78,10 +78,6 @@ DefaultProperties
 	InstantHitDamage(0)=50
 	InstantHitDamage(1)=100
 	//InstantHitDamageTypes(0)=none
-
-	WeaponProjectiles(0)=UTProj_LinkPlasma
-	WeaponProjectiles(1)=UTProj_LinkPlasma
-
 	
 	FireInterval(0)=+0.77
 	FireInterval(1)=+0.77

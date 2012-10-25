@@ -5,7 +5,7 @@ DefaultProperties
 {
 	Physics=PHYS_Falling
 
-	Arrows=10
+	//Arrows=10
 
 	Speed=8000.0
 	MaxSpeed=8000.0
