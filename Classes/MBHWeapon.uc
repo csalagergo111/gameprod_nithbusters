@@ -2,6 +2,32 @@ class MBHWeapon extends UTWeapon
 	abstract;
 
 var() float ReloadTime;
+var MBHPlayerController thePlayer;
+var MBHHud theHud;
+var int weaponHudIndex;
+
+simulated function PostBeginPlay()
+{
+	local MBHPlayerController PC;
+
+	super.PostBeginPlay();
+
+	foreach LocalPlayerControllers(class'MBHPlayerController', PC)
+	{
+		if(PC.Pawn != none)
+		{
+			thePlayer = PC;
+		}
+	}
+}
+
+simulated function Activate()
+{
+	super.Activate();
+
+	thePlayer.activeWeaponIndex = weaponHudIndex;
+	thePlayer.activeWeapon = self;
+}
 
 exec function Reload()
 {
@@ -15,12 +41,6 @@ function AddMaxAmmo()
 {
 	AddAmmo(MaxAmmoCount);
 }
-
-
-
-
-
-
 
 //simulated function float GetWeaponRating()
 //{
@@ -37,7 +57,6 @@ function AddMaxAmmo()
 //	return 1;
 //}
 
-
 simulated function WeaponEmpty()
 {
 	// If we were firing, stop
@@ -53,10 +72,9 @@ simulated function WeaponEmpty()
 	//}
 }
 
-
 DefaultProperties
 {
 	ReloadTime=1.0
-
 	bNeverForwardPendingFire=true
+	weaponHudIndex=-1
 }

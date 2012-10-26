@@ -87,23 +87,6 @@ simulated function SwitchWeapon(byte NewGroup)
 	//}
 }
 
-simulated function NextWeapon()
-{
-	super.NextWeapon();
-	`log("Next weapon");
-}
-
-simulated function PrevWeapon()
-{
-	super.NextWeapon();
-	`log("Previous weapon");
-}
-
-function notifyWeaponChangeToHud()
-{
-
-}
-
 DefaultProperties
 {
 }

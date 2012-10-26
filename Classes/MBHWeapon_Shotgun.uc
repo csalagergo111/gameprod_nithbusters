@@ -4,7 +4,6 @@ var() int numOfProjectiles;
 
 var() Rotator projectileMaxSpread;
 
-
 simulated function CustomFire()
 {
 	local vector		StartTrace, EndTrace, RealStartLoc, AimDir;
@@ -87,4 +86,6 @@ DefaultProperties
 
 	numOfProjectiles=10
 	projectileMaxSpread=(Pitch=7000,Yaw=16384,Roll=0)
+
+	weaponHudIndex=1
 }
