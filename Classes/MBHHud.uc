@@ -10,7 +10,7 @@ var MBHPlayerController thePlayer;
 var Font hudFont;
 var string hudText;
 var float hudTextWidth, hudTextHeight;
-var float textScale;
+var float textPosX, textPosY, textScale, textVisibleTime;
 
 simulated function PostBeginPlay()
 {
@@ -22,7 +22,7 @@ simulated function PostBeginPlay()
 
 	clearText();
 
-	setText("HEllo World.\nIt is time to die.",1.0);
+	setText("HEllo World.\nIt is time to die.", 25, 60, 1.0, 5);
 }
 
 function DisplayHit(vector HitDir, int Damage, class<DamageType> damageType)
@@ -33,9 +33,8 @@ function DisplayHit(vector HitDir, int Damage, class<DamageType> damageType)
 function DrawGameHud()
 {
 	Canvas.Reset();
-	Canvas.Font = hudFont;
-	Canvas.StrLen(hudText, hudTextWidth, hudTextHeight);
 
+	// Draw aim cross
 	Canvas.DrawIcon(AimIcons[thePlayer.activeWeaponIndex],
 					Canvas.ClipX/2-AimIcons[thePlayer.activeWeaponIndex].UL/2,
 					Canvas.ClipY/2-AimIcons[thePlayer.activeWeaponIndex].VL/2, 1);
@@ -53,15 +52,19 @@ function DrawGameHud()
 		break;
 	}
 
+	// Draw red health overlay covering the whole screen
 	Canvas.SetDrawColor(255,255,255,255-(float(thePlayer.Pawn.Health)/float(thePlayer.Pawn.HealthMax)*255.0));
 	Canvas.SetPos(0,0);
 	Canvas.DrawTileStretched(HealthOverlay,
 							 Canvas.ClipX, Canvas.ClipY, 0, 0,
 							 HealthOverlay.SizeX, HealthOverlay.SizeY);
 
+	// Draw info text
+	Canvas.Font = hudFont;
+	Canvas.StrLen(hudText, hudTextWidth, hudTextHeight);
 	Canvas.SetDrawColor(255,255,255,255);
-	Canvas.SetPos(Canvas.ClipX/2-hudTextWidth/2,Canvas.ClipY/2-hudTextHeight/2);
-
+	Canvas.SetPos(textPosX/100*Canvas.ClipX - hudTextWidth/2,
+				  textPosY/100*Canvas.ClipY - hudTextHeight/2);
 	Canvas.DrawText(hudText,,textScale,textScale);
 }
 
@@ -128,15 +131,24 @@ function DrawCrossbowHud()
 	}
 }
 
-exec function setText(string screenText, float _textScale)
+exec function setText(string screenText, float xPos, float yPos, float _textScale, int visibleTime)
 {
 	hudText = screenText;
+	textPosX = xPos;
+	textPosY = yPos;
 	textScale = _textScale;
+	if(visibleTime > 0)
+		SetTimer(visibleTime,false, 'clearTextTimer');
 }
 
 exec function clearText()
 {
-	setText("",1.1);
+	setText("", 0.0, 0.0, 1.0,0);
+}
+
+function clearTextTimer()
+{
+	clearText();
 }
 
 DefaultProperties
