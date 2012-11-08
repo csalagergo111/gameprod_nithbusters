@@ -89,6 +89,7 @@ simulated function SwitchWeapon(byte NewGroup)
 	//}
 }
 
+<<<<<<< HEAD
 
 simulated function NextWeapon()
 {
@@ -179,6 +180,8 @@ simulated function PrevWeapon()
 
 
 
+=======
+>>>>>>> origin/master
 DefaultProperties
 {
 }

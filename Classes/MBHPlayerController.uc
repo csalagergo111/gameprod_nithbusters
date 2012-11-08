@@ -2,6 +2,14 @@ class MBHPlayerController extends UTPlayerController;
 
 var bool bCanPunch;
 var () int iMeleeCDTime;
+var int activeWeaponIndex;
+var MBHWeapon activeWeapon;
+
+simulated function PostBeginPlay()
+{
+	super.PostBeginPlay();
+	bNoCrosshair = true;
+}
 
 state PlayerWalking
 {
@@ -101,7 +109,11 @@ defaultproperties
 	bCanPunch=TRUE	
 	iMeleeCDTime=5
 	//InputClass=class'MonsterBountyHunter.MBHInput'
+<<<<<<< HEAD
 
 	bBehindView=true
+=======
+	activeWeaponIndex=0
+>>>>>>> origin/master
 }
 

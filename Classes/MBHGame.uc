@@ -52,6 +52,6 @@ defaultProperties
 	DefaultInventory(0)=class'MonsterBountyHunter.MBHWeapon_Pistol'
 	DefaultInventory(1)=class'MonsterBountyHunter.MBHWeapon_Shotgun'
 	DefaultInventory(2)=class'MonsterBountyHunter.MBHWeapon_Crossbow'
-	HUDType=class'MonsterBountyHunter.MBHHUDWrapper'
+	HUDType=class'MonsterBountyHunter.MBHHud'
 	bUseClassicHUD=true;
 }
