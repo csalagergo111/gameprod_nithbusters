@@ -16,7 +16,10 @@ function AddMaxAmmo()
 	AddAmmo(MaxAmmoCount);
 }
 
-
+function ClearReloadTimer()
+{
+	ClearTimer('AddMaxAmmo');
+}
 
 
 

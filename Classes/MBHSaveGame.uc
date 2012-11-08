@@ -11,25 +11,25 @@ var config int ResHeight;
 var config bool Fullscreen;
 var config bool VSync;
 
-function PostBeginPlay()
-{
-	if (SavedBefore == false)
-	{
-		SavedBefore = true;
-		ResWidth = 1280;
-		ResHeight = 720;
-		Fullscreen = false;
-		VSync = false;
-		SaveConfig();
-	}
+//function PostBeginPlay()
+//{
+//	if (SavedBefore == false)
+//	{
+//		SavedBefore = true;
+//		ResWidth = 1280;
+//		ResHeight = 720;
+//		Fullscreen = false;
+//		VSync = false;
+//		SaveConfig();
+//	}
 
-	ConsoleCommand("SCALE SET ResX" @ ResWidth);
-	ConsoleCommand("SCALE SET ResY" @ ResHeight);
-	ConsoleCommand("SCALE SET Fullscreen" @ Fullscreen);
-	ConsoleCommand("SCALE SET UseVSync" @ VSync);
+//	ConsoleCommand("SCALE SET ResX" @ ResWidth);
+//	ConsoleCommand("SCALE SET ResY" @ ResHeight);
+//	ConsoleCommand("SCALE SET Fullscreen" @ Fullscreen);
+//	ConsoleCommand("SCALE SET UseVSync" @ VSync);
 
-	//ConsoleCommand("SETRES 1280x720x32 f");
-}
+//	//ConsoleCommand("SETRES 1280x720x32 f");
+//}
 
 function SetLevel(string pLevel)
 {
