@@ -42,7 +42,7 @@ function AddMaxAmmo()
 	AddAmmo(MaxAmmoCount);
 }
 
-<<<<<<< HEAD
+
 function ClearReloadTimer()
 {
 	ClearTimer('AddMaxAmmo');
@@ -51,9 +51,6 @@ function ClearReloadTimer()
 
 
 
-
-=======
->>>>>>> origin/master
 //simulated function float GetWeaponRating()
 //{
 //	if( InvManager != None )
