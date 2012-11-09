@@ -7,6 +7,8 @@ function PostBeginPlay()
 {
 	super(UDKPawn).PostBeginPlay();
 	maxHealth = Health;
+
+	Mesh.SetAnimTreeTemplate(AnimTree'CH_AnimHuman_Tree.AT_CH_Human');
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -25,8 +27,8 @@ DefaultProperties
 		CollisionHeight=+88.000000
 	End Object
 
-	/*Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=StaticMesh'MBHGameModels.Enemies.Werewolf'
+	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
+		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
 		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
@@ -35,7 +37,7 @@ DefaultProperties
 
 	Mesh=WofPawnSkeletalMesh
 
-	Components.Add(WofPawnSkeletalMesh)*/
+	Components.Add(WofPawnSkeletalMesh)
 	ControllerClass=class'MonsterBountyHunter.MBHWereWolfAIController'
 
 	GroundSpeed=900;
