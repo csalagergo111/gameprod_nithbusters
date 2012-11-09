@@ -1,4 +1,4 @@
-class MBHGame extends UTDeathmatch;
+class MBHGame extends UTGame;
 
 var DLLDeviceInfo DeviceInfo;
 
