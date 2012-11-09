@@ -88,7 +88,7 @@ exec function MBHSetFullscreen()
 	ConsoleCommand("SCALE SET ResX 1920");
 	ConsoleCommand("SCALE SET ResY 1080");
 	ConsoleCommand("SCALE TOGGLE Fullscreen");
-	ConsoleCommand("SCALE SET UseVSync true");
+	//ConsoleCommand("SCALE TOGGLE UseVSync");
 }
 
 
@@ -109,8 +109,6 @@ defaultproperties
 	bCanPunch=TRUE	
 	iMeleeCDTime=5
 	//InputClass=class'MonsterBountyHunter.MBHInput'
-
-	bBehindView=true
 	activeWeaponIndex=0
 }
 
