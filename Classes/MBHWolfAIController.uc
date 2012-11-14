@@ -2,6 +2,7 @@ class MBHWolfAIController extends MBHAIController;
 
 // Reference to casted enemyPawn
 var MBHWolfPawn thePawn;
+var Vector TempDest;
 
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
@@ -28,6 +29,14 @@ function Tick( float DeltaTime )
 
 state LookingForPlayer
 {
+	event SeePlayer (Pawn Seen)
+	{
+		super.SeePlayer(Seen);
+
+		thePawn.warnOthers();
+		GotoState('AttackPlayer');
+	}
+
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
@@ -39,6 +48,7 @@ state LookingForPlayer
 				GoToState('AttackPlayer');
 				thePawn.warnOthers();
 			}
+
 		}
 	}
 Begin:
@@ -47,6 +57,7 @@ Begin:
 
 state AttackPlayer
 {
+	ignores SeePlayer;
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
@@ -56,11 +67,53 @@ state AttackPlayer
 			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
 		}
 	}
+
+	function bool FindNavMeshPath()
+	{
+		// Clear cache and constraints (ignore recycling for the moment)
+		NavigationHandle.PathConstraintList = none;
+		NavigationHandle.PathGoalList = none;
+
+		// Create constraints
+		class'NavMeshPath_Toward'.static.TowardGoal( NavigationHandle,thePlayer );
+		class'NavMeshGoal_At'.static.AtActor( NavigationHandle, thePlayer,32 );
+
+		// Find path
+		return NavigationHandle.FindPath();
+	}
+
 Begin:
 	if(thePlayer != none)
 	{
-		MoveToward(thePlayer,,thePawn.meleeAttackDistance-55);
+		if(NavigationHandle.ActorReachable(thePlayer))
+		{
+			FlushPersistentDebugLines();
+
+			MoveToward(thePlayer,,thePawn.meleeAttackDistance-55);
+		}
+		else if(FindNavMeshPath())
+		{
+			NavigationHandle.SetFinalDestination(thePlayer.Location);
+			FlushPersistentDebugLines();
+			NavigationHandle.DrawPathCache(,TRUE);
+			`log("Found navMesh");
+			// move to the first node on the path
+			if( NavigationHandle.GetNextMoveLocation( TempDest, Pawn.GetCollisionRadius()) )
+			{
+				DrawDebugLine(Pawn.Location,TempDest,255,0,0,true);
+				DrawDebugSphere(TempDest,16,20,255,0,0,true);
+
+				MoveTo( TempDest, thePlayer );
+				`log("Moving to navigation point");
+			}
+		}
+		else
+		{
+			// Should go back to start here!!!!!
+			MoveToward(thePlayer,,thePawn.meleeAttackDistance-55);
+		}
 	}
+	
 	GoTo('Begin');
 }
 

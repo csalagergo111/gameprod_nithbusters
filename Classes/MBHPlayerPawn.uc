@@ -2,7 +2,11 @@ class MBHPlayerPawn extends UTPawn;
 
 var int Pos;
 var bool bInvulnerable;
-var float InvulnerableTime;
+var () float InvulnerableTime;
+var bool bRegenerating;
+var () float regenDelay;
+var () float regenAmount;
+var float floatHealth;
 var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
@@ -119,13 +123,41 @@ class<DamageType> DamageType,
 	{
 		bInvulnerable = true;
 		SetTimer(InvulnerableTime, false, 'EndInvulnerable');
+
+		bRegenerating = false;
+		SetTimer(regenDelay, false, 'startRegenerating');
+
 		super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+	}
+}
+
+simulated function Tick(float DeltaTime)
+{
+	super.Tick(DeltaTime);
+	if(bRegenerating)
+	{
+		if (Health < HealthMax)
+		{
+			floatHealth+=regenAmount*DeltaTime;
+			while(floatHealth > 1.0)
+			{
+				floatHealth-=1.0;
+				Health+=1;
+			}
+		}
+		if(Health > HealthMax)
+			Health=HealthMax;
 	}
 }
 
 function EndInvulnerable()
 {
 	bInvulnerable = false;
+}
+
+function startRegenerating()
+{
+	bRegenerating = true;
 }
 
 //melee attack function, launched by exec useHunterPunch
@@ -176,6 +208,10 @@ defaultproperties
 	maxMultiJump=0
 	multiJumpRemaining=0
 	InventoryManagerClass=class'MonsterBountyHunter.MBHInventoryManager'
+
+	bRegenerating=false
+	regenDelay=5.0
+	regenAmount=5.0
 
 	Begin Object Name=CollisionCylinder
 		CollisionRadius=+0030.000000
