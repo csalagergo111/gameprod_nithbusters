@@ -32,9 +32,11 @@ simulated function Activate()
 exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
-
-	ForceEndFire();
-	SetTimer(ReloadTime, false, 'AddMaxAmmo');
+	if (AmmoCount != MaxAmmoCount) 
+	{
+		ForceEndFire();
+		SetTimer(ReloadTime, false, 'AddMaxAmmo');
+	}
 }
 
 function AddMaxAmmo()
