@@ -66,4 +66,5 @@ Begin:
 
 defaultproperties
 {
+
 }

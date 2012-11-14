@@ -7,6 +7,8 @@ function PostBeginPlay()
 {
 	super(UDKPawn).PostBeginPlay();
 	maxHealth = Health;
+
+	Mesh.SetAnimTreeTemplate(AnimTree'CH_AnimHuman_Tree.AT_CH_Human');
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 

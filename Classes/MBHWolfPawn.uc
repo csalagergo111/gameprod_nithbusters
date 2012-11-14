@@ -16,6 +16,8 @@ function PostBeginPlay()
 
 	SpawnDefaultController();
 
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHGameModels.WolfAnimTree');
+
 	foreach AllActors(class'MBHWolfPawn', WP)
 		otherWolves[otherWolves.length] = WP;
 }
@@ -51,8 +53,8 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		SkeletalMesh=SkeletalMesh'MBHGameModels.Enemies.Wolf_SkeletalMesh'
+		AnimSets(0)=AnimSet'MBHGameModels.Enemies.WolfAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 	End Object
