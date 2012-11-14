@@ -1,6 +1,6 @@
 class MBHGame extends UTGame;
 
-var DLLDeviceInfo DeviceInfo;
+//var DLLDeviceInfo DeviceInfo;
 
 var MBHSaveGame SaveGame;
 
@@ -12,8 +12,8 @@ event InitGame( string options, out string errorMessage )
 {
     super.InitGame(options, errorMessage);
 
-    DeviceInfo = new class'DLLDeviceInfo';
-    DeviceInfo.EnumDeviceModes();
+    //DeviceInfo = new class'DLLDeviceInfo';
+    //DeviceInfo.EnumDeviceModes();
 
 	SaveGame = spawn(class'MBHSaveGame');
 

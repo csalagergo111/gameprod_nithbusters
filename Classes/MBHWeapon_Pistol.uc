@@ -12,7 +12,7 @@ DefaultProperties
 	InventoryGroup=1
 
 	ShotCost(0)=1
-	InstantHitDamage(0)=15
+	InstantHitDamage(0)=30
 	//InstantHitDamageTypes(0)=none
 	
 	FireInterval(0)=+0.77

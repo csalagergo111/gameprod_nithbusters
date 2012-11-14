@@ -5,6 +5,8 @@ var () int iMeleeCDTime;
 var int activeWeaponIndex;
 var MBHWeapon activeWeapon;
 
+
+
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
