@@ -29,13 +29,14 @@ function Tick( float DeltaTime )
 
 state LookingForPlayer
 {
+/*
 	event SeePlayer (Pawn Seen)
 	{
 		super.SeePlayer(Seen);
 
 		thePawn.warnOthers();
 		GotoState('AttackPlayer');
-	}
+	}*/
 
 	function Tick( float DeltaTime )
 	{
