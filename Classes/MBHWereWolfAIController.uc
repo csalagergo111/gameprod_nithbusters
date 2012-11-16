@@ -25,9 +25,11 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 
 	thePawn.SetMovementPhysics();
 
-	GoToState('LookingForPlayer');
+	thePawn.RotationRate.Yaw = 65536;
+	thePawn.RotationRate.Pitch = 65536;
+	thePawn.RotationRate.Roll = 65536;
 
-	thePawn.RotationRate.Yaw = 100000;
+	GoToState('LookingForPlayer');
 }
 
 function Tick( float DeltaTime )
