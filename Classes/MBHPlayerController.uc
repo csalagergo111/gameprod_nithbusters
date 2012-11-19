@@ -36,6 +36,7 @@ ignores SeePlayer, HearNoise, Bump;
    }
 }
 
+
 function UpdateRotation( float DeltaTime )
 {
    local Rotator   DeltaRot, newRotation, ViewRotation;

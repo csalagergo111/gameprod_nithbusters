@@ -21,8 +21,6 @@ simulated function PostBeginPlay()
 		thePlayer = MBHPlayerController(PlayerOwner);
 
 	clearText();
-
-	setText("HEllo World.\nIt is time to die.", 25, 60, 1.0, 5);
 }
 
 function DisplayHit(vector HitDir, int Damage, class<DamageType> damageType)

@@ -16,7 +16,7 @@ function PostBeginPlay()
 
 	SpawnDefaultController();
 
-	Mesh.SetAnimTreeTemplate(AnimTree'MBHGameModels.WolfAnimTree');
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHTestModels.Wolf.WolfAnimTree');
 
 	foreach AllActors(class'MBHWolfPawn', WP)
 		otherWolves[otherWolves.length] = WP;
@@ -49,12 +49,13 @@ function warnOthers()
 DefaultProperties
 {
 	Begin Object Name=CollisionCylinder
-		CollisionHeight=+44.000000
+		CollisionHeight=+80.000000
+		CollisionRadius=+20.000000
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'MBHGameModels.Enemies.Wolf_SkeletalMesh'
-		AnimSets(0)=AnimSet'MBHGameModels.Enemies.WolfAnimSet'
+		SkeletalMesh=SkeletalMesh'MBHTestModels.Wolf.Skeletal_Wolf'
+		AnimSets(0)=AnimSet'MBHTestModels.Wolf.WolfAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 	End Object

@@ -49,8 +49,8 @@ DefaultProperties
 	ShotCost(0)=0
 	ShotCost(1)=0
 
-	WeaponProjectiles(0)=UTProj_LinkPlasma
-	WeaponProjectiles(1)=UTProj_Rocket
+	WeaponProjectiles(0)=class'MBHProjectile_PharaoSmall'
+	WeaponProjectiles(1)=class'MBHProjectile_PharaoBig'
 
 	FireOffset=(x=0,y=0,z=-10)
 }

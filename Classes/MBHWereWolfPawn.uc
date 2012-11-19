@@ -8,7 +8,7 @@ function PostBeginPlay()
 	super(UDKPawn).PostBeginPlay();
 	maxHealth = Health;
 
-	Mesh.SetAnimTreeTemplate(AnimTree'CH_AnimHuman_Tree.AT_CH_Human');
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHTestModels.WereWolf.WereWolfAnimTree');
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -28,11 +28,10 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		SkeletalMesh=SkeletalMesh'MBHTestModels.WereWolf.Skeletal_WereWolf'
+		AnimSets(0)=AnimSet'MBHTestModels.WereWolf.WereWolfAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
-		Scale3D=(X=2.0,Y=2.0,Z=2.0)
 	End Object
 
 	Mesh=WofPawnSkeletalMesh
