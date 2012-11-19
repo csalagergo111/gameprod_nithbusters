@@ -38,7 +38,7 @@ DefaultProperties
 
 	bZoomedFireMode(1)=1
 	ZoomedTargetFOV=40
-	ZoomedRate=100
+	ZoomedRate=200
 
 	weaponHudIndex=2
 }

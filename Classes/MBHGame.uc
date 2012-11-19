@@ -1,6 +1,6 @@
 class MBHGame extends UTGame;
 
-var DLLDeviceInfo DeviceInfo;
+//var DLLDeviceInfo DeviceInfo;
 
 var MBHSaveGame SaveGame;
 
@@ -8,11 +8,11 @@ var string res;
 
 var array<string> resarray;
 
-event InitGame( string options, out string errorMessage )
+/*event InitGame( string options, out string errorMessage )
 {
     super.InitGame(options, errorMessage);
 
-    DeviceInfo = new class'DLLDeviceInfo';
+   // DeviceInfo = new class'DLLDeviceInfo';
     DeviceInfo.EnumDeviceModes();
 
 	SaveGame = spawn(class'MBHSaveGame');
@@ -28,7 +28,7 @@ event InitGame( string options, out string errorMessage )
 	//ParseStringIntoArray(res, resarray, "\n", true);
 
 	//`log(resarray.Length);
-}
+}*/
 
 exec function SetLevel(string level)
 {
