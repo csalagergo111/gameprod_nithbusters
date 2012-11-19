@@ -83,6 +83,24 @@ simulated function WeaponEmpty()
 	//}
 }
 
+simulated function StartFire(byte FireModeNum)
+{
+	//IsTimerActive('AddMaxAmmo');
+
+	if( (Instigator == None || !Instigator.bNoWeaponFiring) && IsTimerActive('AddMaxAmmo') == false)
+	{
+		if( Role < Role_Authority )
+		{
+			// if we're a client, synchronize server
+			ServerStartFire(FireModeNum);
+		}
+
+		// Start fire locally
+		BeginFire(FireModeNum);
+		StopFire(FireModeNum);
+	}
+}
+
 DefaultProperties
 {
 	ReloadTime=1.0
