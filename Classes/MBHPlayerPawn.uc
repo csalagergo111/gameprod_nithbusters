@@ -1,4 +1,5 @@
-class MBHPlayerPawn extends UTPawn;
+class MBHPlayerPawn extends UTPawn
+	placeable ClassGroup(MonsterBountyHunter);
 
 var int Pos;
 var bool bInvulnerable;
@@ -10,6 +11,11 @@ var float floatHealth;
 var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
+
+simulated function PostBeginPlay()
+{
+	super.PostBeginPlay();
+}
 
 //override to make player mesh visible by default
 simulated event BecomeViewTarget( PlayerController PC )
