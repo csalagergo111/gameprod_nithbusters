@@ -10,6 +10,7 @@ var MBHWeapon activeWeapon;
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
+	Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'PlayerCharacterPackage.Hunter_skeletal_mesh');
 	bNoCrosshair = true;
 }
 

@@ -11,6 +11,16 @@ var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
 
+simulated function PostBeginPlay()
+{
+	
+	super.PostBeginPlay();
+
+	Mesh.SetSkeletalMesh(SkeletalMesh'PlayerCharacterPackage.Hunter_skeletal_mesh');
+	Mesh.SetAnimTreeTemplate(AnimTree'PlayerCharacterPackage.PlayerAnimTree');
+	
+}
+
 //override to make player mesh visible by default
 simulated event BecomeViewTarget( PlayerController PC )
 {
@@ -228,5 +238,14 @@ defaultproperties
 	End Object
 	CylinderComponent = CollisionCylinder
 
+	Begin Object Class=SkeletalMeshComponent Name=PlayerPawnSkeletalMesh
+		SkeletalMesh=SkeletalMesh'PlayerCharacterPackage.Hunter_skeletal_mesh'
+		AnimSets(0)=AnimSet'PlayerCharacterPackage.PlayerAnimeSet'
+		HiddenGame=FALSE
+		HiddenEditor=FALSE
+	End Object
+
+	Mesh=PlayerPawnSkeletalMesh
+	Components.Add(PlayerPawnSkeletalMesh)
 	//CamOffset=(X=20.0,Y=30.0,Z=-1.0)
 }
