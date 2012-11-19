@@ -37,8 +37,8 @@ DefaultProperties
 	MaxAmmoCount=1
 
 	bZoomedFireMode(1)=1
-	ZoomedTargetFOV=40
-	ZoomedRate=200
+	ZoomedTargetFOV=20
+	ZoomedRate=100
 
 	weaponHudIndex=2
 }

@@ -29,12 +29,21 @@ simulated function Activate()
 	thePlayer.activeWeapon = self;
 }
 
+simulated function PutDownWeapon()
+{
+	// Prevent reloading after changing weapon
+	ClearTimer('AddMaxAmmo');
+	super.PutDownWeapon();
+}
+
 exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
-
-	ForceEndFire();
-	SetTimer(ReloadTime, false, 'AddMaxAmmo');
+	if (AmmoCount != MaxAmmoCount) 
+	{
+		ForceEndFire();
+		SetTimer(ReloadTime, false, 'AddMaxAmmo');
+	}
 }
 
 function AddMaxAmmo()

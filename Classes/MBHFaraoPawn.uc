@@ -7,7 +7,7 @@ class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
-	`log("Health left: "@Health);
+	//`log("Health left: "@Health);
 }
 
 DefaultProperties

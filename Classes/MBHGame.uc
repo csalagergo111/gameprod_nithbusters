@@ -8,12 +8,12 @@ var string res;
 
 var array<string> resarray;
 
-/*event InitGame( string options, out string errorMessage )
+event InitGame( string options, out string errorMessage )
 {
     super.InitGame(options, errorMessage);
 
-   // DeviceInfo = new class'DLLDeviceInfo';
-    DeviceInfo.EnumDeviceModes();
+    //DeviceInfo = new class'DLLDeviceInfo';
+    //DeviceInfo.EnumDeviceModes();
 
 	SaveGame = spawn(class'MBHSaveGame');
 
@@ -28,7 +28,7 @@ var array<string> resarray;
 	//ParseStringIntoArray(res, resarray, "\n", true);
 
 	//`log(resarray.Length);
-}*/
+}
 
 exec function SetLevel(string level)
 {
