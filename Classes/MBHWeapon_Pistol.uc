@@ -80,7 +80,7 @@ DefaultProperties
 	InstantHitDamage(1)=30
 	//InstantHitDamageTypes(0)=none
 	
-	FireInterval(0)=+0.77
+	FireInterval(0)=+0.1
 	FireInterval(1)=+0.77
 	//MinReloadPct(0)=4.0
 	AmmoCount=6
