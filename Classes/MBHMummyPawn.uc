@@ -8,6 +8,12 @@ function PostBeginPlay()
 	SpawnDefaultController();
 }
 
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+}
+
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,
@@ -25,9 +31,9 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=MummyPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'MBHTestModels.Mummy.MBH_Mummy_Skeletal-Mesh'
-		AnimSets(0)=AnimSet'MBHTestModels.Mummy.MummyAnimSet'
-		AnimTreeTemplate=AnimTree'MBHTestModels.Mummy.MummyAnimTree'
+		SkeletalMesh=SkeletalMesh'MBHMummyModels.Mummy.MBH_Mummy_Skeletal-Mesh'
+		AnimSets(0)=AnimSet'MBHMummyModels.Mummy.MummyAnimSet'
+		AnimTreeTemplate=AnimTree'MBHMummyModels.Mummy.MummyAnimTree'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 	End Object

@@ -9,7 +9,6 @@ var() float alarmOthersDistance;
 var array<MBHWolfPawn> otherWolves;
 
 // Attack animation
-var array<Name> AttackAnimNames;
 var AnimNodePlayCustomAnim attackNode;
 
 function PostBeginPlay()
@@ -34,10 +33,7 @@ simulated event Destroyed()
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	`log("PostinitAnimTree!");
 	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
-	if(attackNode == none)
-		`log("Attack note not found!");
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 

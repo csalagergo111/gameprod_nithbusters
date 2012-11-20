@@ -10,7 +10,7 @@ var MBHWeapon activeWeapon;
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
-	Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'PlayerCharacterPackage.Hunter_skeletal_mesh');
+	Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'MBHPlayerModels.Player.Hunter_skeletal_mesh');
 	bNoCrosshair = true;
 }
 
@@ -18,15 +18,15 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
 
-	self.Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'MBHTestModels.Player.Hunter_skeletal_mesh');
+	self.Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'MBHPlayerModels.Player.Hunter_skeletal_mesh');
 
-	self.Pawn.Mesh.SetMaterial(0,Material'MBHTestModels.Player.Hunter_diffuse_Mat');
+	self.Pawn.Mesh.SetMaterial(0,Material'MBHPlayerModels.Player.Hunter_diffuse_Mat');
 
 	self.Pawn.Mesh.SetPhysicsAsset(PhysicsAsset'CTF_Flag_IronGuard.Mesh.S_CTF_Flag_IronGuard_Physics' );
 
-	self.Pawn.Mesh.AnimSets[0]=AnimSet'MBHTestModels.Player.PlayerAnimSet';
+	self.Pawn.Mesh.AnimSets[0]=AnimSet'MBHPlayerModels.Player.PlayerAnimSet';
 
-	self.Pawn.Mesh.SetAnimTreeTemplate(AnimTree'MBHTestModels.Player.PlayerAnimTree' );
+	self.Pawn.Mesh.SetAnimTreeTemplate(AnimTree'MBHPlayerModels.Player.PlayerAnimTree');
 }
 
 state PlayerWalking
