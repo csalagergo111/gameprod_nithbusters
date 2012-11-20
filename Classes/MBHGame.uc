@@ -43,15 +43,19 @@ exec function OpenLevel()
 	ConsoleCommand("Open" @ SaveGame.Level $ "?Game=MonsterBountyHunter.MBHGame");
 }
 
+exec function NewGame()
+{
+	SaveGame.NewGame();
+}
+
 defaultProperties
 {
 	PlayerControllerClass=class'MonsterBountyHunter.MBHPlayerController'
 	DefaultPawnClass=class'MonsterBountyHunter.MBHPlayerPawn'
-	//PlayerControllerClass=class'MonsterBountyHunter.UDNPlayerController'
-	//DefaultPawnClass=class'MonsterBountyHunter.UDNPawn'
 	DefaultInventory(0)=class'MonsterBountyHunter.MBHWeapon_Pistol'
 	DefaultInventory(1)=class'MonsterBountyHunter.MBHWeapon_Shotgun'
 	DefaultInventory(2)=class'MonsterBountyHunter.MBHWeapon_Crossbow'
 	HUDType=class'MonsterBountyHunter.MBHHud'
-	bUseClassicHUD=true;
+	bUseClassicHUD=true
+	bGivePhysicsGun=false
 }

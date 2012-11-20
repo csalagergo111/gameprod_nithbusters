@@ -54,7 +54,7 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'MBHTestModels.Wolf.Skeletal_Wolf'
+		SkeletalMesh=SkeletalMesh'MBHTestModels.Wolf.MBH_Wolf_SkeletalRig'
 		AnimSets(0)=AnimSet'MBHTestModels.Wolf.WolfAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE

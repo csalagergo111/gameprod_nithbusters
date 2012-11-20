@@ -14,6 +14,21 @@ simulated function PostBeginPlay()
 	bNoCrosshair = true;
 }
 
+event Possess(Pawn inPawn, bool bVehicleTransition)
+{
+	super.Possess(inPawn, bVehicleTransition);
+
+	self.Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'MBHTestModels.Player.Hunter_skeletal_mesh');
+
+	self.Pawn.Mesh.SetMaterial(0,Material'MBHTestModels.Player.Hunter_diffuse_Mat');
+
+	self.Pawn.Mesh.SetPhysicsAsset(PhysicsAsset'CTF_Flag_IronGuard.Mesh.S_CTF_Flag_IronGuard_Physics' );
+
+	self.Pawn.Mesh.AnimSets[0]=AnimSet'MBHTestModels.Player.PlayerAnimSet';
+
+	self.Pawn.Mesh.SetAnimTreeTemplate(AnimTree'MBHTestModels.Player.PlayerAnimTree' );
+}
+
 state PlayerWalking
 {
 ignores SeePlayer, HearNoise, Bump;
