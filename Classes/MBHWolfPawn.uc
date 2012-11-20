@@ -71,6 +71,7 @@ DefaultProperties
 	GroundSpeed=400.0
 
 	bumpDamage=5.0
+
 	followDistance=512.0
 	meleeAttackDistance=150.0
 	isAngry=false
