@@ -2,6 +2,8 @@ class MBHFaraoPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
 var int maxHealth;
+// Attack animation
+var AnimNodePlayCustomAnim attackNode;
 
 function PostBeginPlay()
 {
@@ -9,6 +11,11 @@ function PostBeginPlay()
 	maxHealth = Health;
 }
 
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+}
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,

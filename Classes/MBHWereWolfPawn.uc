@@ -2,6 +2,8 @@ class MBHWereWolfPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
 var int maxHealth;
+// Attack animation
+var AnimNodePlayCustomAnim attackNode;
 
 function PostBeginPlay()
 {

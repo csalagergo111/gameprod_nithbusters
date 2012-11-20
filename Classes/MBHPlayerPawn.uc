@@ -12,6 +12,8 @@ var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
 
+// Attack animation
+var AnimNodePlayCustomAnim attackNode;
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();

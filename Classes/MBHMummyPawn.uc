@@ -1,6 +1,9 @@
 class MBHMummyPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+// Attack animation
+var AnimNodePlayCustomAnim attackNode;
+
 function PostBeginPlay()
 {
 	super.PostBeginPlay();
