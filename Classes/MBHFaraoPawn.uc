@@ -9,6 +9,8 @@ function PostBeginPlay()
 {
 	super(UDKPawn).PostBeginPlay();
 	maxHealth = Health;
+
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHPharaoModels.PharaoAnimTree');
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -32,8 +34,8 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		SkeletalMesh=SkeletalMesh'MBHPharaoModels.MBH_Farao_SkeletalMesh'
+		AnimSets(0)=AnimSet'MBHPharaoModels.PharaoAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 		Scale3D=(X=2.0,Y=2.0,Z=2.0)
