@@ -32,33 +32,29 @@ simulated function Activate()
 simulated function PutDownWeapon()
 {
 	// Prevent reloading after changing weapon
-	ClearTimer('AddMaxAmmo');
+	ClearReloadTimer();
 	super.PutDownWeapon();
 }
 
 exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
-	if (AmmoCount != MaxAmmoCount) 
+	if (AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
 	{
 		ForceEndFire();
 		SetTimer(ReloadTime, false, 'AddMaxAmmo');
 	}
 }
 
-function AddMaxAmmo()
-{
-	AddAmmo(MaxAmmoCount);
-}
-
-
 function ClearReloadTimer()
 {
 	ClearTimer('AddMaxAmmo');
 }
 
-
-
+function AddMaxAmmo()
+{
+	AddAmmo(MaxAmmoCount);
+}
 
 //simulated function float GetWeaponRating()
 //{
@@ -113,4 +109,5 @@ DefaultProperties
 	ReloadTime=1.0
 	bNeverForwardPendingFire=true
 	weaponHudIndex=-1
+	reloading=false
 }

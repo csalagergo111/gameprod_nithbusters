@@ -46,9 +46,13 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 function Tick( float DeltaTime )
 {
 	super.Tick(DeltaTime);
-	if(thePlayer == none)
+	if(thePlayer == none && !thePawn.isDead)
 	{
 		GoToState('LookingForPlayer');
+	}
+	else if(thePawn.isDead)
+	{
+		GoToState('');
 	}
 }
 
@@ -144,15 +148,15 @@ state AttackPlayer
 
 	function startAttackAnim()
 	{
-		thePawn.attackNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Attack', 1.3, 0.1, 0.1, false, true);
-		SetTimer(0.8683, false, 'doAttack');
+		thePawn.attackNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Attack', 0.5, 0.1, 0.1, false, true);
+		SetTimer(0.25, false, 'doAttack');
 	}
 
 	function doAttack()
 	{
 		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
 			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
-		SetTimer(0.465, false, 'endAttack');
+		SetTimer(0.25, false, 'endAttack');
 	}
 
 	function endAttack()

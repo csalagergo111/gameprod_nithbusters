@@ -11,6 +11,8 @@ var() vector startPosition;
 // If this is set to true, for example when the player
 // shoots the enemy, ignore followDistance and attack player
 var() bool isAngry;
+// If true, the enemy is dead
+var bool isDead;
 
 function PostBeginPlay()
 {
@@ -30,4 +32,5 @@ class<DamageType> DamageType,
 
 DefaultProperties
 {
+	isDead=false
 }
