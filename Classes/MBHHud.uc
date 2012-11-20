@@ -32,38 +32,41 @@ function DrawGameHud()
 {
 	Canvas.Reset();
 
-	// Draw aim cross
-	Canvas.DrawIcon(AimIcons[thePlayer.activeWeaponIndex],
-					Canvas.ClipX/2-AimIcons[thePlayer.activeWeaponIndex].UL/2,
-					Canvas.ClipY/2-AimIcons[thePlayer.activeWeaponIndex].VL/2, 1);
-	
-	switch(thePlayer.activeWeaponIndex)
+	if(thePlayer.activeWeapon != none)
 	{
-	case 0:
-		DrawPistolHud();
-		break;
-	case 1:
-		DrawShotgunHud();
-		break;
-	case 2:
-		DrawCrossbowHud();
-		break;
+		// Draw aim cross
+		Canvas.DrawIcon(AimIcons[thePlayer.activeWeaponIndex],
+			Canvas.ClipX/2-AimIcons[thePlayer.activeWeaponIndex].UL/2,
+			Canvas.ClipY/2-AimIcons[thePlayer.activeWeaponIndex].VL/2, 1);
+
+		switch(thePlayer.activeWeaponIndex)
+		{
+		case 0:
+			DrawPistolHud();
+			break;
+		case 1:
+			DrawShotgunHud();
+			break;
+		case 2:
+			DrawCrossbowHud();
+			break;
+		}
+
+		// Draw red health overlay covering the whole screen
+		Canvas.SetDrawColor(255,255,255,255-(float(thePlayer.Pawn.Health)/float(thePlayer.Pawn.HealthMax)*255.0));
+		Canvas.SetPos(0,0);
+		Canvas.DrawTileStretched(HealthOverlay,
+			Canvas.ClipX, Canvas.ClipY, 0, 0,
+			HealthOverlay.SizeX, HealthOverlay.SizeY);
+
+		// Draw info text
+		Canvas.Font = hudFont;
+		Canvas.StrLen(hudText, hudTextWidth, hudTextHeight);
+		Canvas.SetDrawColor(255,255,255,255);
+		Canvas.SetPos(textPosX/100*Canvas.ClipX - hudTextWidth/2,
+			textPosY/100*Canvas.ClipY - hudTextHeight/2);
+		Canvas.DrawText(hudText,,textScale,textScale);
 	}
-
-	// Draw red health overlay covering the whole screen
-	Canvas.SetDrawColor(255,255,255,255-(float(thePlayer.Pawn.Health)/float(thePlayer.Pawn.HealthMax)*255.0));
-	Canvas.SetPos(0,0);
-	Canvas.DrawTileStretched(HealthOverlay,
-							 Canvas.ClipX, Canvas.ClipY, 0, 0,
-							 HealthOverlay.SizeX, HealthOverlay.SizeY);
-
-	// Draw info text
-	Canvas.Font = hudFont;
-	Canvas.StrLen(hudText, hudTextWidth, hudTextHeight);
-	Canvas.SetDrawColor(255,255,255,255);
-	Canvas.SetPos(textPosX/100*Canvas.ClipX - hudTextWidth/2,
-				  textPosY/100*Canvas.ClipY - hudTextHeight/2);
-	Canvas.DrawText(hudText,,textScale,textScale);
 }
 
 function DrawPistolHud()
