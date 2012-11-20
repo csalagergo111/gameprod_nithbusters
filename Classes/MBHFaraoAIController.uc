@@ -55,7 +55,7 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 
 		maxHealth = thePawn.Health;
 
-		GotoState('MoveToNextNode');
+		GotoState('LookingForPlayer');
 	}
 }
 
@@ -63,6 +63,32 @@ function CalculateRotationLocation()
 {
 	desiredLocation.X = circlingDistance*Cos(circlingDegree*PI/180);
 	desiredLocation.Y = circlingDistance*Sin(circlingDegree*PI/180);
+}
+
+function Tick( float DeltaTime )
+{
+	super.Tick(DeltaTime);
+	if(thePlayer == none)
+	{
+		GoToState('LookingForPlayer');
+	}
+}
+
+state LookingForPlayer
+{
+	function Tick( float DeltaTime )
+	{
+		super.Tick(DeltaTime);
+
+		if(thePlayer != none)
+		{
+			GoToState('MoveToNextNode');
+		}
+		else
+			thePawn.Health = thePawn.maxHealth;
+	}
+Begin:
+	MoveTo(thePawn.startPosition);
 }
 
 state MoveToNextNode
