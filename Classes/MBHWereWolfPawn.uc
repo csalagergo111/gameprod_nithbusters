@@ -44,6 +44,8 @@ DefaultProperties
 	bJumpCapable=false
 	bCanJump=false
 
+	Health=500
+
 	bumpDamage=100.0
 	followDistance=2000.0
 	meleeAttackDistance=96.0
