@@ -27,7 +27,7 @@ class<DamageType> DamageType,
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(Health <= 0)
-		Destroy();
+		CollisionComponent.SetActorCollision(false, false, false);
 }
 
 DefaultProperties

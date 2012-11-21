@@ -1,6 +1,10 @@
 class MBHFaraoPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+// Distance from center when circling
+var() float circlingDistance;
+// How many degrees to increase circlingDegree with
+var() float circlingSpeed;
 var int maxHealth;
 // Attack animation
 var AnimNodePlayCustomAnim attackNode;
@@ -59,4 +63,6 @@ DefaultProperties
 	followDistance=2000.0
 	meleeAttackDistance=96.0
 	isAngry=true
+	circlingDistance=1000
+	circlingSpeed=20
 }

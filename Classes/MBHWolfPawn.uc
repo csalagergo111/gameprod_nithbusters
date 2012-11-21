@@ -12,7 +12,7 @@ var array<MBHWolfPawn> otherWolves;
 var bool takingDamage;
 
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var AnimNodePlayCustomAnim wolfCustomNode;
 // Death animation
 var AnimNodeCrossfader deathNode;
 
@@ -32,14 +32,14 @@ simulated event Destroyed()
 {
 	super.Destroyed();
 
-	attackNode = None;
+	wolfCustomNode = None;
 	deathNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+	wolfCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
 	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('DeathNode'));
 }
 
@@ -48,20 +48,19 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 				class<DamageType> DamageType,
 				optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
+	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(!isDead)
 	{
-		super(UDKPawn).TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
-
 		warnOthers();
 
 		if(Health <= 0)
 		{
-			DeathNode.PlayOneShotAnim('MBH_Wolf_Ani_Death',0.1, 0.0, true, 1.0);
+			deathNode.PlayOneShotAnim('MBH_Wolf_Ani_Death',0.1, 0.0, true, 1.0);
 			isDead=true;
 		}
 		else
 		{
-			attackNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Get-Hit', 0.5, 0.1, 0.1, false, true);
+			wolfCustomNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Get-Hit', 0.5, 0.1, 0.1, false, true);
 			GroundSpeed = 0;
 			SetTimer(0.5, false, 'takeDamageEnded');
 		}
@@ -70,7 +69,7 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 
 function takeDamageEnded()
 {
-	GroundSpeed = 400;
+	GroundSpeed = Default.GroundSpeed;
 }
 
 function warnOthers()

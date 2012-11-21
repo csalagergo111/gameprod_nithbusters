@@ -148,7 +148,7 @@ state AttackPlayer
 
 	function startAttackAnim()
 	{
-		thePawn.attackNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Attack', 0.5, 0.1, 0.1, false, true);
+		thePawn.wolfCustomNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Attack', 0.5, 0.1, 0.1, false, true);
 		SetTimer(0.25, false, 'doAttack');
 	}
 
