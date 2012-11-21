@@ -7,7 +7,7 @@ var() float circlingDistance;
 var() float circlingSpeed;
 var int maxHealth;
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var AnimNodePlayCustomAnim faraoCustomNode;
 
 function PostBeginPlay()
 {
@@ -17,10 +17,18 @@ function PostBeginPlay()
 	Mesh.SetAnimTreeTemplate(AnimTree'MBHPharaoModels.PharaoAnimTree');
 }
 
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	faraoCustomNode = None;
+	//deathNode = None;
+}
+
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
 }
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
