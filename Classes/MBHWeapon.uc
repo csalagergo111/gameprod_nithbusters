@@ -109,5 +109,4 @@ DefaultProperties
 	ReloadTime=1.0
 	bNeverForwardPendingFire=true
 	weaponHudIndex=-1
-	reloading=false
 }
