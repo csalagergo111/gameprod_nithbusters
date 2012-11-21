@@ -13,10 +13,49 @@ var () int iMeleeDmg;
 var () int iMeleeRange;
 
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var AnimNodePlayCustomAnim IdleWeaponType;
+var UDKAnimBlendByWeapon IdleFire;
+var AnimNodePlayCustomAnim RunningWeaponType;
+var AnimNodePlayCustomAnim JumpNode;
+
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
+}
+
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	IdleWeaponType = None;
+	IdleFire = None;
+	RunningWeaponType = None;
+	JumpNode = None;
+}
+
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	IdleWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('IdleWeaponType'));
+	if(IdleWeaponType != none)
+		IdleWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);
+
+	IdleFire = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('IdleFire'));
+
+	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
+
+	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
+	if(RunningWeaponType != none)
+		RunningWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);
+}
+
+function bool DoJump( bool bUpdating )
+{
+	local bool didJump;
+	didJump = super.DoJump(bUpdating);
+	if(didJump && JumpNode != none)
+		JumpNode.PlayCustomAnim('Hunter_jump',1.0,0.0,0.0,false,true);
+	return didJump;
 }
 
 //override to make player mesh visible by default

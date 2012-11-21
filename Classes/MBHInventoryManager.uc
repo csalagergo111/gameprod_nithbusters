@@ -113,7 +113,7 @@ simulated function NextWeapon()
 			bBreakNext = true;
 		}
 
-		`log(W);
+		//`log(W);
 	}
 
 	if( CandidateWeapon == None )

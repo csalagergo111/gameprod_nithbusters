@@ -3,8 +3,10 @@ class MBHWeapon extends UTWeapon
 
 var() float ReloadTime;
 var MBHPlayerController thePlayer;
+var MBHPlayerPawn thePlayerPawn;
 var MBHHud theHud;
 var int weaponHudIndex;
+var bool animatingFire;
 
 simulated function PostBeginPlay()
 {
@@ -17,6 +19,7 @@ simulated function PostBeginPlay()
 		if(PC.Pawn != none)
 		{
 			thePlayer = PC;
+			thePlayerPawn = MBHPlayerPawn(PC.Pawn);
 		}
 	}
 }
@@ -27,6 +30,24 @@ simulated function Activate()
 
 	thePlayer.activeWeaponIndex = weaponHudIndex;
 	thePlayer.activeWeapon = self;
+	switch(weaponHudIndex)
+	{
+	case 0:
+		thePlayerPawn.SetWeapAnimType(EWAT_Pistol);
+		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
+		//thePlayerPawn.IdleFire.SetCustomAnim('Hunter_idle_fire_revolver');
+		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
+		//thePlayerPawn.RunningFire.SetCustomAnim('Hunter_idle_fire_revolver');
+		break;
+	case 1:
+	case 2:
+		thePlayerPawn.SetWeapAnimType(EWAT_ShoulderRocket);
+		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
+		//thePlayerPawn.IdleFire.SetCustomAnim('Hunter_idle_fire_revolver');
+		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
+		//thePlayerPawn.RunningFire.SetCustomAnim('Hunter_idle_fire_revolver');
+		break;
+	}
 }
 
 simulated function PutDownWeapon()
@@ -92,6 +113,24 @@ simulated function StartFire(byte FireModeNum)
 
 	if( (Instigator == None || !Instigator.bNoWeaponFiring) && IsTimerActive('AddMaxAmmo') == false)
 	{
+		if(AmmoCount > 0)
+		{
+			switch(weaponHudIndex)
+			{
+			case 0:
+				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+				SetTimer(FireInterval[FireModeNum],false,'endFireAnim');
+				animatingFire = true;
+				break;
+			case 1:
+			case 2:
+				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+				SetTimer(FireInterval[FireModeNum],false,'endFireAnim');
+				animatingFire = true;
+				break;
+			}
+		}
+
 		if( Role < Role_Authority )
 		{
 			// if we're a client, synchronize server
@@ -101,7 +140,14 @@ simulated function StartFire(byte FireModeNum)
 		// Start fire locally
 		BeginFire(FireModeNum);
 		StopFire(FireModeNum);
+
 	}
+}
+
+function endFireAnim()
+{
+	thePlayerPawn.IdleFire.AnimStopFire();
+	animatingFire = false;
 }
 
 DefaultProperties
