@@ -4,6 +4,7 @@ var bool bCanPunch;
 var () int iMeleeCDTime;
 var int activeWeaponIndex;
 var MBHWeapon activeWeapon;
+var MBHPlayerPawn thePlayer;
 
 
 
@@ -17,6 +18,10 @@ simulated function PostBeginPlay()
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
+
+	thePlayer = MBHPlayerPawn(self.Pawn);
+	if(thePlayer == none)
+		`log("The player is not MBHPlayerPawn!");
 
 	self.Pawn.Mesh.SetSkeletalMesh(SkeletalMesh'MBHPlayerModels.Player.Hunter_skeletal_mesh');
 
@@ -90,12 +95,18 @@ simulated exec function useHunterPunch()
 {
 	//`log("punch key pressed");
 
-	if(MBHPlayerPawn(Pawn) != none && bCanPunch == TRUE)
+	if(bCanPunch == TRUE)
 	{
-		MBHPlayerPawn(Pawn).HunterPunch();
+		thePlayer.IdleFire.AnimFire('Hunter_melee_attack',false,1.0);
+		SetTimer(0.47, false, 'doPuncDamage');
 		bCanPunch = FALSE;
 		SetTimer(iMeleeCDTime, false, 'PunchIsReady');
 	}
+}
+
+function doPuncDamage()
+{
+	thePlayer.HunterPunch();
 }
 
 

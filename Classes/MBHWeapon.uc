@@ -37,9 +37,13 @@ simulated function Activate()
 		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
 		break;
 	case 1:
+		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_shotgun');
+		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_shotgun');
+		break;
 	case 2:
-		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
-		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
+		//`log("Starting crossbow aim!");
+		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_crossbow');
+		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_crossbow');
 		break;
 	}
 }
@@ -107,32 +111,36 @@ simulated function StartFire(byte FireModeNum)
 
 	if( (Instigator == None || !Instigator.bNoWeaponFiring) && IsTimerActive('AddMaxAmmo') == false)
 	{
-		if(AmmoCount > 0)
-		{
-			switch(weaponHudIndex)
-			{
-			case 0:
-				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(0.0667, false, 'endFireAnim');
-				animatingFire = true;
-				break;
-			case 1:
-				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(0.0667, false, 'endFireAnim');
-				animatingFire = true;
-				break;
-			case 2:
-				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(0.0667, false, 'endFireAnim');
-				animatingFire = true;
-				break;
-			}
-		}
 
 		if( Role < Role_Authority )
 		{
 			// if we're a client, synchronize server
 			ServerStartFire(FireModeNum);
+		}
+
+		if(AmmoCount > 0 && !animatingFire)
+		{
+			switch(weaponHudIndex)
+			{
+			case 0:
+				if(CurrentFireMode == 0)
+				{
+					thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+					SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
+					animatingFire = true;
+				}
+				break;
+			case 1:
+				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_shotgun',false,1.0);
+				SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
+				animatingFire = true;
+				break;
+			case 2:
+				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_crossbow',false,1.0);
+				SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
+				animatingFire = true;
+				break;
+			}
 		}
 
 		// Start fire locally
@@ -144,7 +152,7 @@ simulated function StartFire(byte FireModeNum)
 
 function endFireAnim()
 {
-	thePlayerPawn.IdleFire.AnimStopFire();
+	//thePlayerPawn.IdleFire.AnimStopFire();
 	animatingFire = false;
 }
 

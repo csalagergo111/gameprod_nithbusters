@@ -12,11 +12,12 @@ var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
 
-// Attack animation
+// animation
 var AnimNodePlayCustomAnim IdleWeaponType;
 var UDKAnimBlendByWeapon IdleFire;
 var AnimNodePlayCustomAnim RunningWeaponType;
 var AnimNodePlayCustomAnim JumpNode;
+var AnimNodeBlend DuckNode;
 
 simulated function PostBeginPlay()
 {
@@ -36,17 +37,22 @@ simulated event Destroyed()
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	IdleWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('IdleWeaponType'));
-	if(IdleWeaponType != none)
-		IdleWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);	// Test om disse er nødvendig
-
+	
 	IdleFire = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('IdleFire'));
+	IdleFire.AnimStopFire();
 
 	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
 
+	DuckNode = AnimNodeBlend(SkelComp.FindAnimNode('DuckNode'));
+
 	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
 	if(RunningWeaponType != none)
-		RunningWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);	// Test om disse er nødvendig
+		RunningWeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
+
+	IdleWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('IdleWeaponType'));
+	if(IdleWeaponType != none)
+		IdleWeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
+
 }
 
 function bool DoJump( bool bUpdating )
@@ -195,6 +201,19 @@ simulated function Tick(float DeltaTime)
 		if(Health > HealthMax)
 			Health=HealthMax;
 	}
+}
+
+function ShouldCrouch( bool bCrouch )
+{
+	super.ShouldCrouch(bCrouch);
+
+	if(bCrouch)
+	{
+		DuckNode.SetBlendTarget(1.0, 0.1);
+	}
+	else
+		DuckNode.SetBlendTarget(0.0, 0.1);
+
 }
 
 function EndInvulnerable()

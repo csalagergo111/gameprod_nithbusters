@@ -13,9 +13,10 @@ var Font hudFont;
 var string hudText;
 var float hudTextWidth, hudTextHeight;
 var float textPosX, textPosY, textScale, textVisibleTime;
+var float hudOffsetX, hudOffsetY;
 
 
-var GFxMoviePlayer PauseMenuMovie;
+var GFxMoviePlayer MBHPauseMenuMovie;
 
 // ShowMenu()
 
@@ -64,34 +65,34 @@ var GFxMoviePlayer PauseMenuMovie;
 
 function TogglePauseMenu()
 {
-	if (PauseMenuMovie != none && PauseMenuMovie.bMovieIsOpen)
+	if (MBHPauseMenuMovie != none && MBHPauseMenuMovie.bMovieIsOpen)
 	{
 		PlayerOwner.SetPause(False);
-		PauseMenuMovie.Close(False);  // Keep the Pause Menu loaded in memory for reuse.
+		MBHPauseMenuMovie.Close(False);  // Keep the Pause Menu loaded in memory for reuse.
 		SetVisible(True);
 	}
 	else
 	{
 		PlayerOwner.SetPause(True);
 
-		if (PauseMenuMovie == None)
+		if (MBHPauseMenuMovie == None)
 		{
-			PauseMenuMovie = new class'GFxMoviePlayer';
-			PauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu'; // Replace 'UDKHud.udk_pausemenu' with a reference to your own pause menu swf asset
-			PauseMenuMovie.bEnableGammaCorrection = False;
-			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
-			PauseMenuMovie.SetTimingMode(TM_Real);
-			PauseMenuMovie.bCaptureMouseInput = true;
+			MBHPauseMenuMovie = new class'GFxMoviePlayer';
+			MBHPauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu'; // Replace 'UDKHud.udk_pausemenu' with a reference to your own pause menu swf asset
+			MBHPauseMenuMovie.bEnableGammaCorrection = False;
+			MBHPauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
+			MBHPauseMenuMovie.SetTimingMode(TM_Real);
+			MBHPauseMenuMovie.bCaptureMouseInput = true;
 		}
 
 		SetVisible(false);
-		PauseMenuMovie.Start();
-		PauseMenuMovie.Advance(0);
+		MBHPauseMenuMovie.Start();
+		MBHPauseMenuMovie.Advance(0);
 
 		// Do not prevent 'escape' to unpause if running in mobile previewer
 		if( !WorldInfo.IsPlayInMobilePreview() )
 		{
-			PauseMenuMovie.AddFocusIgnoreKey('Escape');
+			MBHPauseMenuMovie.AddFocusIgnoreKey('Escape');
 		}
 	}
 	
@@ -156,64 +157,79 @@ function DrawGameHud()
 
 function DrawPistolHud()
 {
-	local int i,j;
-	local CanvasIcon drawCan;
+	Canvas.DrawIcon(pistolEmpty,
+		Canvas.ClipX-pistolEmpty.UL-hudOffsetX,
+		Canvas.ClipY-pistolEmpty.VL-hudOffsetY);
 
-	j=0;
-	for(i=0; i < 6; i++)
+	if(thePlayer.activeWeapon.AmmoCount > 5)
 	{
-		if(thePlayer.activeWeapon.AmmoCount < i+1)
-		{
-			drawCan = pistolEmpty;
-		}
-		else
-		{
-			drawCan = pistolFull;
-		}
-		Canvas.DrawIcon(drawCan,
-						Canvas.ClipX/2 - drawCan.UL*1 - drawCan.UL*i + drawCan.UL*j,
-						Canvas.ClipY/2 - drawCan.VL*3 + drawCan.VL*i);
-		if(i > 1)
-			j++;
-		if(i > 2)
-			j++;
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+10,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+19);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 4)
+	{
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+10,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+47);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 3)
+	{
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+32,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+60);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 2)
+	{
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+55,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+47);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 1)
+	{
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+55,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+19);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 0)
+	{
+		Canvas.DrawIcon(pistolFull,
+			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+32,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+7);
 	}
 }
 
 function DrawShotgunHud()
 {
-	local int i;
-	local CanvasIcon drawCan;
+	
+	Canvas.DrawIcon(shotGunEmpty,
+					Canvas.ClipX-shotGunEmpty.UL-hudOffsetX,
+					Canvas.ClipY-shotGunEmpty.VL-hudOffsetY);
 
-	for(i=0; i < 2; i++)
+	if(thePlayer.activeWeapon.AmmoCount > 1)
 	{
-		if(thePlayer.activeWeapon.AmmoCount < i+1)
-		{
-			drawCan = pistolEmpty;
-		}
-		else
-		{
-			drawCan = pistolFull;
-		}
-		Canvas.DrawIcon(drawCan,
-						Canvas.ClipX/2-(i*drawCan.UL),
-						Canvas.ClipY/2);
+		Canvas.DrawIcon(shotGunFull,
+						Canvas.ClipX-shotGunEmpty.UL-hudOffsetX,
+						Canvas.ClipY-shotGunEmpty.VL-hudOffsetY);
+	}
+	if(thePlayer.activeWeapon.AmmoCount > 0)
+	{
+		Canvas.DrawIcon(shotGunFull,
+						Canvas.ClipX-shotGunFull.UL-hudOffsetX,
+						Canvas.ClipY-shotGunFull.VL-hudOffsetY);
 	}
 }
 
 function DrawCrossbowHud()
 {
+	Canvas.DrawIcon(crossbowEmpty,
+					Canvas.ClipX-crossbowEmpty.UL-hudOffsetX,
+					Canvas.ClipY-crossbowEmpty.VL-hudOffsetY);
 	if(thePlayer.activeWeapon.AmmoCount > 0)
 	{
 		Canvas.DrawIcon(crossbowFull,
-						Canvas.ClipX/2-crossbowFull.UL/2,
-						Canvas.ClipY/2-crossbowFull.VL/2);
-	}
-	else
-	{
-		Canvas.DrawIcon(crossbowEmpty,
-						Canvas.ClipX/2-crossbowEmpty.UL/2,
-						Canvas.ClipY/2-crossbowEmpty.VL/2);
+						Canvas.ClipX-crossbowFull.UL-hudOffsetX,
+						Canvas.ClipY-crossbowFull.VL-hudOffsetY);
 	}
 }
 
@@ -239,19 +255,22 @@ function clearTextTimer()
 
 DefaultProperties
 {
-	AimIcons(0)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
-	AimIcons(1)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
-	AimIcons(2)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
+	AimIcons(0)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
+	AimIcons(1)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
+	AimIcons(2)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
 	
-	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=61,V=0,UL=61,VL=431)
-	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=61,VL=431)
+	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=16,V=0,UL=13,VL=108)
+	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=14,VL=108)
 	
-	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=1323,V=368,UL=177,VL=177)
-	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=244,V=0,UL=691,VL=709)
+	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=166,V=46,UL=21,VL=22)
+	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=31,V=0,UL=85,VL=89)
 	
-	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=936,V=368,UL=387,VL=387)
-	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=936,V=0,UL=775,VL=368)
+	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=117,V=46,UL=44,VL=46)
+	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=117,V=0,UL=96,VL=46)
 	
 	HealthOverlay=Texture2D'MBHHudAssets.Health'
 	hudFont=Font'MBHHudAssets.Hudfont'
+
+	hudOffsetX=10.0
+	hudOffsetY=10.0
 }
