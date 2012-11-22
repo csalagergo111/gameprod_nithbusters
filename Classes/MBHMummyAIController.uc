@@ -3,6 +3,9 @@ class MBHMummyAIController extends MBHAIController;
 var MBHMummyPawn thePawn;
 var Vector TempDest;
 
+// Bool for checking if we're playing an animation
+var bool playingAttackAnim;
+
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
@@ -49,14 +52,37 @@ Begin:
 
 state AttackPlayer
 {
+	function EndState(Name NextStateName)
+	{
+		ClearTimer('endAttack');
+	}
 	function Tick( float DeltaTime )
 	{
 		super.Tick(DeltaTime);
 
-		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance && !playingAttackAnim)
 		{
-			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
+			playingAttackAnim = true;
+			startAttackAnim();
 		}
+	}
+
+	function startAttackAnim()
+	{
+		thePawn.mummyCustomNode.PlayCustomAnimByDuration('MBH_Mummy_Ani_Attack', 1.0, 0.1, 0.1, false, true);
+		SetTimer(0.5, false, 'doAttack');
+	}
+
+	function doAttack()
+	{
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
+			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
+		SetTimer(0.4, false, 'endAttack');
+	}
+
+	function endAttack()
+	{
+		playingAttackAnim = false;
 	}
 
 	function bool FindNavMeshPath()

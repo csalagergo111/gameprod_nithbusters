@@ -1,9 +1,13 @@
 class MBHFaraoPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+// Distance from center when circling
+var() float circlingDistance;
+// How many degrees to increase circlingDegree with
+var() float circlingSpeed;
 var int maxHealth;
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var AnimNodePlayCustomAnim faraoCustomNode;
 
 function PostBeginPlay()
 {
@@ -13,10 +17,18 @@ function PostBeginPlay()
 	Mesh.SetAnimTreeTemplate(AnimTree'MBHPharaoModels.PharaoAnimTree');
 }
 
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	faraoCustomNode = None;
+	//deathNode = None;
+}
+
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
 }
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
@@ -59,4 +71,6 @@ DefaultProperties
 	followDistance=2000.0
 	meleeAttackDistance=96.0
 	isAngry=true
+	circlingDistance=1000
+	circlingSpeed=20
 }

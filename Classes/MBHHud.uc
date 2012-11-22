@@ -5,12 +5,97 @@ var CanvasIcon crossbowFull;
 var CanvasIcon crossbowEmpty;
 var CanvasIcon pistolFull;
 var CanvasIcon pistolEmpty;
+var CanvasIcon shotGunFull;
+var CanvasIcon shotGunEmpty;
 var Texture2D HealthOverlay;
 var MBHPlayerController thePlayer;
 var Font hudFont;
 var string hudText;
 var float hudTextWidth, hudTextHeight;
 var float textPosX, textPosY, textScale, textVisibleTime;
+
+
+var GFxMoviePlayer PauseMenuMovie;
+
+// ShowMenu()
+
+//function TogglePauseMenu()
+//{
+//    if ( PauseMenuMovie != none && PauseMenuMovie.bMovieIsOpen )
+//	{
+		
+//		if( !WorldInfo.IsPlayInMobilePreview() )
+//		{
+//			//PauseMenuMovie.PlayCloseAnimation();
+//		}
+//		else
+//		{
+//			// On mobile previewer, close right away
+//			CompletePauseMenuClose();
+//		}
+//	}
+//	else
+//    {
+//		CloseOtherMenus();
+
+//        PlayerOwner.SetPause(True);
+
+//        if (PauseMenuMovie == None)
+//        {
+//	        PauseMenuMovie = new class'GFxMoviePlayer';
+//            PauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu';
+//            PauseMenuMovie.bEnableGammaCorrection = FALSE;
+//			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
+//            PauseMenuMovie.SetTimingMode(TM_Real);
+//        }
+
+//		SetVisible(false);
+//        PauseMenuMovie.Start();
+//        //PauseMenuMovie.PlayOpenAnimation();
+//		PauseMenuMovie.Advance(0);
+
+//		// Do not prevent 'escape' to unpause if running in mobile previewer
+//		if( !WorldInfo.IsPlayInMobilePreview() )
+//		{
+//			PauseMenuMovie.AddFocusIgnoreKey('Escape');
+//		}
+//    }
+//}
+
+function TogglePauseMenu()
+{
+	if (PauseMenuMovie != none && PauseMenuMovie.bMovieIsOpen)
+	{
+		PlayerOwner.SetPause(False);
+		PauseMenuMovie.Close(False);  // Keep the Pause Menu loaded in memory for reuse.
+		SetVisible(True);
+	}
+	else
+	{
+		PlayerOwner.SetPause(True);
+
+		if (PauseMenuMovie == None)
+		{
+			PauseMenuMovie = new class'GFxMoviePlayer';
+			PauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu'; // Replace 'UDKHud.udk_pausemenu' with a reference to your own pause menu swf asset
+			PauseMenuMovie.bEnableGammaCorrection = False;
+			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
+			PauseMenuMovie.SetTimingMode(TM_Real);
+			PauseMenuMovie.bCaptureMouseInput = true;
+		}
+
+		SetVisible(false);
+		PauseMenuMovie.Start();
+		PauseMenuMovie.Advance(0);
+
+		// Do not prevent 'escape' to unpause if running in mobile previewer
+		if( !WorldInfo.IsPlayInMobilePreview() )
+		{
+			PauseMenuMovie.AddFocusIgnoreKey('Escape');
+		}
+	}
+	
+}
 
 simulated function PostBeginPlay()
 {
@@ -157,10 +242,16 @@ DefaultProperties
 	AimIcons(0)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
 	AimIcons(1)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
 	AimIcons(2)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
+	
 	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=126,UL=71,VL=57)
-	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=69,UL=71,VL=57)
+	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=121,VL=863)
+	
 	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
 	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=19,UL=21,VL=19)
+	
+	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
+	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
+	
 	HealthOverlay=Texture2D'MBHHudAssets.Health'
 	hudFont=Font'MBHHudAssets.Hudfont'
 }

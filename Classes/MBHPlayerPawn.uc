@@ -13,10 +13,49 @@ var () int iMeleeDmg;
 var () int iMeleeRange;
 
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var AnimNodePlayCustomAnim IdleWeaponType;
+var UDKAnimBlendByWeapon IdleFire;
+var AnimNodePlayCustomAnim RunningWeaponType;
+var AnimNodePlayCustomAnim JumpNode;
+
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
+}
+
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	IdleWeaponType = None;
+	IdleFire = None;
+	RunningWeaponType = None;
+	JumpNode = None;
+}
+
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	IdleWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('IdleWeaponType'));
+	if(IdleWeaponType != none)
+		IdleWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);	// Test om disse er nødvendig
+
+	IdleFire = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('IdleFire'));
+
+	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
+
+	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
+	if(RunningWeaponType != none)
+		RunningWeaponType.PlayCustomAnim('Hunter_idle_cycle',1.0, 0.1, 0.1, true, true);	// Test om disse er nødvendig
+}
+
+function bool DoJump( bool bUpdating )
+{
+	local bool didJump;
+	didJump = super.DoJump(bUpdating);
+	if(didJump && JumpNode != none)
+		JumpNode.PlayCustomAnim('Hunter_jump',1.0,0.0,0.0,false,true);
+	return didJump;
 }
 
 //override to make player mesh visible by default
@@ -235,6 +274,8 @@ defaultproperties
 		CollisionHeight=+040.000000
 	End Object
 	CylinderComponent = CollisionCylinder
+
+	SpawnSound=none
 
 	//CamOffset=(X=20.0,Y=30.0,Z=-1.0)
 }
