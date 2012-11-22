@@ -82,8 +82,6 @@ DefaultProperties
 	ShotCost(1)=2
 	
 	
-	WeaponFireSnd[0] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
-	WeaponFireSnd[1] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
 	WeaponProjectiles(0)=class'MBHProjectile_Shotgun'
 	WeaponProjectiles(1)=class'MBHProjectile_Shotgun'
 
