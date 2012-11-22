@@ -193,7 +193,7 @@ Begin:
 		{
 			NavigationHandle.SetFinalDestination(thePlayer.Location);
 			//FlushPersistentDebugLines();
-			NavigationHandle.DrawPathCache(,TRUE);
+			//NavigationHandle.DrawPathCache(,TRUE);
 			`log("Found navMesh");
 			// move to the first node on the path
 			if( NavigationHandle.GetNextMoveLocation( TempDest, Pawn.GetCollisionRadius()) )

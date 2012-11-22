@@ -33,19 +33,13 @@ simulated function Activate()
 	switch(weaponHudIndex)
 	{
 	case 0:
-		thePlayerPawn.SetWeapAnimType(EWAT_Pistol);
 		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
-		//thePlayerPawn.IdleFire.SetCustomAnim('Hunter_idle_fire_revolver');
 		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
-		//thePlayerPawn.RunningFire.SetCustomAnim('Hunter_idle_fire_revolver');
 		break;
 	case 1:
 	case 2:
-		thePlayerPawn.SetWeapAnimType(EWAT_ShoulderRocket);
 		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
-		//thePlayerPawn.IdleFire.SetCustomAnim('Hunter_idle_fire_revolver');
 		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_2hand');
-		//thePlayerPawn.RunningFire.SetCustomAnim('Hunter_idle_fire_revolver');
 		break;
 	}
 }
@@ -119,13 +113,17 @@ simulated function StartFire(byte FireModeNum)
 			{
 			case 0:
 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(FireInterval[FireModeNum],false,'endFireAnim');
+				SetTimer(0.0667, false, 'endFireAnim');
 				animatingFire = true;
 				break;
 			case 1:
+				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+				SetTimer(0.0667, false, 'endFireAnim');
+				animatingFire = true;
+				break;
 			case 2:
 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(FireInterval[FireModeNum],false,'endFireAnim');
+				SetTimer(0.0667, false, 'endFireAnim');
 				animatingFire = true;
 				break;
 			}
