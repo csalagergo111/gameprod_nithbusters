@@ -52,8 +52,7 @@ DefaultProperties
 		End Object
 
 		Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		SkeletalMesh=SkeletalMesh'MBHScarabModels.MBH_Scarab'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 		Scale3D=(X=0.3,Y=0.3,Z=0.3)
