@@ -11,6 +11,7 @@ var float floatHealth;
 var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
+var bool stunnedByHit;
 
 // animation
 var AnimNodePlayCustomAnim IdleWeaponType;
@@ -174,6 +175,9 @@ class<DamageType> DamageType,
 {
 	if(!bInvulnerable)
 	{
+		IdleFire.AnimFire('Hunter_get_hit', false, 1.0);
+		SetTimer(0.6667, false, 'endStun');
+		stunnedByHit = true;
 		bInvulnerable = true;
 		SetTimer(InvulnerableTime, false, 'EndInvulnerable');
 
@@ -182,6 +186,11 @@ class<DamageType> DamageType,
 
 		super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	}
+}
+
+function endStun()
+{
+	stunnedByHit = false;
 }
 
 simulated function Tick(float DeltaTime)
@@ -247,6 +256,7 @@ function HunterPunch()
 
 			`log("Inrange");
 			enemyPawn.TakeDamage(iMeleeDmg,none,enemyPawn.Location,vect(0,0,0), class 'UTDmgType_LinkPlasma');
+			return;
 		}
 	}
 }
@@ -293,6 +303,8 @@ defaultproperties
 		CollisionHeight=+040.000000
 	End Object
 	CylinderComponent = CollisionCylinder
+
+	stunnedByHit=false
 
 	SpawnSound=none
 

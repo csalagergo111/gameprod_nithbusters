@@ -58,7 +58,7 @@ simulated function PutDownWeapon()
 exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
-	if (AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
+	if (!thePlayer.bIsPunching && AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
 	{
 		ForceEndFire();
 		SetTimer(ReloadTime, false, 'AddMaxAmmo');
@@ -109,7 +109,8 @@ simulated function StartFire(byte FireModeNum)
 {
 	//IsTimerActive('AddMaxAmmo');
 
-	if( (Instigator == None || !Instigator.bNoWeaponFiring) && IsTimerActive('AddMaxAmmo') == false)
+	if( (Instigator == None || !Instigator.bNoWeaponFiring) && !IsTimerActive('AddMaxAmmo')
+		&& !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit)
 	{
 
 		if( Role < Role_Authority )

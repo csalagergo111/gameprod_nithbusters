@@ -1,6 +1,7 @@
 class MBHPlayerController extends UTPlayerController;
 
 var bool bCanPunch;
+var bool bIsPunching;
 var () int iMeleeCDTime;
 var int activeWeaponIndex;
 var MBHWeapon activeWeapon;
@@ -95,20 +96,29 @@ simulated exec function useHunterPunch()
 {
 	//`log("punch key pressed");
 
-	if(bCanPunch == TRUE)
+	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
 		thePlayer.IdleFire.AnimFire('Hunter_melee_attack',false,1.0);
-		SetTimer(0.47, false, 'doPuncDamage');
-		bCanPunch = FALSE;
+		//activeWeapon
+		thePlayer.SetWeaponAttachmentVisibility(false);
+		bCanPunch = false;
+		bIsPunching = true;
+		SetTimer(0.37, false, 'doPunchDamage');
 		SetTimer(iMeleeCDTime, false, 'PunchIsReady');
+		SetTimer(0.8333, false, 'endPunch');
 	}
 }
 
-function doPuncDamage()
+function doPunchDamage()
 {
 	thePlayer.HunterPunch();
 }
 
+function endPunch()
+{
+	bIsPunching = false;
+	thePlayer.SetWeaponAttachmentVisibility(true);
+}
 
 exec function MBHSetFullscreen()
 {
@@ -137,7 +147,7 @@ exec function MBHSetResolution(int x, int y)
 defaultproperties
 {
 	bCanPunch=TRUE	
-	iMeleeCDTime=5
+	iMeleeCDTime=2
 	//InputClass=class'MonsterBountyHunter.MBHInput'
 
 	bBehindView=true
