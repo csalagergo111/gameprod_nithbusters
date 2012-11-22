@@ -24,6 +24,9 @@ DefaultProperties
 	WeaponProjectiles(0)=class'MBHProjectile_Arrow'
 	//WeaponProjectiles(0)=class'UTProj_LinkPlasma'
 
+	WeaponFireSnd[0] = SoundCue'MBHCrossbowModels.SoundCue_Crossbow'
+	WeaponFireSnd[1] = SoundCue'MBHCrossbowModels.SoundCue_Crossbow'
+
 
 	InventoryGroup=3
 
