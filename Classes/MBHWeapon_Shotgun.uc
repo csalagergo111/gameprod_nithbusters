@@ -3,6 +3,7 @@ class MBHWeapon_Shotgun extends MBHWeapon;
 var() int numOfProjectiles;
 
 var() Rotator projectileMaxSpread;
+var SoundCue soundFire; 
 
 simulated function CustomFire()
 {
@@ -14,7 +15,7 @@ simulated function CustomFire()
 
 	// tell remote clients that we fired, to trigger effects
 	IncrementFlashCount();
-
+	
 	if( Role == ROLE_Authority )
 	{
 		// This is where we would start an instant trace. (what CalcWeaponFire uses)
@@ -61,7 +62,17 @@ simulated function CustomFire()
 
 DefaultProperties
 {
-	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
+	Begin Object Class=SkeletalMeshComponent Name=ShotgunSkeletalMesh
+	End Object
+
+
+	Begin Object Name=PickUpMesh
+		SkeletalMesh=SkeletalMesh'MBHShotGunModels.MBH_Wpn_Shotgun_w-sockets_done'
+	End Object
+	
+	//soundFire = SoundCue'MBHShotGunModels.Pistol_shot_soundcue';
+	
+	AttachmentClass=class'MonsterBountyHunter.MBHShotgunAttachment'
 	WeaponFireTypes(0)=EWFT_Custom
 	WeaponFireTypes(1)=EWFT_Custom
 
@@ -69,8 +80,10 @@ DefaultProperties
 
 	ShotCost(0)=1
 	ShotCost(1)=2
-
-
+	
+	
+	WeaponFireSnd[0] = SoundCue'MBHShotGunModels.Pistol_shot_soundcue';
+	WeaponFireSnd[1] = SoundCue'MBHShotGunModels.Pistol_shot_soundcue';
 	WeaponProjectiles(0)=class'MBHProjectile_Shotgun'
 	WeaponProjectiles(1)=class'MBHProjectile_Shotgun'
 
