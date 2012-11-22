@@ -243,14 +243,14 @@ DefaultProperties
 	AimIcons(1)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
 	AimIcons(2)=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=71,VL=69)
 	
-	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=126,UL=71,VL=57)
-	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=121,VL=863)
+	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=61,V=0,UL=61,VL=431)
+	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=61,VL=431)
 	
-	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
-	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=19,UL=21,VL=19)
+	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=1323,V=368,UL=177,VL=177)
+	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=244,V=0,UL=691,VL=709)
 	
-	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
-	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=71,V=0,UL=21,VL=19)
+	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=936,V=368,UL=387,VL=387)
+	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=936,V=0,UL=775,VL=368)
 	
 	HealthOverlay=Texture2D'MBHHudAssets.Health'
 	hudFont=Font'MBHHudAssets.Hudfont'
