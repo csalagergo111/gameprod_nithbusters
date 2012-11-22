@@ -79,6 +79,7 @@ function TogglePauseMenu()
 			PauseMenuMovie.bEnableGammaCorrection = False;
 			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
 			PauseMenuMovie.SetTimingMode(TM_Real);
+			PauseMenuMovie.bCaptureMouseInput = true;
 		}
 
 		SetVisible(false);
@@ -91,6 +92,7 @@ function TogglePauseMenu()
 			PauseMenuMovie.AddFocusIgnoreKey('Escape');
 		}
 	}
+	
 }
 
 simulated function PostBeginPlay()
