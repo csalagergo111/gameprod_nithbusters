@@ -64,12 +64,23 @@ function fireTimer()
 
 DefaultProperties
 {
+	Begin Object Class=SkeletalMeshComponent Name=PistolSkeletalMesh
+	End Object
+
+	Begin Object Name=PickUpMesh
+		SkeletalMesh=SkeletalMesh'MBHRevoverModels.MBH_Wpn_Revolver_socket_tex'
+	End Object
+	
 	ReloadTime=3.0
 
-	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
+	AttachmentClass=class'MonsterBountyHunter.MBHPistolAttachment'
 	WeaponFireTypes(0)=EWFT_InstantHit
 	WeaponFireTypes(1)=EWFT_Custom
 
+	
+	//soundFire = SoundCue'MBHShotGunModels.Pistol_shot_soundcue';
+	
+	
 	InventoryGroup=1
 
 	ShotCost(0)=1
@@ -78,6 +89,10 @@ DefaultProperties
 	InstantHitDamage(0)=30
 	InstantHitDamage(1)=30
 	//InstantHitDamageTypes(0)=none
+
+	
+	WeaponFireSnd[0] = SoundCue'MBHRevoverModels.SoundCue_pistol';
+	WeaponFireSnd[1] = SoundCue'MBHRevoverModels.SoundCue_pistol';
 	
 	FireInterval(0)=+0.1
 	FireInterval(1)=+0.77
