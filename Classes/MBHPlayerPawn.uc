@@ -20,6 +20,7 @@ var UDKAnimBlendByWeapon IdleFire;
 var AnimNodePlayCustomAnim RunningWeaponType;
 var AnimNodePlayCustomAnim JumpNode;
 var AnimNodeBlend DuckNode;
+var AnimNodeBlend DuckNodeIdle;
 var AnimNodeCrossfader deathNode;
 
 simulated function PostBeginPlay()
@@ -37,6 +38,7 @@ simulated event Destroyed()
 	JumpNode = None;
 	deathNode = None;
 	DuckNode = None;
+	DuckNodeIdle = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -49,6 +51,7 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
 
 	DuckNode = AnimNodeBlend(SkelComp.FindAnimNode('DuckNode'));
+	DuckNodeIdle = AnimNodeBlend(SkelComp.FindAnimNode('DuckNodeIdle'));
 
 	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('deathNode'));
 
@@ -231,10 +234,13 @@ function ShouldCrouch( bool bCrouch )
 	if(bCrouch)
 	{
 		DuckNode.SetBlendTarget(1.0, 0.1);
+		DuckNodeIdle.SetBlendTarget(1.0, 0.1);
 	}
 	else
+	{
 		DuckNode.SetBlendTarget(0.0, 0.1);
-
+		DuckNodeIdle.SetBlendTarget(0.0, 0.1);
+	}
 }
 
 function EndInvulnerable()
