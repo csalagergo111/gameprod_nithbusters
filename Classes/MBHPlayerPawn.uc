@@ -12,6 +12,7 @@ var () float fMeleeArc;
 var () int iMeleeDmg;
 var () int iMeleeRange;
 var bool stunnedByHit;
+var bool isDead;
 
 // animation
 var AnimNodePlayCustomAnim IdleWeaponType;
@@ -19,6 +20,7 @@ var UDKAnimBlendByWeapon IdleFire;
 var AnimNodePlayCustomAnim RunningWeaponType;
 var AnimNodePlayCustomAnim JumpNode;
 var AnimNodeBlend DuckNode;
+var AnimNodeCrossfader deathNode;
 
 simulated function PostBeginPlay()
 {
@@ -33,6 +35,8 @@ simulated event Destroyed()
 	IdleFire = None;
 	RunningWeaponType = None;
 	JumpNode = None;
+	deathNode = None;
+	DuckNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -45,6 +49,8 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
 
 	DuckNode = AnimNodeBlend(SkelComp.FindAnimNode('DuckNode'));
+
+	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('deathNode'));
 
 	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
 	if(RunningWeaponType != none)
@@ -173,7 +179,7 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	if(!bInvulnerable)
+	if(!bInvulnerable && !isDead)
 	{
 		IdleFire.AnimFire('Hunter_get_hit', false, 1.0);
 		SetTimer(0.6667, false, 'endStun');
@@ -185,6 +191,12 @@ class<DamageType> DamageType,
 		SetTimer(regenDelay, false, 'startRegenerating');
 
 		super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+
+		if(Health <= 0)
+		{
+			isDead=true;
+			deathNode.PlayOneShotAnim('Hunter_death', 0.1, 0.0, true, 1.0);
+		}
 	}
 }
 
