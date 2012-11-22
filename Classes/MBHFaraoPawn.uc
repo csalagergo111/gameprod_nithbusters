@@ -1,6 +1,35 @@
 class MBHFaraoPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
+// Distance from center when circling
+var() float circlingDistance;
+// How many degrees to increase circlingDegree with
+var() float circlingSpeed;
+var int maxHealth;
+// Attack animation
+var AnimNodePlayCustomAnim faraoCustomNode;
+
+function PostBeginPlay()
+{
+	super(UDKPawn).PostBeginPlay();
+	maxHealth = Health;
+
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHPharaoModels.PharaoAnimTree');
+}
+
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	faraoCustomNode = None;
+	//deathNode = None;
+}
+
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+}
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
 class<DamageType> DamageType,
@@ -17,8 +46,8 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		SkeletalMesh=SkeletalMesh'MBHPharaoModels.MBH_Farao_SkeletalMesh'
+		AnimSets(0)=AnimSet'MBHPharaoModels.PharaoAnimSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 		Scale3D=(X=2.0,Y=2.0,Z=2.0)
@@ -42,4 +71,6 @@ DefaultProperties
 	followDistance=2000.0
 	meleeAttackDistance=96.0
 	isAngry=true
+	circlingDistance=1000
+	circlingSpeed=20
 }

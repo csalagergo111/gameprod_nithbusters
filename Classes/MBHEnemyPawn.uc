@@ -11,6 +11,8 @@ var() vector startPosition;
 // If this is set to true, for example when the player
 // shoots the enemy, ignore followDistance and attack player
 var() bool isAngry;
+// If true, the enemy is dead
+var bool isDead;
 
 function PostBeginPlay()
 {
@@ -25,9 +27,10 @@ class<DamageType> DamageType,
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 	if(Health <= 0)
-		Destroy();
+		CollisionComponent.SetActorCollision(false, false, false);
 }
 
 DefaultProperties
 {
+	isDead=false
 }

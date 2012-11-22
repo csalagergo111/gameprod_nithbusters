@@ -2,6 +2,7 @@ class MBHWolfAIController extends MBHAIController;
 
 // Reference to casted enemyPawn
 var MBHWolfPawn thePawn;
+// Temp destination for navigation
 var Vector TempDest;
 
 // Variables for making the werewolf circling the player:
@@ -14,6 +15,9 @@ var float circlingIncrement;
 // Location we want to move to calculated from circlingDegree
 // and circlingDistance (convert polar to cartesian coordinates)
 var vector desiredLocation;
+
+// Bool for checking if we're playing an animation
+var bool playingAttackAnim;
 
 // how long the wolf should chase the player
 var () float chaseTime;
@@ -42,9 +46,13 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 function Tick( float DeltaTime )
 {
 	super.Tick(DeltaTime);
-	if(thePlayer == none)
+	if(thePlayer == none && !thePawn.isDead)
 	{
 		GoToState('LookingForPlayer');
+	}
+	else if(thePawn.isDead)
+	{
+		GoToState('');
 	}
 }
 
@@ -130,15 +138,30 @@ state AttackPlayer
 	{
 		super.Tick(DeltaTime);
 
-		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance && !playingAttackAnim)
 		{
-			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
-			endAttack();
+			playingAttackAnim = true;
+			ClearTimer('endAttack');
+			startAttackAnim();
 		}
+	}
+
+	function startAttackAnim()
+	{
+		thePawn.wolfCustomNode.PlayCustomAnimByDuration('MBH_Wolf_Ani_Attack', 0.5, 0.1, 0.1, false, true);
+		SetTimer(0.25, false, 'doAttack');
+	}
+
+	function doAttack()
+	{
+		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance)
+			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
+		SetTimer(0.25, false, 'endAttack');
 	}
 
 	function endAttack()
 	{
+		playingAttackAnim = false;
 		ClearTimer('endAttack');
 		GoToState('CirclingPlayer');
 	}
@@ -198,4 +221,5 @@ defaultproperties
 	circlingIncrement=80
 	chaseTime=5.0
 	circleTime=3.0
+	playingAttackAnim=false
 }

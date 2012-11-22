@@ -12,10 +12,6 @@ var int lastTeleportDegree;
 // Variables for making the farao circle the middle of the map:
 // Current degree from center position
 var float circlingDegree;
-// Distance from center when circling
-var float circlingDistance;
-// How many degrees to increase circlingDegree with
-var float circlingIncrement;
 // Location we want to move to calculated from circlingDegree
 // and circlingDistance (convert polar to cartesian coordinates)
 var vector desiredLocation;
@@ -55,14 +51,40 @@ event Possess(Pawn inPawn, bool bVehicleTransition)
 
 		maxHealth = thePawn.Health;
 
-		GotoState('MoveToNextNode');
+		GotoState('LookingForPlayer');
 	}
 }
 
 function CalculateRotationLocation()
 {
-	desiredLocation.X = circlingDistance*Cos(circlingDegree*PI/180);
-	desiredLocation.Y = circlingDistance*Sin(circlingDegree*PI/180);
+	desiredLocation.X = thePawn.circlingDistance*Cos(circlingDegree*PI/180);
+	desiredLocation.Y = thePawn.circlingDistance*Sin(circlingDegree*PI/180);
+}
+
+function Tick( float DeltaTime )
+{
+	super.Tick(DeltaTime);
+	if(thePlayer == none)
+	{
+		GoToState('LookingForPlayer');
+	}
+}
+
+state LookingForPlayer
+{
+	function Tick( float DeltaTime )
+	{
+		super.Tick(DeltaTime);
+
+		if(thePlayer != none)
+		{
+			GoToState('MoveToNextNode');
+		}
+		else
+			thePawn.Health = thePawn.maxHealth;
+	}
+Begin:
+	MoveTo(thePawn.startPosition);
 }
 
 state MoveToNextNode
@@ -112,7 +134,7 @@ state CircleCenter
 	{
 		super.Tick(DeltaTime);
 
-		circlingDegree+=circlingIncrement*DeltaTime;
+		circlingDegree+=thePawn.circlingSpeed*DeltaTime;
 		while(circlingDegree > 360)
 		{
 			circlingDegree-=360;
@@ -143,12 +165,10 @@ state circleTeleport
 	{
 		super.Tick(DeltaTime);
 
-		circlingDegree+=circlingIncrement*DeltaTime;
+		circlingDegree+=thePawn.circlingSpeed*DeltaTime;
 
-		if(circlingDegree > 10000)
-		{
+		if(circlingDegree > 1000)
 			circlingDegree=0;
-		}
 
 		if(circlingDegree > lastTeleportDegree+180)
 		{
@@ -294,7 +314,5 @@ state AttackPlayer
 DefaultProperties
 {
 	attackCounter=0
-	circlingDistance=1500
-	circlingIncrement=20
 	lastTeleportDegree=0
 }

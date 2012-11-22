@@ -2,13 +2,21 @@ class MBHWereWolfPawn extends MBHEnemyPawn
 	placeable ClassGroup(MonsterBountyHunter);
 
 var int maxHealth;
+// Attack animation
+var AnimNodePlayCustomAnim attackNode;
 
 function PostBeginPlay()
 {
 	super(UDKPawn).PostBeginPlay();
 	maxHealth = Health;
 
-	Mesh.SetAnimTreeTemplate(AnimTree'MBHTestModels.WereWolf.WereWolfAnimTree');
+	Mesh.SetAnimTreeTemplate(AnimTree'MBHWereWolfModels.WereWolf.WereWolfAnimTree');
+}
+
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -28,8 +36,8 @@ DefaultProperties
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'MBHTestModels.WereWolf.Skeletal_WereWolf'
-		AnimSets(0)=AnimSet'MBHTestModels.WereWolf.WereWolfAnimSet'
+		SkeletalMesh=SkeletalMesh'MBHWereWolfModels.WereWolf.Werewolf_skeletal_mesh'
+		AnimSets(0)=AnimSet'MBHWereWolfModels.WereWolf.WereWoflAnimeSet'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
 	End Object
@@ -43,6 +51,8 @@ DefaultProperties
 
 	bJumpCapable=false
 	bCanJump=false
+
+	Health=500
 
 	bumpDamage=100.0
 	followDistance=2000.0

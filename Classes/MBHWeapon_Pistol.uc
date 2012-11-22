@@ -16,7 +16,6 @@ simulated function FireAmmunition()
 {
 	if((CurrentFireMode == 0 && !altFiring) || CurrentFireMode == 1)
 	{
-		`log("Firing!");
 		super.FireAmmunition();
 	}
 }
