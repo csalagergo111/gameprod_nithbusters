@@ -35,12 +35,16 @@ exec function SetLevel(string level)
 	SaveGame.SetLevel(level);
 	SaveGame.SaveGame();
 
-	`log("-----" @ SaveGame.ResWidth @ SaveGame.ResHeight);
+	//`log("-----" @ SaveGame.ResWidth @ SaveGame.ResHeight);
 }
 
 exec function OpenLevel()
 {
-	ConsoleCommand("Open" @ SaveGame.Level $ "?Game=MonsterBountyHunter.MBHGame");
+	//ConsoleCommand("Open" @ SaveGame.Level $ "?Game=MonsterBountyHunter.MBHGame");
+
+	`log("-----" @ SaveGame.Level);
+
+	ConsoleCommand("Open" @ SaveGame.Level);
 }
 
 exec function NewGame()

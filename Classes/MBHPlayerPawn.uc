@@ -275,5 +275,7 @@ defaultproperties
 	End Object
 	CylinderComponent = CollisionCylinder
 
+	SpawnSound=none
+
 	//CamOffset=(X=20.0,Y=30.0,Z=-1.0)
 }

@@ -14,6 +14,89 @@ var string hudText;
 var float hudTextWidth, hudTextHeight;
 var float textPosX, textPosY, textScale, textVisibleTime;
 
+
+var GFxMoviePlayer PauseMenuMovie;
+
+// ShowMenu()
+
+//function TogglePauseMenu()
+//{
+//    if ( PauseMenuMovie != none && PauseMenuMovie.bMovieIsOpen )
+//	{
+		
+//		if( !WorldInfo.IsPlayInMobilePreview() )
+//		{
+//			//PauseMenuMovie.PlayCloseAnimation();
+//		}
+//		else
+//		{
+//			// On mobile previewer, close right away
+//			CompletePauseMenuClose();
+//		}
+//	}
+//	else
+//    {
+//		CloseOtherMenus();
+
+//        PlayerOwner.SetPause(True);
+
+//        if (PauseMenuMovie == None)
+//        {
+//	        PauseMenuMovie = new class'GFxMoviePlayer';
+//            PauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu';
+//            PauseMenuMovie.bEnableGammaCorrection = FALSE;
+//			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
+//            PauseMenuMovie.SetTimingMode(TM_Real);
+//        }
+
+//		SetVisible(false);
+//        PauseMenuMovie.Start();
+//        //PauseMenuMovie.PlayOpenAnimation();
+//		PauseMenuMovie.Advance(0);
+
+//		// Do not prevent 'escape' to unpause if running in mobile previewer
+//		if( !WorldInfo.IsPlayInMobilePreview() )
+//		{
+//			PauseMenuMovie.AddFocusIgnoreKey('Escape');
+//		}
+//    }
+//}
+
+function TogglePauseMenu()
+{
+	if (PauseMenuMovie != none && PauseMenuMovie.bMovieIsOpen)
+	{
+		PlayerOwner.SetPause(False);
+		PauseMenuMovie.Close(False);  // Keep the Pause Menu loaded in memory for reuse.
+		SetVisible(True);
+	}
+	else
+	{
+		PlayerOwner.SetPause(True);
+
+		if (PauseMenuMovie == None)
+		{
+			PauseMenuMovie = new class'GFxMoviePlayer';
+			PauseMenuMovie.MovieInfo = SwfMovie'MBH.PauseMenu'; // Replace 'UDKHud.udk_pausemenu' with a reference to your own pause menu swf asset
+			PauseMenuMovie.bEnableGammaCorrection = False;
+			PauseMenuMovie.LocalPlayerOwnerIndex = class'Engine'.static.GetEngine().GamePlayers.Find(LocalPlayer(PlayerOwner.Player));
+			PauseMenuMovie.SetTimingMode(TM_Real);
+			PauseMenuMovie.bCaptureMouseInput = true;
+		}
+
+		SetVisible(false);
+		PauseMenuMovie.Start();
+		PauseMenuMovie.Advance(0);
+
+		// Do not prevent 'escape' to unpause if running in mobile previewer
+		if( !WorldInfo.IsPlayInMobilePreview() )
+		{
+			PauseMenuMovie.AddFocusIgnoreKey('Escape');
+		}
+	}
+	
+}
+
 simulated function PostBeginPlay()
 {
 	super.PostBeginPlay();
