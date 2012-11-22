@@ -69,6 +69,8 @@ DefaultProperties
 		SkeletalMesh=SkeletalMesh'MBHShotGunModels.MBH_Wpn_Shotgun_w-sockets_done'
 	End Object
 	
+	WeaponFireSnd[0] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
+	WeaponFireSnd[1] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
 	
 	AttachmentClass=class'MonsterBountyHunter.MBHShotgunAttachment'
 	WeaponFireTypes(0)=EWFT_Custom
@@ -80,8 +82,6 @@ DefaultProperties
 	ShotCost(1)=2
 	
 	
-	WeaponFireSnd[0] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
-	WeaponFireSnd[1] = SoundCue'MBHShotGunModels.Shotgun_shot_soundcue'
 	WeaponProjectiles(0)=class'MBHProjectile_Shotgun'
 	WeaponProjectiles(1)=class'MBHProjectile_Shotgun'
 
