@@ -26,7 +26,16 @@ class<DamageType> DamageType,
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 
-	isAngry = true;
+	if(!isDead)
+	{
+		isAngry = true;
+
+		if(Health <= 0)
+		{
+			ConsoleCommand("SetLevel lvl2");
+			isDead = true;
+		}
+	}
 }
 
 DefaultProperties

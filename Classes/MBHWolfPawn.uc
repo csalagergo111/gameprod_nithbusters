@@ -57,7 +57,6 @@ event TakeDamage(int DamageAmount, Controller EventInstigator,
 		{
 			deathNode.PlayOneShotAnim('MBH_Wolf_Ani_Death',0.1, 0.0, true, 1.0);
 			isDead=true;
-			ConsoleCommand("SetLevel lvl2");
 		}
 		else
 		{
