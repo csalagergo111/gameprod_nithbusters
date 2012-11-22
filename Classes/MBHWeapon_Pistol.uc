@@ -53,6 +53,10 @@ function fireTimer()
 
 	AmmoCount--;
 	InstantFire();
+	thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+	SetTimer(quickFireDelay, false, 'endFireAnim');
+	animatingFire = true;
+
 
 	if(AmmoCount > 0)
 	{
@@ -94,7 +98,7 @@ DefaultProperties
 	WeaponFireSnd[0] = SoundCue'MBHRevoverModels.SoundCue_pistol';
 	WeaponFireSnd[1] = SoundCue'MBHRevoverModels.SoundCue_pistol';
 	
-	FireInterval(0)=+0.1
+	FireInterval(0)=+0.5
 	FireInterval(1)=+0.77
 	//MinReloadPct(0)=4.0
 	AmmoCount=6
@@ -108,7 +112,7 @@ DefaultProperties
 
 	weaponHudIndex=0
 
-	quickFireDelay=0.3
+	quickFireDelay=0.2
 	projectileMaxSpread=(Pitch=7000,Yaw=7000,Roll=0)
 
 	altFiring=false
