@@ -28,7 +28,7 @@ simulated event Destroyed()
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('CustomAnim'));
+	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
 }
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
@@ -36,24 +36,13 @@ class<DamageType> DamageType,
 	optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
-	if(!isDead)
-	{
-		if(Health <= 0)
-		{
-			isDead = true;
-		}
-		else
-		{
-			faraoCustomNode.PlayCustomAnim('MBH_Farao_Ani_Get-Hit', 1.0, 0.1, 0.1, false, true);
-		}
-	}
+	//`log("Health left: "@Health);
 }
 
 DefaultProperties
 {
 	Begin Object Name=CollisionCylinder
-		CollisionHeight=+100.000000
-		CollisionRadius=40
+		CollisionHeight=+88.000000
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh

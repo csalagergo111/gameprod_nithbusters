@@ -7,7 +7,7 @@ var int activeWeaponIndex;
 var MBHWeapon activeWeapon;
 var MBHPlayerPawn thePlayer;
 
-var SoundCue soundBlade;
+
 
 simulated function PostBeginPlay()
 {
@@ -99,7 +99,7 @@ simulated exec function useHunterPunch()
 	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
 		thePlayer.IdleFire.AnimFire('Hunter_melee_attack',false,1.0);
-		PlaySound(soundBlade);
+		//activeWeapon
 		thePlayer.SetWeaponAttachmentVisibility(false);
 		bCanPunch = false;
 		bIsPunching = true;
@@ -152,7 +152,5 @@ defaultproperties
 
 	bBehindView=true
 	activeWeaponIndex=0
-
-	soundBlade=SoundCue'MBHPlayerModels.SteamBladeSoundCue'
 }
 
