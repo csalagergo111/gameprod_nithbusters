@@ -14,7 +14,7 @@ DefaultProperties
 
 	CustomGravityScaling=0.15
 
-	ProjFlightTemplate=ParticleSystem'VH_Scorpion.Effects.P_Scorpion_Bounce_Projectile'
+	ProjFlightTemplate=ParticleSystem'WPN_Projectiles.particle_system.MBH_Crossbow_Projectile'
 
 	ProjExplosionTemplate=ParticleSystem'WP_LinkGun.Effects.P_WP_Linkgun_Impact'
 
