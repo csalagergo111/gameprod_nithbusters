@@ -16,9 +16,10 @@ var bool isDead;
 
 // animation
 var AnimNodePlayCustomAnim IdleWeaponType;
-var UDKAnimBlendByWeapon IdleFire;
 var AnimNodePlayCustomAnim RunningWeaponType;
 var AnimNodePlayCustomAnim JumpNode;
+var AnimNodePlayCustomAnim LongIdle;
+var UDKAnimBlendByWeapon IdleFire;
 var AnimNodeBlend DuckNode;
 var AnimNodeBlend DuckNodeIdle;
 var AnimNodeCrossfader deathNode;
@@ -39,6 +40,7 @@ simulated event Destroyed()
 	deathNode = None;
 	DuckNode = None;
 	DuckNodeIdle = None;
+	LongIdle = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -54,6 +56,8 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	DuckNodeIdle = AnimNodeBlend(SkelComp.FindAnimNode('DuckNodeIdle'));
 
 	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('deathNode'));
+
+	LongIdle = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('LongIdle'));
 
 	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
 	if(RunningWeaponType != none)
@@ -184,6 +188,7 @@ class<DamageType> DamageType,
 {
 	if(!bInvulnerable && !isDead)
 	{
+		stopLongIdle();
 		IdleFire.AnimFire('Hunter_get_hit', false, 1.0);
 		SetTimer(0.6667, false, 'endStun');
 		stunnedByHit = true;
@@ -225,6 +230,24 @@ simulated function Tick(float DeltaTime)
 		if(Health > HealthMax)
 			Health=HealthMax;
 	}
+	if(Velocity.X != 0 || Velocity.Y != 0 || Velocity.Z != 0)
+		stopLongIdle();
+
+	if(!IsTimerActive('startLongIdle') && !LongIdle.bIsPlayingCustomAnim)
+		SetTimer(6.0, false, 'startLongIdle');
+}
+
+function startLongIdle()
+{
+	SetWeaponAttachmentVisibility(false);
+	LongIdle.PlayCustomAnim('Hunter_idle_cycle_LONG', 1.0, 0.2, 0.2, true, true);
+}
+
+function stopLongIdle()
+{
+	SetWeaponAttachmentVisibility(true);
+	LongIdle.StopCustomAnim(0.1);
+	ClearTimer('startLongIdle');
 }
 
 function ShouldCrouch( bool bCrouch )
@@ -233,6 +256,7 @@ function ShouldCrouch( bool bCrouch )
 
 	if(bCrouch)
 	{
+		stopLongIdle();
 		DuckNode.SetBlendTarget(1.0, 0.1);
 		DuckNodeIdle.SetBlendTarget(1.0, 0.1);
 	}
