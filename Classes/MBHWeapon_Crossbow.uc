@@ -2,15 +2,11 @@ class MBHWeapon_Crossbow extends MBHWeapon;
 
 var int Arrows;
 
-simulated function FireAmmunition()
+simulated function PostBeginPlay()
 {
-	if((CurrentFireMode == 0 && !altFiring) || CurrentFireMode == 1)
-	{
-		super.FireAmmunition();
+	super.PostBeginPlay();
 
-		thePlayerPawn.IdleFire.AnimStopFire();
-		thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_crossbow',false,1.0);
-	}
+	fireSequence='Hunter_idle_fire_crossbow';
 }
 
 exec function Reload()

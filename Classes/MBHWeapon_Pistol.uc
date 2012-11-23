@@ -12,15 +12,17 @@ simulated function InstantFire()
 	super.InstantFire();
 }*/
 
+simulated function PostBeginPlay()
+{
+	super.PostBeginPlay();
+
+	fireSequence='Hunter_idle_fire_revolver';
+}
+
 simulated function FireAmmunition()
 {
 	if((CurrentFireMode == 0 && !altFiring) || CurrentFireMode == 1)
-	{
 		super.FireAmmunition();
-
-		thePlayerPawn.IdleFire.AnimStopFire();
-		thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-	}
 }
 
 simulated function PutDownWeapon()
@@ -58,9 +60,6 @@ function fireTimer()
 	InstantFire();
 	thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
 	PlayFiringSound();
-	SetTimer(quickFireDelay, false, 'endFireAnim');
-	animatingFire = true;
-
 
 	if(AmmoCount > 0)
 	{

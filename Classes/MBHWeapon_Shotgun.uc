@@ -4,6 +4,13 @@ var() int numOfProjectiles;
 
 var() Rotator projectileMaxSpread;
 
+simulated function PostBeginPlay()
+{
+	super.PostBeginPlay();
+
+	fireSequence='Hunter_idle_fire_shotgun';
+}
+
 simulated function CustomFire()
 {
 	local vector		StartTrace, EndTrace, RealStartLoc, AimDir;

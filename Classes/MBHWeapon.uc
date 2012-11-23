@@ -6,7 +6,8 @@ var MBHPlayerController thePlayer;
 var MBHPlayerPawn thePlayerPawn;
 var MBHHud theHud;
 var int weaponHudIndex;
-var bool animatingFire;
+//var bool animatingFire;
+var name fireSequence;
 
 simulated function PostBeginPlay()
 {
@@ -22,6 +23,8 @@ simulated function PostBeginPlay()
 			thePlayerPawn = MBHPlayerPawn(PC.Pawn);
 		}
 	}
+
+	fireSequence='none';
 }
 
 simulated function Activate()
@@ -53,6 +56,17 @@ simulated function PutDownWeapon()
 	// Prevent reloading after changing weapon
 	ClearReloadTimer();
 	super.PutDownWeapon();
+}
+
+simulated function FireAmmunition()
+{
+	if(!IsTimerActive('AddMaxAmmo') && !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0)
+	{
+		super.FireAmmunition();
+
+		thePlayerPawn.IdleFire.AnimStopFire();
+		thePlayerPawn.IdleFire.AnimFire(fireSequence,false,1.0);
+	}
 }
 
 exec function Reload()
@@ -149,11 +163,12 @@ simulated function StartFire(byte FireModeNum)
 	}
 }*/
 
+/*
 function endFireAnim()
 {
 	//thePlayerPawn.IdleFire.AnimStopFire();
 	animatingFire = false;
-}
+}*/
 
 DefaultProperties
 {
