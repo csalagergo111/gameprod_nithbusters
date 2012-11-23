@@ -119,14 +119,15 @@ state AttackPlayer
 			`log("Close enough..");
 			playingAttack=true;
 			thePawn.GroundSpeed=0;
-			SetTimer(0.25, false, 'startSlap');
+			//SetTimer(0.25, false, 'startSlap');
+			startSlap();
 		}
 	}
 
 	function startSlap()
 	{
-		thePawn.attackNode.AnimFire('Werewolf_attack_right_hand', false, 1.0);
-		SetTimer(0.14, false, 'doDamage');
+		thePawn.attackNode.AnimFire('Werewolf_idle_attack_right', false, 1.0);
+		SetTimer(0.7, false, 'doDamage');
 	}
 
 	function doDamage()
@@ -135,11 +136,12 @@ state AttackPlayer
 		{
 			thePlayer.TakeDamage(thePawn.bumpDamage,Self,thePawn.Location,vect(0,0,0),class 'UTDmgType_LinkPlasma');
 		}
-		SetTimer(0.5, false, 'endAttack');
+		SetTimer(0.7, false, 'endAttack');
 	}
 
 	function endAttack()
 	{
+		`log("Attack end");
 		ClearTimer('endAttack');
 		playingAttack=false;
 		thePawn.GroundSpeed = thePawn.default.GroundSpeed;
@@ -154,7 +156,6 @@ Begin:
 	if(thePlayer != none)
 	{
 		MoveToward(thePlayer);
-		endAttack();
 	}
 	GoTo('Begin');
 }

@@ -17,6 +17,9 @@ simulated function FireAmmunition()
 	if((CurrentFireMode == 0 && !altFiring) || CurrentFireMode == 1)
 	{
 		super.FireAmmunition();
+
+		thePlayerPawn.IdleFire.AnimStopFire();
+		thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
 	}
 }
 
