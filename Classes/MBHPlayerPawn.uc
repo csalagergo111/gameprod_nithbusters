@@ -350,5 +350,7 @@ defaultproperties
 
 	SpawnSound=none
 
+	SoundGroupClass=none
+
 	//CamOffset=(X=20.0,Y=30.0,Z=-1.0)
 }

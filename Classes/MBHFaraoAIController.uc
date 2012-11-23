@@ -72,6 +72,11 @@ function Tick( float DeltaTime )
 		summoningScorps = false;
 		attackStarted = false;
 		nextNodeIndex = -1;
+		circlingDegree=0;
+		attackCounter = 0;
+		lastTeleportDegree = 0;
+		desiredLocation.X = 0;
+		desiredLocation.Y = 0;
 	}
 }
 
@@ -83,6 +88,7 @@ state LookingForPlayer
 
 		if(thePlayer != none)
 		{
+			`log("Starting again!");
 			GoToState('MoveToNextNode');
 		}
 		else
