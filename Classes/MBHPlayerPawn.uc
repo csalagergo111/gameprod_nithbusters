@@ -234,7 +234,7 @@ simulated function Tick(float DeltaTime)
 		stopLongIdle();
 
 	if(!IsTimerActive('startLongIdle') && !LongIdle.bIsPlayingCustomAnim)
-		SetTimer(2.0, false, 'startLongIdle');
+		SetTimer(6.0, false, 'startLongIdle');
 }
 
 function startLongIdle()
