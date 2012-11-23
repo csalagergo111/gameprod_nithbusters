@@ -4,6 +4,7 @@ class MBHWereWolfPawn extends MBHEnemyPawn
 var int maxHealth;
 // Attack animation
 var UDKAnimBlendByWeapon attackNode;
+var AnimNodeCrossfader deathNode;
 
 function PostBeginPlay()
 {
@@ -18,12 +19,14 @@ simulated event Destroyed()
 	super.Destroyed();
 
 	attackNode = None;
+	deathNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
 	attackNode = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('AttackAnim'));
+	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('deathNode'));
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -41,6 +44,7 @@ class<DamageType> DamageType,
 		{
 			ConsoleCommand("SetLevel lvl2");
 			isDead = true;
+			deathNode.PlayOneShotAnim('werewolf_death', 0.1, 0.0, true, 1.0);
 		}
 	}
 }

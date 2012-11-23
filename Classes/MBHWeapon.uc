@@ -118,12 +118,14 @@ simulated function StartFire(byte FireModeNum)
 		case 0:
 			if(CurrentFireMode == 0)
 			{
+				thePlayerPawn.IdleFire.AnimStopFire();
 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
+				SetTimer(0.45, false, 'endFireAnim');
 				animatingFire = true;
 			}
 			break;
 		case 1:
+			thePlayerPawn.IdleFire.AnimStopFire();
 			thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_shotgun',false,1.0);
 			SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
 			animatingFire = true;
@@ -131,6 +133,7 @@ simulated function StartFire(byte FireModeNum)
 		case 2:
 			if(CurrentFireMode == 0)
 			{
+				thePlayerPawn.IdleFire.AnimStopFire();
 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_crossbow',false,1.0);
 				SetTimer(FireInterval[FireModeNum], false, 'endFireAnim');
 				animatingFire = true;

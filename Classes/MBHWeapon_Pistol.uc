@@ -54,6 +54,7 @@ function fireTimer()
 	AmmoCount--;
 	InstantFire();
 	thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+	PlayFiringSound();
 	SetTimer(quickFireDelay, false, 'endFireAnim');
 	animatingFire = true;
 
