@@ -126,7 +126,11 @@ state AttackPlayer
 
 	function startSlap()
 	{
-		thePawn.attackNode.AnimFire('Werewolf_idle_attack_right', false, 1.0);
+		if(rand(2) == 0)
+			thePawn.attackNode.AnimFire('Werewolf_idle_attack_right', false, 1.0);
+		else
+			thePawn.attackNode.AnimFire('Werewolf_idle_attack_all_out', false, 1.0);
+		
 		SetTimer(0.7, false, 'doDamage');
 	}
 

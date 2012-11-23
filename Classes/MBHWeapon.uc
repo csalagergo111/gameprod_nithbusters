@@ -31,6 +31,8 @@ simulated function Activate()
 {
 	super.Activate();
 
+	thePlayerPawn.stopLongIdle();
+
 	thePlayer.activeWeaponIndex = weaponHudIndex;
 	thePlayer.activeWeapon = self;
 	switch(weaponHudIndex)
@@ -64,6 +66,7 @@ simulated function FireAmmunition()
 	{
 		super.FireAmmunition();
 
+		thePlayerPawn.stopLongIdle();
 		thePlayerPawn.IdleFire.AnimStopFire();
 		thePlayerPawn.IdleFire.AnimFire(fireSequence,false,1.0);
 	}
