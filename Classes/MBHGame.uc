@@ -62,4 +62,6 @@ defaultProperties
 	HUDType=class'MonsterBountyHunter.MBHHud'
 	bUseClassicHUD=true
 	bGivePhysicsGun=false
+	GoalScore = 0;
+	TimeLimit = 0;
 }
