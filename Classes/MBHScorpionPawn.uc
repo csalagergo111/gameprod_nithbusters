@@ -27,6 +27,8 @@ class<DamageType> DamageType,
 {
 	super.TakeDamage(DamageAmount,EventInstigator,HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
 
+	if(Health <= 0)
+		Destroy();
 	warnOthers();
 }
 
@@ -47,8 +49,8 @@ function warnOthers()
 DefaultProperties
 {
 	Begin Object Name=CollisionCylinder
-		CollisionRadius=+12.000000
-		CollisionHeight=+12.000000
+		CollisionRadius=+36.000000
+		CollisionHeight=+36.000000
 		End Object
 
 		Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh

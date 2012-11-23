@@ -198,7 +198,7 @@ Begin:
 	MoveTo( desiredLocation+centerNode.Location, thePlayer );
 	GoTo('Begin');
 }
-// IKKE OVER HER!!§!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 state AttackPlayer
 {
 	function BeginState(Name PreviousStateName)

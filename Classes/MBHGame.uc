@@ -8,6 +8,13 @@ var string res;
 
 var array<string> resarray;
 
+function PostBeginPlay()
+{
+	super.PostBeginPlay();
+	GoalScore=0;
+	TimeLimit=0;
+}
+
 event InitGame( string options, out string errorMessage )
 {
     super.InitGame(options, errorMessage);
@@ -62,6 +69,4 @@ defaultProperties
 	HUDType=class'MonsterBountyHunter.MBHHud'
 	bUseClassicHUD=true
 	bGivePhysicsGun=false
-	GoalScore = 0;
-	TimeLimit = 0;
 }
