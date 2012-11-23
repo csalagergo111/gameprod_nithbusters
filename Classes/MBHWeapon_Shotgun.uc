@@ -98,7 +98,7 @@ DefaultProperties
 	MaxAmmoCount=2
 
 	numOfProjectiles=10
-	projectileMaxSpread=(Pitch=7000,Yaw=16384,Roll=0)
+	projectileMaxSpread=(Pitch=5461,Yaw=10922,Roll=0)
 
 	weaponHudIndex=1
 }
