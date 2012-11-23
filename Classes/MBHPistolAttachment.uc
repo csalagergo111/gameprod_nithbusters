@@ -9,6 +9,7 @@ Begin Object Name=SkeletalMeshComponent0
 	Scale=1
 End Object
 
+	ProjExplosionTemplate=ParticleSystem'WPN_Projectiles.particle_system.MBH_Shotgun_Hit'
 Mesh=SkeletalMeshComponent0
 
 WeaponClass=Class'MBHWeapon_Pistol'
