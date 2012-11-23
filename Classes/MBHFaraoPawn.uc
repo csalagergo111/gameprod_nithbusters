@@ -8,6 +8,7 @@ var() float circlingSpeed;
 var int maxHealth;
 // Attack animation
 var AnimNodePlayCustomAnim faraoCustomNode;
+var AnimNodeCrossfader deathNode;
 
 function PostBeginPlay()
 {
@@ -22,13 +23,14 @@ simulated event Destroyed()
 	super.Destroyed();
 
 	faraoCustomNode = None;
-	//deathNode = None;
+	deathNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
 	faraoCustomNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('CustomAnim'));
+	deathNode = AnimNodeCrossfader(SkelComp.FindAnimNode('deathNode'));
 }
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
@@ -41,6 +43,8 @@ class<DamageType> DamageType,
 		if(Health <= 0)
 		{
 			isDead = true;
+			setPhysics(PHYS_Falling);
+			deathNode.PlayOneShotAnim('Farao_death',0.1,0.0,true,0.5);
 		}
 		else
 		{

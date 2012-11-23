@@ -7,6 +7,7 @@ var MBHFaraoWeapon theWeapon;
 var int nextNodeIndex, attackCounter;
 var float maxHealth;
 var bool summoningScorps;
+var bool attackStarted;
 
 var int lastTeleportDegree;
 
@@ -68,6 +69,9 @@ function Tick( float DeltaTime )
 	if(thePlayer == none)
 	{
 		GoToState('LookingForPlayer');
+		summoningScorps = false;
+		attackStarted = false;
+		nextNodeIndex = -1;
 	}
 }
 
@@ -93,6 +97,7 @@ state MoveToNextNode
 	function BeginState(Name PreviousStateName)
 	{
 		local int i;
+		thePawn.isAngry = true;
 
 		if(nextNodeIndex < movementNodes.length-2)
 			nextNodeIndex++;
@@ -193,7 +198,7 @@ Begin:
 	MoveTo( desiredLocation+centerNode.Location, thePlayer );
 	GoTo('Begin');
 }
-
+// IKKE OVER HER!!§!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 state AttackPlayer
 {
 	function BeginState(Name PreviousStateName)
@@ -207,8 +212,9 @@ state AttackPlayer
 
 		if(thePlayer != none && !summoningScorps)
 		{
-			if(isAimingAt(thePlayer,0.95))
+			if(isAimingAt(thePlayer,0.95) && !attackStarted)
 			{
+				attackStarted = true;
 				if(thePawn.Health < maxHealth/100*30)
 					stageThreeFire();
 				else if(thePawn.Health < maxHealth/100*66)
@@ -223,28 +229,31 @@ state AttackPlayer
 	{
 		if(attackCounter < 2)
 		{
-			theWeapon.CurrentFireMode=0;
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'smallFire');
+			SetTimer(1.3333, false, 'nextNode');
 			attackCounter++;
 		}
 		else
 		{
-			theWeapon.CurrentFireMode=1;
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'bigFire');
+			SetTimer(1.3333, false, 'nextNode');
 			attackCounter=0;
 		}
-		theWeapon.ProjectileFire();
 
-		GotoState('MoveToNextNode');
+		
 	}
 
 	function stageTwoFire()
 	{
 		if(attackCounter < 2)
 		{
-			theWeapon.CurrentFireMode=0;
-			theWeapon.ProjectileFire();
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'smallFire');
+			SetTimer(1.3333, false, 'cirlceCenterNode');
 
 			attackCounter++;
-			GotoState('CircleCenter');
 		}
 		else if(attackCounter < 3)
 		{
@@ -254,11 +263,9 @@ state AttackPlayer
 		}
 		else
 		{
-			theWeapon.CurrentFireMode=1;
-			theWeapon.ProjectileFire();
-
-			attackCounter=0;
-			GotoState('CircleCenter');
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'bigFire');
+			SetTimer(1.3333, false, 'cirlceCenterNode');
 		}
 
 	}
@@ -267,11 +274,11 @@ state AttackPlayer
 	{
 		if(attackCounter < 2)
 		{
-			theWeapon.CurrentFireMode=0;
-			theWeapon.ProjectileFire();
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'smallFire');
+			SetTimer(1.3333, false, 'circleTeleport');
 
 			attackCounter++;
-			GotoState('circleTeleport');
 		}
 		else if(attackCounter < 3)
 		{
@@ -281,11 +288,11 @@ state AttackPlayer
 		}
 		else
 		{
-			theWeapon.CurrentFireMode=1;
-			theWeapon.ProjectileFire();
+			thePawn.faraoCustomNode.PlayCustomAnim('Farao_attack', 1.0, 0.1, 0.1, false, true);
+			SetTimer(1.0, false, 'bigFire');
+			SetTimer(1.3333, false, 'circleTeleport');
 
 			attackCounter=0;
-			GotoState('circleTeleport');
 		}
 
 	}
@@ -293,6 +300,36 @@ state AttackPlayer
 	function EndState(name NextStateName)
 	{
 		thePawn.AirSpeed = 1000;
+	}
+
+	function smallFire()
+	{
+		theWeapon.CurrentFireMode=0;
+		theWeapon.ProjectileFire();
+	}
+
+	function bigFire()
+	{
+		theWeapon.CurrentFireMode=1;
+		theWeapon.ProjectileFire();
+	}
+
+	function nextNode()
+	{
+		attackStarted = false;
+		GotoState('MoveToNextNode');
+	}
+
+	function cirlceCenterNode()
+	{
+		attackStarted = false;
+		GotoState('CircleCenter');
+	}
+
+	function circleAndTeleport()
+	{
+		attackStarted = false;
+		GotoState('circleTeleport');
 	}
 
 	function summonScorps()
@@ -314,12 +351,13 @@ state AttackPlayer
 	{
 		summoningScorps = false;
 		attackCounter++;
-		GotoState('circleTeleport');
+		circleAndTeleport();
 	}
 }
 
 DefaultProperties
 {
+	attackStarted=false
 	attackCounter=0
 	lastTeleportDegree=0
 	summoningScorps=false

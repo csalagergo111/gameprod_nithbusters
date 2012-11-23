@@ -55,7 +55,7 @@ DefaultProperties
 		SkeletalMesh=SkeletalMesh'MBHScarabModels.MBH_Scarab'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
-		Scale3D=(X=0.3,Y=0.3,Z=0.3)
+		Scale3D=(X=3.0,Y=3.0,Z=3.0)
 		End Object
 
 		Mesh=WofPawnSkeletalMesh

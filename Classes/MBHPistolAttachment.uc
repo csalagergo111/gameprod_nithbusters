@@ -9,8 +9,8 @@ Begin Object Name=SkeletalMeshComponent0
 	Scale=1
 End Object
 
-	ProjExplosionTemplate=ParticleSystem'WPN_Projectiles.particle_system.MBH_Shotgun_Hit'
-Mesh=SkeletalMeshComponent0
+	ImpactEffects(0)=(MaterialType=Water, ParticleTemplate=ParticleSystem'WPN_Projectiles.particle_system.MBH_Shotgun_Hit', Sound=SoundCue'A_Weapon_Link.Cue.A_Weapon_Link_FireCue')
+	Mesh=SkeletalMeshComponent0
 
-WeaponClass=Class'MBHWeapon_Pistol'
+	WeaponClass=Class'MBHWeapon_Pistol'
 }
