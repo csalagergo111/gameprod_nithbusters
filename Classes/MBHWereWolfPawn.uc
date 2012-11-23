@@ -3,7 +3,7 @@ class MBHWereWolfPawn extends MBHEnemyPawn
 
 var int maxHealth;
 // Attack animation
-var AnimNodePlayCustomAnim attackNode;
+var UDKAnimBlendByWeapon attackNode;
 
 function PostBeginPlay()
 {
@@ -13,10 +13,17 @@ function PostBeginPlay()
 	Mesh.SetAnimTreeTemplate(AnimTree'MBHWereWolfModels.WereWolf.WereWolfAnimTree');
 }
 
+simulated event Destroyed()
+{
+	super.Destroyed();
+
+	attackNode = None;
+}
+
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
-	attackNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('AttackAnim'));
+	attackNode = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('AttackAnim'));
 }
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
@@ -42,6 +49,7 @@ DefaultProperties
 {
 	Begin Object Name=CollisionCylinder
 		CollisionHeight=+88.000000
+		CollisionRadius=80
 	End Object
 
 	Begin Object Class=SkeletalMeshComponent Name=WofPawnSkeletalMesh
@@ -65,6 +73,6 @@ DefaultProperties
 
 	bumpDamage=100.0
 	followDistance=2000.0
-	meleeAttackDistance=96.0
+	meleeAttackDistance=129.0
 	isAngry=false
 }

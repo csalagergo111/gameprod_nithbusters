@@ -6,6 +6,7 @@ var MBHFaraoNode theNextNode, centerNode;
 var MBHFaraoWeapon theWeapon;
 var int nextNodeIndex, attackCounter;
 var float maxHealth;
+var bool summoningScorps;
 
 var int lastTeleportDegree;
 
@@ -204,7 +205,7 @@ state AttackPlayer
 	{
 		super.Tick(DeltaTime);
 
-		if(thePlayer != none)
+		if(thePlayer != none && !summoningScorps)
 		{
 			if(isAimingAt(thePlayer,0.95))
 			{
@@ -237,27 +238,19 @@ state AttackPlayer
 
 	function stageTwoFire()
 	{
-		local MBHScorpionPawn spawnPawn;
 		if(attackCounter < 2)
 		{
 			theWeapon.CurrentFireMode=0;
 			theWeapon.ProjectileFire();
 
 			attackCounter++;
+			GotoState('CircleCenter');
 		}
 		else if(attackCounter < 3)
 		{
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(-50,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(50,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(0,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-
-			attackCounter++;
+			thePawn.faraoCustomNode.PlayCustomAnim('MBH_Farao_Ani_Scarab-Spawn', 1.0, 0.1, 0.1, false, true);
+			summoningScorps = true;
+			SetTimer(0.8, false, 'summonScorps');
 		}
 		else
 		{
@@ -265,34 +258,26 @@ state AttackPlayer
 			theWeapon.ProjectileFire();
 
 			attackCounter=0;
+			GotoState('CircleCenter');
 		}
 
-		GotoState('CircleCenter');
 	}
 
 	function stageThreeFire()
 	{
-		local MBHScorpionPawn spawnPawn;
 		if(attackCounter < 2)
 		{
 			theWeapon.CurrentFireMode=0;
 			theWeapon.ProjectileFire();
 
 			attackCounter++;
+			GotoState('circleTeleport');
 		}
 		else if(attackCounter < 3)
 		{
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(-50,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(50,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-			spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(0,0,-200));
-			MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
-			spawnPawn.warnOthers();
-
-			attackCounter++;
+			thePawn.faraoCustomNode.PlayCustomAnim('MBH_Farao_Ani_Scarab-Spawn', 1.0, 0.1, 0.1, false, true);
+			summoningScorps = true;
+			SetTimer(0.8, false, 'summonScorps');
 		}
 		else
 		{
@@ -300,14 +285,36 @@ state AttackPlayer
 			theWeapon.ProjectileFire();
 
 			attackCounter=0;
+			GotoState('circleTeleport');
 		}
 
-		GotoState('circleTeleport');
 	}
 
 	function EndState(name NextStateName)
 	{
 		thePawn.AirSpeed = 1000;
+	}
+
+	function summonScorps()
+	{
+		local MBHScorpionPawn spawnPawn;
+		spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(-50,0,-200));
+		MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+		spawnPawn.warnOthers();
+		spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(50,0,-200));
+		MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+		spawnPawn.warnOthers();
+		spawnPawn = Spawn(class'MBHScorpionPawn',,,thePawn.Location+vect(0,0,-200));
+		MBHAIController(spawnPawn.Controller).thePlayer = thePlayer;
+		spawnPawn.warnOthers();
+		SetTimer(0.8667, false, 'endSummoning');
+	}
+
+	function endSummoning()
+	{
+		summoningScorps = false;
+		attackCounter++;
+		GotoState('circleTeleport');
 	}
 }
 
@@ -315,4 +322,5 @@ DefaultProperties
 {
 	attackCounter=0
 	lastTeleportDegree=0
+	summoningScorps=false
 }

@@ -165,17 +165,17 @@ simulated function bool CalcCamera( float fDeltaTime, out vector out_CamLoc, out
 
 
 
-//exec function MoveCamera()
-//{
-//	if (Pos == 10)
-//	{
-//		Pos = 50;
-//	}
-//	else
-//	{
-//		Pos = 10;
-//	}  
-//}
+exec function MoveCamera()
+{
+	if (Pos == 10)
+	{
+		Pos = 50;
+	}
+	else
+	{
+		Pos = 10;
+	}  
+}
 
 event TakeDamage(int DamageAmount, Controller EventInstigator, 
 	vector HitLocation, vector Momentum,
