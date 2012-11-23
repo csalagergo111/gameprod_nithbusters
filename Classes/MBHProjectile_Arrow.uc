@@ -10,7 +10,7 @@ DefaultProperties
 	Speed=8000.0
 	MaxSpeed=8000.0
 
-	Damage=50.0
+	Damage=70.0
 
 	CustomGravityScaling=0.15
 
