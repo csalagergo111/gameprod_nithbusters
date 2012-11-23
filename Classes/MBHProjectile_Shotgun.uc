@@ -5,4 +5,7 @@ DefaultProperties
 	Damage=15
 
 	ProjFlightTemplate=ParticleSystem'WPN_Projectiles.particle_system.MBH_Shotgunl_Projectile'
+
+	ExplosionSound=none
+
 }
