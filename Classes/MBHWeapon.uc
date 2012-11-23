@@ -105,6 +105,7 @@ simulated function WeaponEmpty()
 	//}
 }
 
+/*
 simulated function StartFire(byte FireModeNum)
 {
 	//IsTimerActive('AddMaxAmmo');
@@ -115,15 +116,15 @@ simulated function StartFire(byte FireModeNum)
 	{
 		switch(weaponHudIndex)
 		{
-		case 0:
+		/ *case 0:
 			if(CurrentFireMode == 0)
 			{
-				thePlayerPawn.IdleFire.AnimStopFire();
-				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
-				SetTimer(0.45, false, 'endFireAnim');
-				animatingFire = true;
+// 				//thePlayerPawn.IdleFire.AnimStopFire();
+// 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
+				//SetTimer(0.45, false, 'endFireAnim');
+				//animatingFire = true;
 			}
-			break;
+			break;* /
 		case 1:
 			thePlayerPawn.IdleFire.AnimStopFire();
 			thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_shotgun',false,1.0);
@@ -146,7 +147,7 @@ simulated function StartFire(byte FireModeNum)
 		StopFire(FireModeNum);
 
 	}
-}
+}*/
 
 function endFireAnim()
 {
