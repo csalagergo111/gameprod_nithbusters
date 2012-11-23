@@ -58,7 +58,7 @@ simulated function CustomFire()
 	}
 }
 
-/
+
 DefaultProperties
 {
 	Begin Object Class=SkeletalMeshComponent Name=ShotgunSkeletalMesh
