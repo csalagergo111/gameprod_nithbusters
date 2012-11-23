@@ -118,8 +118,6 @@ simulated function StartFire(byte FireModeNum)
 		case 0:
 			if(CurrentFireMode == 0)
 			{
-			switch(weaponHudIndex)
-			{
 				thePlayerPawn.IdleFire.AnimStopFire();
 				thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
 				SetTimer(0.45, false, 'endFireAnim');
