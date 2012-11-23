@@ -13,11 +13,20 @@ exec function Reload()
 
 DefaultProperties
 {
+	Begin Object Class=SkeletalMeshComponent Name=CrossbowSkeletalMesh
+	End Object
+
+
+	Begin Object Name=PickUpMesh
+		SkeletalMesh=SkeletalMesh'MBHCrossbowModels.MBH_Wpn_Crossbow'
+	End Object
+		
 	Arrows=10
 
 	ReloadTime=3.0
 
-	AttachmentClass=class'UTGameContent.UTAttachment_ShockRifle'
+
+	AttachmentClass=class'MonsterBountyHunter.MBHCrossbowAttachment'
 	WeaponFireTypes(0)=EWFT_Projectile
 	WeaponFireTypes(1)=EWFT_None
 
@@ -25,7 +34,6 @@ DefaultProperties
 	//WeaponProjectiles(0)=class'UTProj_LinkPlasma'
 
 	WeaponFireSnd[0] = SoundCue'MBHCrossbowModels.SoundCue_Crossbow'
-	WeaponFireSnd[1] = SoundCue'MBHCrossbowModels.SoundCue_Crossbow'
 
 
 	InventoryGroup=3
