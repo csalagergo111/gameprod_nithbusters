@@ -3,7 +3,6 @@ class MBHWeapon_Shotgun extends MBHWeapon;
 var() int numOfProjectiles;
 
 var() Rotator projectileMaxSpread;
-var Vector MuzzleFlashLocation;
 
 simulated function PostBeginPlay()
 {
@@ -65,35 +64,9 @@ simulated function CustomFire()
 				SpawnedProjectile.Init( AimDir + vector(projectileAngleOffset) );
 			}
 		}
-		
-		
-		SkeletalMeshComponent(SkeletalMesh'MBHShotGunModels.MBH_Wpn_Shotgun_w-sockets_done').GetSocketWorldLocationAndRotation ('Socket_Shotgun_Muzzle',MuzzleFlashLocation);
-		WorldInfo.MyEmitterPool.SpawnEmitter (ParticleSystem'WPN_Projectiles.particle_system.MBH_Muzzle_Flash', MuzzleFlashLocation);
-       
+		s
 	}
 }
-
-/*
-simulated function AttachMuzzleFlash()
-{
-	local SkeletalMeshComponent SKMesh;
-	`log("***Found Socket:"@SkeletalMeshComponent(Mesh).GetSocketByName(Muzzle_B));
-
-	// Attach the Muzzle Flash
-	bMuzzleFlashAttached = true;
-	SKMesh = SkeletalMeshComponent(SkeletalMesh'MBHShotGunModels.MBH_Wpn_Shotgun_w-sockets_done');
-	if (  SKMesh != none )
-	{
-		if ( (MuzzleFlashPSCTemplate != none) || (MuzzleFlashAltPSCTemplate != none) )
-		{
-			MuzzleFlashPSC = new(Outer) class'UTParticleSystemComponent';
-			MuzzleFlashPSC.bAutoActivate = false;
-			MuzzleFlashPSC.SetDepthPriorityGroup(SDPG_Foreground);
-			MuzzleFlashPSC.SetFOV(UDKSkeletalMeshComponent(SKMesh).FOV);
-			SKMesh.AttachComponentToSocket(MuzzleFlashPSC, Socket_Shotgun_Muzzl);
-		}
-	}
-}*/
 
 
 DefaultProperties
