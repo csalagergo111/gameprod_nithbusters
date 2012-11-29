@@ -45,6 +45,7 @@ class<DamageType> DamageType,
 			isDead = true;
 			setPhysics(PHYS_Falling);
 			deathNode.PlayOneShotAnim('Farao_death',0.1,0.0,true,0.5);
+			ConsoleCommand("SetLevel nlvl1");
 		}
 		else
 		{
