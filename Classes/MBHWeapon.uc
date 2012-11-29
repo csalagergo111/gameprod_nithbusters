@@ -8,6 +8,8 @@ var MBHHud theHud;
 var int weaponHudIndex;
 //var bool animatingFire;
 var name fireSequence;
+var name startReloadSequence;
+var name reloadingSequence;
 
 simulated function PostBeginPlay()
 {
@@ -25,6 +27,8 @@ simulated function PostBeginPlay()
 	}
 
 	fireSequence='none';
+	startReloadSequence='none';
+	reloadingSequence='none';
 }
 
 simulated function Activate()
@@ -38,17 +42,19 @@ simulated function Activate()
 	switch(weaponHudIndex)
 	{
 	case 0:
-		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
-		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
+		thePlayerPawn.WeaponType.SetCustomAnim('Hunter_idle_aim_revolver');
+		thePlayerPawn.twoHandedBlend.SetBlendTarget(0.0, 0.1);
+		thePlayerPawn.oneHandedBlend.SetBlendTarget(1.0, 0.1);
 		break;
 	case 1:
-		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_shotgun');
-		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_shotgun');
+		thePlayerPawn.WeaponType.SetCustomAnim('Hunter_idle_aim_shotgun');
+		thePlayerPawn.twoHandedBlend.SetBlendTarget(1.0, 0.1);
+		thePlayerPawn.oneHandedBlend.SetBlendTarget(0.0, 0.1);
 		break;
 	case 2:
-		//`log("Starting crossbow aim!");
-		thePlayerPawn.IdleWeaponType.SetCustomAnim('Hunter_idle_aim_crossbow');
-		thePlayerPawn.RunningWeaponType.SetCustomAnim('Hunter_idle_aim_crossbow');
+		thePlayerPawn.WeaponType.SetCustomAnim('Hunter_idle_aim_crossbow');
+		thePlayerPawn.twoHandedBlend.SetBlendTarget(1.0, 0.1);
+		thePlayerPawn.oneHandedBlend.SetBlendTarget(0.0, 0.1);
 		break;
 	}
 }
@@ -64,11 +70,22 @@ simulated function FireAmmunition()
 {
 	if(!IsTimerActive('AddMaxAmmo') && !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0)
 	{
+		switch(weaponHudIndex)
+		{
+		case 0:
+			thePlayerPawn.stopLongIdle();
+			thePlayerPawn.FireOneHanded.AnimStopFire();
+			thePlayerPawn.FireTwoHanded.AnimStopFire();
+			break;
+		case 1:
+		case 2:
+			thePlayerPawn.stopLongIdle();
+			thePlayerPawn.FireOneHanded.AnimStopFire();
+			thePlayerPawn.FireTwoHanded.AnimStopFire();
+			thePlayerPawn.FireTwoHanded.AnimFire(fireSequence,false,1.0);
+			break;
+		}
 		super.FireAmmunition();
-
-		thePlayerPawn.stopLongIdle();
-		thePlayerPawn.IdleFire.AnimStopFire();
-		thePlayerPawn.IdleFire.AnimFire(fireSequence,false,1.0);
 	}
 }
 
@@ -78,17 +95,29 @@ exec function Reload()
 	if (!thePlayer.bIsPunching && AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
 	{
 		ForceEndFire();
+		thePlayerPawn.stopLongIdle();
+
+		thePlayerPawn.FireTwoHanded.AnimFire(startReloadSequence,false, 1.0);
+		SetTimer(0.45, false, 'playReloadingAnim');
+
 		SetTimer(ReloadTime, false, 'AddMaxAmmo');
 	}
 }
 
+function playReloadingAnim()
+{
+	thePlayerPawn.FireTwoHanded.AnimFire(reloadingSequence, true, 1.0);
+}
+
 function ClearReloadTimer()
 {
+	thePlayerPawn.FireTwoHanded.AnimStopFire();
 	ClearTimer('AddMaxAmmo');
 }
 
 function AddMaxAmmo()
 {
+	thePlayerPawn.FireTwoHanded.AnimFire(startReloadSequence, false, -1.0);
 	AddAmmo(MaxAmmoCount);
 }
 

@@ -14,15 +14,20 @@ var () int iMeleeRange;
 var bool stunnedByHit;
 var bool isDead;
 
+// Jump variables
+var bool jumpUpdating;
+
 // animation
-var AnimNodePlayCustomAnim IdleWeaponType;
-var AnimNodePlayCustomAnim RunningWeaponType;
-var AnimNodePlayCustomAnim JumpNode;
+var AnimNodePlayCustomAnim WeaponType;
+var AnimNodeCrossfader JumpNode;
 var AnimNodePlayCustomAnim LongIdle;
-var UDKAnimBlendByWeapon IdleFire;
+var UDKAnimBlendByWeapon FireOneHanded;
+var UDKAnimBlendByWeapon FireTwoHanded;
 var AnimNodeBlend DuckNode;
 var AnimNodeBlend DuckNodeIdle;
 var AnimNodeCrossfader deathNode;
+var AnimNodeBlendPerBone twoHandedBlend;
+var AnimNodeBlendPerBone oneHandedBlend;
 
 simulated function PostBeginPlay()
 {
@@ -33,24 +38,29 @@ simulated event Destroyed()
 {
 	super.Destroyed();
 
-	IdleWeaponType = None;
-	IdleFire = None;
-	RunningWeaponType = None;
+	FireOneHanded = None;
+	FireTwoHanded = None;
+	WeaponType = None;
 	JumpNode = None;
 	deathNode = None;
 	DuckNode = None;
 	DuckNodeIdle = None;
 	LongIdle = None;
+	twoHandedBlend = None;
+	oneHandedBlend = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
 	
-	IdleFire = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('IdleFire'));
-	IdleFire.AnimStopFire();
+	FireOneHanded = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('FireOneHanded'));
+	FireOneHanded.AnimStopFire();
 
-	JumpNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('JumpNode'));
+	FireTwoHanded = UDKAnimBlendByWeapon(SkelComp.FindAnimNode('FireTwoHanded'));
+	FireTwoHanded.AnimStopFire();
+
+	JumpNode = AnimNodeCrossfader(SkelComp.FindAnimNode('JumpNode'));
 
 	DuckNode = AnimNodeBlend(SkelComp.FindAnimNode('DuckNode'));
 	DuckNodeIdle = AnimNodeBlend(SkelComp.FindAnimNode('DuckNodeIdle'));
@@ -59,23 +69,42 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 
 	LongIdle = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('LongIdle'));
 
-	RunningWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('RunningWeaponType'));
-	if(RunningWeaponType != none)
-		RunningWeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
+	WeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('WeaponType'));
+	if(WeaponType != none)
+		WeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
 
-	IdleWeaponType = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('IdleWeaponType'));
-	if(IdleWeaponType != none)
-		IdleWeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
+	twoHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('twoHandedRunningBlend'));
 
+	oneHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('oneHandedRunningBlend'));
 }
 
 function bool DoJump( bool bUpdating )
 {
-	local bool didJump;
-	didJump = super.DoJump(bUpdating);
-	if(didJump && JumpNode != none)
-		JumpNode.PlayCustomAnim('Hunter_jump',1.0,0.0,0.0,false,true);
-	return didJump;
+	if (bJumpCapable && !bIsCrouched && !bWantsToCrouch && (Physics == PHYS_Walking || Physics == PHYS_Ladder || Physics == PHYS_Spider))
+	{
+		stopLongIdle();
+		JumpNode.PlayOneShotAnim('Hunter_jump', 0.1, 0.1, false, 1.0);
+		SetTimer(0.24, false, 'jumpTimer');
+		return true;
+	}
+	return false;
+}
+
+function jumpTimer()
+{
+	if ( Physics == PHYS_Spider )
+		Velocity = JumpZ * Floor;
+	else if ( Physics == PHYS_Ladder )
+		Velocity.Z = 0;
+	else if ( bIsWalking )
+		Velocity.Z = Default.JumpZ;
+	else
+		Velocity.Z = JumpZ;
+	if (Base != None && !Base.bWorldGeometry && Base.Velocity.Z > 0.f)
+	{
+		Velocity.Z += Base.Velocity.Z;
+	}
+	SetPhysics(PHYS_Falling);
 }
 
 //override to make player mesh visible by default
@@ -189,7 +218,7 @@ class<DamageType> DamageType,
 	if(!bInvulnerable && !isDead)
 	{
 		stopLongIdle();
-		IdleFire.AnimFire('Hunter_get_hit', false, 1.0);
+		FireOneHanded.AnimFire('Hunter_get_hit', false, 1.0);
 		SetTimer(0.6667, false, 'endStun');
 		stunnedByHit = true;
 		bInvulnerable = true;
@@ -352,5 +381,5 @@ defaultproperties
 
 	SoundGroupClass=none
 
-	//CamOffset=(X=20.0,Y=30.0,Z=-1.0)
+	CamOffset=(X=5.0,Y=-50.0,Z=0.0)
 }

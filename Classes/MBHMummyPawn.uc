@@ -37,9 +37,12 @@ class<DamageType> DamageType,
 		}
 		else
 		{
-			mummyCustomNode.PlayCustomAnimByDuration('MBH_Mummy_Ani_Get-Hit', 0.6667, 0.1, 0.1, false, true);
+			if(rand(2) == 0)
+				mummyCustomNode.PlayCustomAnim('MBH_Mummy_Ani_Get-Hit', 1.0, 0.1, 0.1, false, true);
+			else
+				mummyCustomNode.PlayCustomAnim('MBH_Mummy_Ani_Get-Hit_2', 1.0, 0.1, 0.1, false, true);
 			GroundSpeed = 0;
-			SetTimer(0.6667, false, 'takeDamageEnded');
+			SetTimer(0.25, false, 'takeDamageEnded');
 		}
 	}
 }
