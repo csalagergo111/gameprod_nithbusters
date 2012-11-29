@@ -14,6 +14,11 @@ function PostBeginPlay()
 	Mesh.SetAnimTreeTemplate(AnimTree'MBHWereWolfModels.WereWolf.WereWolfAnimTree');
 }
 
+exec function playShoutAnim()
+{
+	deathNode.PlayOneShotAnim('Werewolf_shout_intro', 0.1, 0.3, false, 1.0);
+}
+
 simulated event Destroyed()
 {
 	super.Destroyed();
