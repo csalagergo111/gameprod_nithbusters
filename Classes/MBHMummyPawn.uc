@@ -29,6 +29,7 @@ class<DamageType> DamageType,
 	if(!isDead)
 	{
 		isAngry = true;
+
 		if(Health <= 0)
 		{
 			deathNode.PlayOneShotAnim('MBH_Mummy_Ani_Death',0.1, 0.0, true, 1.0);

@@ -57,7 +57,7 @@ function fireTimer()
 	AddSpread(projectileAngleOffset);
 
 	AmmoCount--;
-	InstantFire();
+	firePistolProjectile();
 	thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
 	PlayFiringSound();
 
@@ -67,6 +67,52 @@ function fireTimer()
 	}
 	else
 		altFiring = false;
+}
+
+function firePistolProjectile()
+{
+	local vector		StartTrace, EndTrace, RealStartLoc, AimDir;
+	local ImpactInfo	TestImpact;
+	local Projectile	SpawnedProjectile;
+	local Rotator		projectileAngleOffset;
+
+	// tell remote clients that we fired, to trigger effects
+	IncrementFlashCount();
+
+	if( Role == ROLE_Authority )
+	{
+		// This is where we would start an instant trace. (what CalcWeaponFire uses)
+		StartTrace = Instigator.GetWeaponStartTraceLocation();
+		AimDir = Vector(GetAdjustedAim( StartTrace ));
+
+		// this is the location where the projectile is spawned.
+		RealStartLoc = GetPhysicalFireStartLoc(AimDir);
+
+		if( StartTrace != RealStartLoc )
+		{
+			// if projectile is spawned at different location of crosshair,
+			// then simulate an instant trace where crosshair is aiming at, Get hit info.
+			EndTrace = StartTrace + AimDir * GetTraceRange();
+			TestImpact = CalcWeaponFire( StartTrace, EndTrace );
+
+			// Then we realign projectile aim direction to match where the crosshair did hit.
+			AimDir = Normal(TestImpact.HitLocation - RealStartLoc);
+		}
+
+		projectileAngleOffset.Pitch = Rand(projectileMaxSpread.Pitch) - (projectileMaxSpread.Pitch/2);
+
+		projectileAngleOffset.Yaw = Rand(projectileMaxSpread.Yaw) - (projectileMaxSpread.Yaw/2);
+
+		projectileAngleOffset.Roll = 0;
+		projectileAngleOffset += rotator(AimDir);
+
+		// Spawn projectile
+		SpawnedProjectile = Spawn(GetProjectileClass(), Self,, RealStartLoc);
+		if( SpawnedProjectile != None && !SpawnedProjectile.bDeleteMe )
+		{
+			SpawnedProjectile.Init( AimDir + vector(projectileAngleOffset));
+		}
+	}
 }
 
 DefaultProperties
@@ -81,9 +127,11 @@ DefaultProperties
 	ReloadTime=3.0
 
 	AttachmentClass=class'MonsterBountyHunter.MBHPistolAttachment'
-	WeaponFireTypes(0)=EWFT_InstantHit
+	WeaponFireTypes(0)=EWFT_Projectile
 	WeaponFireTypes(1)=EWFT_Custom
 
+	WeaponProjectiles(0)=class'MBHProjectile_Shotgun'
+	WeaponProjectiles(1)=class'MBHProjectile_Shotgun'
 	
 	//soundFire = SoundCue'MBHShotGunModels.Pistol_shot_soundcue';
 	
@@ -114,9 +162,9 @@ DefaultProperties
 	//ZoomedRate=100
 
 	weaponHudIndex=0
+	projectileMaxSpread=(Pitch=2730,Yaw=2730,Roll=0)
 
 	quickFireDelay=0.2
-	projectileMaxSpread=(Pitch=7000,Yaw=7000,Roll=0)
 
 	altFiring=false
 }
