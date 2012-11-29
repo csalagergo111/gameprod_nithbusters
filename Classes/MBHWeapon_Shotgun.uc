@@ -64,6 +64,7 @@ simulated function CustomFire()
 				SpawnedProjectile.Init( AimDir + vector(projectileAngleOffset) );
 			}
 		}
+		s
 	}
 }
 
