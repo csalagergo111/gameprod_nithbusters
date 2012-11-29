@@ -1,6 +1,6 @@
 class MBHHud extends UTHUD;
 
-var CanvasIcon AimIcons[3];
+var CanvasIcon AimIcon;
 var CanvasIcon crossbowFull;
 var CanvasIcon crossbowEmpty;
 var CanvasIcon pistolFull;
@@ -121,9 +121,7 @@ function DrawGameHud()
 	if(thePlayer.activeWeapon != none)
 	{
 		// Draw aim cross
-		Canvas.DrawIcon(AimIcons[thePlayer.activeWeaponIndex],
-			Canvas.ClipX/2-AimIcons[thePlayer.activeWeaponIndex].UL/2,
-			Canvas.ClipY/2-AimIcons[thePlayer.activeWeaponIndex].VL/2, 1);
+		Canvas.DrawIcon(AimIcon, Canvas.ClipX/2-AimIcon.UL/2, Canvas.ClipY/2-AimIcon.VL/2, 1);
 
 		switch(thePlayer.activeWeaponIndex)
 		{
@@ -158,44 +156,44 @@ function DrawGameHud()
 function DrawPistolHud()
 {
 	Canvas.DrawIcon(pistolEmpty,
-		Canvas.ClipX-pistolEmpty.UL-hudOffsetX,
+		hudOffsetX,
 		Canvas.ClipY-pistolEmpty.VL-hudOffsetY);
 
 	if(thePlayer.activeWeapon.AmmoCount > 5)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+10,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+19);
+			hudOffsetX+11,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+20);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 4)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+10,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+47);
+			hudOffsetX+11,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+48);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 3)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+32,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+60);
+			hudOffsetX+33,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+61);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 2)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+55,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+47);
+			hudOffsetX+56,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+48);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 1)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+55,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+19);
+			hudOffsetX+56,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+20);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 0)
 	{
 		Canvas.DrawIcon(pistolFull,
-			Canvas.ClipX-pistolEmpty.UL-hudOffsetX+32,
-			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+7);
+			hudOffsetX+33,
+			Canvas.ClipY-pistolEmpty.VL-hudOffsetY+8);
 	}
 }
 
@@ -203,19 +201,19 @@ function DrawShotgunHud()
 {
 	
 	Canvas.DrawIcon(shotGunEmpty,
-					Canvas.ClipX-shotGunEmpty.UL-hudOffsetX,
+					hudOffsetX,
 					Canvas.ClipY-shotGunEmpty.VL-hudOffsetY);
 
 	if(thePlayer.activeWeapon.AmmoCount > 1)
 	{
 		Canvas.DrawIcon(shotGunFull,
-						Canvas.ClipX-shotGunEmpty.UL-hudOffsetX,
+						hudOffsetX,
 						Canvas.ClipY-shotGunEmpty.VL-hudOffsetY);
 	}
 	if(thePlayer.activeWeapon.AmmoCount > 0)
 	{
 		Canvas.DrawIcon(shotGunFull,
-						Canvas.ClipX-shotGunFull.UL-hudOffsetX,
+						hudOffsetX + shotGunFull.UL + 2,
 						Canvas.ClipY-shotGunFull.VL-hudOffsetY);
 	}
 }
@@ -223,12 +221,12 @@ function DrawShotgunHud()
 function DrawCrossbowHud()
 {
 	Canvas.DrawIcon(crossbowEmpty,
-					Canvas.ClipX-crossbowEmpty.UL-hudOffsetX,
+					hudOffsetX,
 					Canvas.ClipY-crossbowEmpty.VL-hudOffsetY);
 	if(thePlayer.activeWeapon.AmmoCount > 0)
 	{
 		Canvas.DrawIcon(crossbowFull,
-						Canvas.ClipX-crossbowFull.UL-hudOffsetX,
+						hudOffsetX+1,
 						Canvas.ClipY-crossbowFull.VL-hudOffsetY);
 	}
 }
@@ -255,18 +253,16 @@ function clearTextTimer()
 
 DefaultProperties
 {
-	AimIcons(0)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
-	AimIcons(1)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
-	AimIcons(2)=(Texture=Texture2D'MBHHudAssets.HUD',U=188,V=46,UL=20,VL=20)
+	AimIcon=(Texture=Texture2D'MBHHudAssets.HUD',U=192,V=71,UL=20,VL=20)
 	
-	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=16,V=0,UL=13,VL=108)
-	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=14,VL=108)
+	crossbowFull=(Texture=Texture2D'MBHHudAssets.HUD',U=27,V=0,UL=27,VL=120)
+	crossbowEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=0,V=0,UL=26,VL=119)
 	
-	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=166,V=46,UL=21,VL=22)
-	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=31,V=0,UL=85,VL=89)
+	pistolFull=(Texture=Texture2D'MBHHudAssets.HUD',U=193,V=49,UL=21,VL=22)
+	pistolEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=54,V=0,UL=88,VL=91)
 	
-	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=117,V=46,UL=44,VL=46)
-	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=117,V=0,UL=96,VL=46)
+	shotGunFull=(Texture=Texture2D'MBHHudAssets.HUD',U=143,V=49,UL=49,VL=49)
+	shotGunEmpty=(Texture=Texture2D'MBHHudAssets.HUD',U=143,V=0,UL=99,VL=48)
 	
 	HealthOverlay=Texture2D'MBHHudAssets.Health'
 	hudFont=Font'MBHHudAssets.Hudfont'

@@ -10,6 +10,8 @@ simulated function PostBeginPlay()
 	super.PostBeginPlay();
 
 	fireSequence='Hunter_idle_fire_shotgun';
+	startReloadSequence='Hunter_start_reload_shotgun';
+	reloadingSequence='Hunter_reload_shotgun';
 }
 
 simulated function CustomFire()

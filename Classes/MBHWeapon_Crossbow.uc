@@ -7,6 +7,8 @@ simulated function PostBeginPlay()
 	super.PostBeginPlay();
 
 	fireSequence='Hunter_idle_fire_crossbow';
+	startReloadSequence='Hunter_start_reload_crossbow';
+	reloadingSequence='Hunter_reload_crossbow';
 }
 
 exec function Reload()

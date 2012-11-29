@@ -81,7 +81,7 @@ function UpdateRotation( float DeltaTime )
 
    if ( Pawn != None )
       Pawn.FaceRotation(NewRotation, deltatime);
-}   
+}
 
 function PunchIsReady()
 {
@@ -98,9 +98,9 @@ simulated exec function useHunterPunch()
 
 	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
-		thePlayer.IdleFire.AnimFire('Hunter_melee_attack',false,1.0);
+		thePlayer.stopLongIdle();
+		thePlayer.FireTwoHanded.AnimFire('Hunter_melee_attack',false,1.0);
 		PlaySound(soundBlade);
-		thePlayer.SetWeaponAttachmentVisibility(false);
 		bCanPunch = false;
 		bIsPunching = true;
 		SetTimer(0.37, false, 'doPunchDamage');
@@ -117,7 +117,6 @@ function doPunchDamage()
 function endPunch()
 {
 	bIsPunching = false;
-	thePlayer.SetWeaponAttachmentVisibility(true);
 }
 
 exec function MBHSetFullscreen()

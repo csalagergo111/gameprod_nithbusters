@@ -17,6 +17,8 @@ simulated function PostBeginPlay()
 	super.PostBeginPlay();
 
 	fireSequence='Hunter_idle_fire_revolver';
+	startReloadSequence='Hunter_start_reload_revolver';
+	reloadingSequence='Hunter_reload_revolver';
 }
 
 simulated function FireAmmunition()
@@ -39,10 +41,18 @@ exec function Reload()
 
 simulated function CustomFire()
 {
-	altFiring = true;
-	ClearTimer('fireTimer');
-	AmmoCount++;
-	fireTimer();
+	switch(CurrentFireMode)
+	{
+	case 0:
+		firePistolProjectile();
+		break;
+	case 1:
+		altFiring = true;
+		ClearTimer('fireTimer');
+		AmmoCount++;
+		fireTimer();
+		break;
+	}
 }
 
 function fireTimer()
@@ -58,7 +68,6 @@ function fireTimer()
 
 	AmmoCount--;
 	firePistolProjectile();
-	thePlayerPawn.IdleFire.AnimFire('Hunter_idle_fire_revolver',false,1.0);
 	PlayFiringSound();
 
 	if(AmmoCount > 0)
@@ -99,9 +108,9 @@ function firePistolProjectile()
 			AimDir = Normal(TestImpact.HitLocation - RealStartLoc);
 		}
 
-		projectileAngleOffset.Pitch = Rand(projectileMaxSpread.Pitch) - (projectileMaxSpread.Pitch/2);
+		projectileAngleOffset.Pitch = (Rand(projectileMaxSpread.Pitch) - (projectileMaxSpread.Pitch/2))*CurrentFireMode;
 
-		projectileAngleOffset.Yaw = Rand(projectileMaxSpread.Yaw) - (projectileMaxSpread.Yaw/2);
+		projectileAngleOffset.Yaw = (Rand(projectileMaxSpread.Yaw) - (projectileMaxSpread.Yaw/2))*CurrentFireMode;
 
 		projectileAngleOffset.Roll = 0;
 		projectileAngleOffset += rotator(AimDir);
@@ -112,6 +121,7 @@ function firePistolProjectile()
 		{
 			SpawnedProjectile.Init( AimDir + vector(projectileAngleOffset));
 		}
+		thePlayerPawn.FireOneHanded.AnimFire('Hunter_idle_fire_revolver',false,2.0);
 	}
 }
 
@@ -127,7 +137,7 @@ DefaultProperties
 	ReloadTime=3.0
 
 	AttachmentClass=class'MonsterBountyHunter.MBHPistolAttachment'
-	WeaponFireTypes(0)=EWFT_Projectile
+	WeaponFireTypes(0)=EWFT_Custom
 	WeaponFireTypes(1)=EWFT_Custom
 
 	WeaponProjectiles(0)=class'MBHProjectile_Shotgun'

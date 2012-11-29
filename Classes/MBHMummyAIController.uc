@@ -69,7 +69,10 @@ state AttackPlayer
 
 	function startAttackAnim()
 	{
-		thePawn.mummyCustomNode.PlayCustomAnimByDuration('MBH_Mummy_Ani_Attack', 1.0, 0.1, 0.1, false, true);
+		if(rand(2) == 0)
+			thePawn.mummyCustomNode.PlayCustomAnim('MBH_Mummy_Ani_Attack', 1.0, 0.1, 0.1, false, true);
+		else
+			thePawn.mummyCustomNode.PlayCustomAnim('MBH_Mummy_Ani_Attack_2', 1.0, 0.1, 0.1, false, true);
 		SetTimer(0.5, false, 'doAttack');
 	}
 
