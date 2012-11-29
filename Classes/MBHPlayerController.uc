@@ -99,7 +99,7 @@ simulated exec function useHunterPunch()
 	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
 		thePlayer.stopLongIdle();
-		thePlayer.FireTwoHanded.AnimFire('Hunter_melee_attack',false,1.0);
+		thePlayer.LongIdle.PlayCustomAnim('Hunter_melee_attack', 1.0, 0.1, 0.1, false, true);
 		PlaySound(soundBlade);
 		bCanPunch = false;
 		bIsPunching = true;

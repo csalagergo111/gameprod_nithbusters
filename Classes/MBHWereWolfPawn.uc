@@ -16,6 +16,11 @@ function PostBeginPlay()
 
 exec function playShoutAnim()
 {
+	growl();
+}
+
+function growl()
+{
 	deathNode.PlayOneShotAnim('Werewolf_shout_intro', 0.1, 0.3, false, 1.0);
 }
 

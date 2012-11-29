@@ -13,6 +13,7 @@ var () int iMeleeDmg;
 var () int iMeleeRange;
 var bool stunnedByHit;
 var bool isDead;
+var bool isSprinting;
 
 // Jump variables
 var bool jumpUpdating;
@@ -28,6 +29,7 @@ var AnimNodeBlend DuckNodeIdle;
 var AnimNodeCrossfader deathNode;
 var AnimNodeBlendPerBone twoHandedBlend;
 var AnimNodeBlendPerBone oneHandedBlend;
+var AnimNodeBlend SprintNode;
 
 simulated function PostBeginPlay()
 {
@@ -48,6 +50,7 @@ simulated event Destroyed()
 	LongIdle = None;
 	twoHandedBlend = None;
 	oneHandedBlend = None;
+	SprintNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -76,6 +79,21 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	twoHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('twoHandedRunningBlend'));
 
 	oneHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('oneHandedRunningBlend'));
+
+	SprintNode = AnimNodeBlend(SkelComp.FindAnimNode('SprintNode'));
+}
+
+
+simulated function PlayDying(class<DamageType> DamageType, vector HitLoc)
+{
+	GotoState('Dying');
+	bReplicateMovement = false;
+	bTearOff = true;
+	Velocity += TearOffMomentum;
+	SetDyingPhysics();
+	bPlayedDeath = true;
+
+	KismetDeathDelayTime = default.KismetDeathDelayTime + WorldInfo.TimeSeconds;
 }
 
 function bool DoJump( bool bUpdating )
@@ -218,7 +236,7 @@ class<DamageType> DamageType,
 	if(!bInvulnerable && !isDead)
 	{
 		stopLongIdle();
-		FireOneHanded.AnimFire('Hunter_get_hit', false, 1.0);
+		FireTwoHanded.AnimFire('Hunter_get_hit', false, 1.0);
 		SetTimer(0.6667, false, 'endStun');
 		stunnedByHit = true;
 		bInvulnerable = true;
@@ -334,14 +352,15 @@ function HunterPunch()
 
 exec function StartSprint()
 {
-	//ConsoleCommand("Sprint");
+	SprintNode.SetBlendTarget(1.0, 0.1);
+	isSprinting = true;
 	Groundspeed = 700;
-	//bSprinting = true;
-	//StopFiring();
 }
 
 exec function StopSprint()
 {
+	SprintNode.SetBlendTarget(0.0, 0.1);
+	isSprinting = false;
 	Groundspeed = default.GroundSpeed;
 }
 
@@ -376,6 +395,7 @@ defaultproperties
 	CylinderComponent = CollisionCylinder
 
 	stunnedByHit=false
+	isSprinting=false
 
 	SpawnSound=none
 

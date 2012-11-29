@@ -68,7 +68,8 @@ simulated function PutDownWeapon()
 
 simulated function FireAmmunition()
 {
-	if(!IsTimerActive('AddMaxAmmo') && !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0)
+	if(!IsTimerActive('AddMaxAmmo') && !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0
+		&& !thePlayerPawn.isSprinting)
 	{
 		switch(weaponHudIndex)
 		{
