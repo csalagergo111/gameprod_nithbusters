@@ -1,7 +1,6 @@
 class MBHPlayerController extends UTPlayerController;
 
 var bool bCanPunch;
-var bool bIsPunching;
 var () int iMeleeCDTime;
 var int activeWeaponIndex;
 var MBHWeapon activeWeapon;
@@ -99,10 +98,10 @@ simulated exec function useHunterPunch()
 	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
 		thePlayer.stopLongIdle();
-		thePlayer.LongIdle.PlayCustomAnim('Hunter_melee_attack', 1.0, 0.1, 0.1, false, true);
+		thePlayer.HunterPuncNode.PlayCustomAnim('Hunter_melee_attack', 1.0, 0.1, 0.05, false, true);
 		PlaySound(soundBlade);
 		bCanPunch = false;
-		bIsPunching = true;
+		thePlayer.bIsPunching = true;
 		SetTimer(0.37, false, 'doPunchDamage');
 		SetTimer(iMeleeCDTime, false, 'PunchIsReady');
 		SetTimer(0.8333, false, 'endPunch');
@@ -116,7 +115,7 @@ function doPunchDamage()
 
 function endPunch()
 {
-	bIsPunching = false;
+	thePlayer.bIsPunching = false;
 }
 
 exec function MBHSetFullscreen()

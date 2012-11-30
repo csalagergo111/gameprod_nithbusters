@@ -14,6 +14,7 @@ var () int iMeleeRange;
 var bool stunnedByHit;
 var bool isDead;
 var bool isSprinting;
+var bool bIsPunching;
 
 // Jump variables
 var bool jumpUpdating;
@@ -30,6 +31,7 @@ var AnimNodeCrossfader deathNode;
 var AnimNodeBlendPerBone twoHandedBlend;
 var AnimNodeBlendPerBone oneHandedBlend;
 var AnimNodeBlend SprintNode;
+var AnimNodePlayCustomAnim HunterPuncNode;
 
 simulated function PostBeginPlay()
 {
@@ -51,6 +53,7 @@ simulated event Destroyed()
 	twoHandedBlend = None;
 	oneHandedBlend = None;
 	SprintNode = None;
+	HunterPuncNode = None;
 }
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
@@ -81,6 +84,8 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	oneHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('oneHandedRunningBlend'));
 
 	SprintNode = AnimNodeBlend(SkelComp.FindAnimNode('SprintNode'));
+
+	HunterPuncNode = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('HunterPuncNode'));
 }
 
 
@@ -277,7 +282,7 @@ simulated function Tick(float DeltaTime)
 		if(Health > HealthMax)
 			Health=HealthMax;
 	}
-	if(Velocity.X != 0 || Velocity.Y != 0 || Velocity.Z != 0)
+	if((Velocity.X != 0 || Velocity.Y != 0 || Velocity.Z != 0) && !bIsPunching)
 		stopLongIdle();
 
 	if(!IsTimerActive('startLongIdle') && !LongIdle.bIsPlayingCustomAnim)

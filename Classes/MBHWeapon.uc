@@ -68,7 +68,7 @@ simulated function PutDownWeapon()
 
 simulated function FireAmmunition()
 {
-	if(!IsTimerActive('AddMaxAmmo') && !thePlayer.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0
+	if(!IsTimerActive('AddMaxAmmo') && !thePlayerPawn.bIsPunching && !thePlayerPawn.stunnedByHit && AmmoCount > 0
 		&& !thePlayerPawn.isSprinting)
 	{
 		switch(weaponHudIndex)
@@ -93,7 +93,7 @@ simulated function FireAmmunition()
 exec function Reload()
 {
 	//AddAmmo(MaxAmmoCount);
-	if (!thePlayer.bIsPunching && AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
+	if (!thePlayerPawn.bIsPunching && AmmoCount != MaxAmmoCount && !IsTimerActive('AddMaxAmmo')) 
 	{
 		ForceEndFire();
 		thePlayerPawn.stopLongIdle();
