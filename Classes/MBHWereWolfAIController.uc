@@ -16,6 +16,8 @@ var vector desiredLocation;
 
 var bool playingAttack;
 
+var SoundCue attackSound;
+
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
 	super.Possess(inPawn, bVehicleTransition);
@@ -116,7 +118,6 @@ state AttackPlayer
 		if(VSize(thePawn.Location - thePlayer.Location) < thePawn.meleeAttackDistance && !playingAttack)
 		{
 			ClearTimer('endAttack');
-			`log("Close enough..");
 			playingAttack=true;
 			thePawn.GroundSpeed=0;
 			//SetTimer(0.25, false, 'startSlap');
@@ -126,6 +127,7 @@ state AttackPlayer
 
 	function startSlap()
 	{
+		PlaySound(attackSound);
 		if(rand(2) == 0)
 			thePawn.attackNode.AnimFire('Werewolf_idle_attack_right', false, 1.0);
 		else
@@ -169,4 +171,6 @@ DefaultProperties
 	circlingDistance=512
 	circlingIncrement=80
 	playingAttack=false
+
+	attackSound=SoundCue'MBHWereWolfModels.WWAttacsound'
 }
