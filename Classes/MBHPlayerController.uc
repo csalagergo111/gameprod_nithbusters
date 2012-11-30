@@ -98,6 +98,7 @@ simulated exec function useHunterPunch()
 	if(bCanPunch && !thePlayer.stunnedByHit)
 	{
 		thePlayer.stopLongIdle();
+		thePlayer.twoHandedBlend.SetBlendTarget(1.0, 0.0);
 		thePlayer.HunterPuncNode.PlayCustomAnim('Hunter_melee_attack', 1.0, 0.1, 0.05, false, true);
 		PlaySound(soundBlade);
 		bCanPunch = false;
@@ -116,6 +117,8 @@ function doPunchDamage()
 function endPunch()
 {
 	thePlayer.bIsPunching = false;
+	if(thePlayer.oneHandedBlend.Child2Weight > 0.0)
+		thePlayer.twoHandedBlend.SetBlendTarget(0.0, 0.1);
 }
 
 exec function MBHSetFullscreen()

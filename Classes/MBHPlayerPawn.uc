@@ -79,9 +79,9 @@ simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 	if(WeaponType != none)
 		WeaponType.PlayCustomAnim('Hunter_idle_aim_crossbow',1.0, 0.1, 0.1, true, true);
 
-	twoHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('twoHandedRunningBlend'));
+	twoHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('twoHandedBlend'));
 
-	oneHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('oneHandedRunningBlend'));
+	oneHandedBlend = AnimNodeBlendPerBone(SkelComp.FindAnimNode('oneHandedBlend'));
 
 	SprintNode = AnimNodeBlend(SkelComp.FindAnimNode('SprintNode'));
 
